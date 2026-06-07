@@ -1,0 +1,41 @@
+THE LONG GOODBYE VN — SAVE / UNLOCK LOGIC PLAN
+
+Goal:
+Opening the public GitHub Pages link should NOT share saves, CG unlocks, route unlocks, or endings between different people.
+
+Implementation included in index.html:
+1. All progress is stored only in the player browser using localStorage.
+   - Main key: tlg_vn_current_v4
+   - Save slots key: tlg_vn_slots_v4
+   - There is no shared JSON save file and no server write.
+
+2. What this means in practice:
+   - Your browser keeps your own progress.
+   - Your friend opening the link on their phone/laptop starts fresh.
+   - A different browser starts fresh.
+   - Incognito/private mode starts fresh.
+   - Reloading the same browser keeps that browser's progress.
+
+3. Reset/testing tools included:
+   - Clear Browser Saves button on the Save/Load screen.
+   - Add ?reset=1 to the URL to wipe that browser's local progress.
+
+4. Unlock rules in this demo build:
+   - Kenji starts locked.
+   - Tommy True Ending unlocks Kenji route visibility.
+   - Ren Good Ending with high Tommy Honesty unlocks Secret Ending 1: Dream Wedding.
+   - Harrison Good Ending with high Self Respect unlocks Secret Ending 2: House in Hyogo.
+   - Marcus Good Ending / mature route unlocks Secret Ending 3: Our Little Boy.
+
+5. Image mapping rules included:
+   - All scene images referenced in index.html exist in assets/.
+   - All images are normalized to 1672 x 941 WEBP for the VN stage.
+   - Scene images are displayed with object-fit: cover, so the gameplay window should fill instead of showing random black sidebars.
+   - Route-specific mappings avoid the prior wrong-person issue: Harrison images stay in Harrison route, Marcus images stay in Marcus route, Kenji images stay in Kenji route, Hiroshi images stay in Hiroshi route.
+
+Upload instructions:
+1. In your GitHub repo, upload/replace index.html.
+2. Upload/replace the assets folder from this zip.
+3. Commit changes.
+4. Wait for GitHub Pages to rebuild.
+5. Hard refresh your browser if you still see the old version.
