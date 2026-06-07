@@ -1,0 +1,1 @@
+Progress is stored per browser with localStorage. One player unlocking a route/CG/ending will not unlock it for everyone else. Same browser keeps progress; different browser/device starts fresh. Use ?reset=1 or Clear Browser Saves to test fresh.
