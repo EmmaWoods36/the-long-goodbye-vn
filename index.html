@@ -1,10 +1,10 @@
 <!doctype html>
-<!-- V5.6.13: Harrison asset integration patch; maps uploaded Harrison route images, preserves bilingual mode, route cards, Ren updates, and route rebuilds. -->
+<!-- V5.6.16: Full JP + Content Polish pass; preserves bilingual mode, cheat entry, route cards, and rebuilt routes while fixing route helper functions and UI localization polish. -->
 <html lang='en'>
 <head>
 <meta charset='utf-8'/>
 <meta name='viewport' content='width=device-width,initial-scale=1'/>
-<title>The Long Goodbye VN — V5.6.13 Route Rebuild Demo</title>
+<title>The Long Goodbye VN — V5.6.16 Polished Build</title>
 <style>
 *{box-sizing:border-box}body{margin:0;min-height:100vh;background:#130a18;font-family:Georgia,'Times New Roman',serif;color:#ffeaf6}.screen{display:none}.screen.active{display:block}
 .menu-wrap{width:min(100vw,1600px);margin:0 auto;position:relative;aspect-ratio:1672/941;background-image:url('assets/menu_locked_secret.webp');background-size:contain;background-repeat:no-repeat;background-position:center top}
@@ -77,13 +77,13 @@ input::placeholder{color:rgba(255,234,246,.55)}@media(max-width:720px){.hint{fon
 <button class='hotspot' title='True Ending' onclick="unlockEnding('True Ending: Choose Yourself','Airi stops treating love as proof she is worth choosing. She chooses peace, writes the story, and walks into the next era as herself.');showEndings();" style='left:57.6%;top:89.0%;width:13.2%;height:6.2%;'></button>
 <button class='hotspot' title='Continue Last Save' onclick="show('saves')" style='left:72.3%;top:89.0%;width:12.7%;height:6.2%;'></button>
 <button class='hotspot' title='Prologue Recap' onclick="show('about')" style='left:86.0%;top:89.0%;width:12.5%;height:6.2%;'></button>
-</div><div class='hint'>V5.6.13: Adds the earned NO MORE MAYBE cheat-code gate for Tommy’s ultra-hidden impossible-file ending, plus the V5.6.11 route/image updates.</div><div style="position:absolute;left:2.4%;bottom:2.5%;display:flex;gap:10px;align-items:center;z-index:5;"><button class='secondary' onclick="showCheatCodeScreen()">Enter Cheat Code</button><span id='cheatEarnedBadge' class='small' style='color:#ffd1e7;text-shadow:0 2px 10px #000;'></span></div></section>
+</div><div class='hint'>V5.6.16: Full JP + Content Polish pass — visible cheat entry, bilingual layer, corrected route cards, route rebuilds, and integrated CG updates.</div><div style="position:absolute;left:2.4%;bottom:2.5%;display:flex;gap:10px;align-items:center;z-index:5;"><button class='secondary' onclick="showCheatCodeScreen()">Enter Cheat Code</button><span id='cheatEarnedBadge' class='small' style='color:#ffd1e7;text-shadow:0 2px 10px #000;'></span></div></section>
 <section id='nameSetup' class='screen'><div class='panel'><h1>New Game</h1><p>Enter the name you want the boys and friends to call the main character. Canon/default name is <b>Airi</b>.</p><input id='playerNameInput' maxlength='24' placeholder='Airi' style="width:min(420px,100%);padding:14px 16px;border-radius:999px;border:1px solid rgba(255,176,215,.6);background:rgba(255,255,255,.12);color:#ffeaf6;font-size:18px;margin:10px 0;"><div><button onclick="setPlayerNameAndGo()">Confirm Name</button><button class='secondary' onclick="document.getElementById('playerNameInput').value='Airi';setPlayerNameAndGo()">Use Canon Name: Airi</button><button class='secondary' onclick="show('menu')">Back</button></div><p class='small'>Demo note: this replaces visible “Airi” dialogue text with your chosen name.</p></div></section>
-<section id='routes' class='screen'><div class='panel'><h1>Choose Your Route</h1><p>All six mini-routes are playable. This V5.6.13 build adds English/Japanese language mode, corrected route cards, new Harrison scene images, the Ren update, and expanded Harrison, Marcus, and Tommy route rebuilds.</p><div class='route-grid' id='routeGrid'></div><button class='secondary' onclick="show('menu')">Back to Main Menu</button></div></section>
+<section id='routes' class='screen'><div class='panel'><h1>Choose Your Route</h1><p>All six mini-routes are playable. This V5.6.16 polished build keeps the English/Japanese mode, visible cheat entry, corrected route cards, Ren updates, and the expanded Harrison, Marcus, and Tommy rebuilds.</p><div class='route-grid' id='routeGrid'></div><button class='secondary' onclick="show('menu')">Back to Main Menu</button></div></section>
 <section id='saves' class='screen'><div class='panel'><h1>Save / Load</h1><p>20 save slots. Saves are stored in this browser with localStorage.</p><div class='slot-grid' id='saveGrid'></div><button class='secondary' onclick="show('menu')">Back</button></div></section>
 <section id='endings' class='screen'><div class='panel'><h1>Unlocked Endings</h1><div class='unlock-grid' id='endingGrid'></div><button class='secondary' onclick="show('menu')">Back</button></div></section>
 <section id='cgs' class='screen'><div class='panel'><h1>Unlocked CGs</h1><p class='small'>Play scenes to unlock route CGs, character shots, Tommy interruptions, bad endings, and secret endings.</p><div class='unlock-grid' id='cgGrid'></div><button class='secondary' onclick="show('menu')">Back</button></div></section>
-<section id='about' class='screen'><div class='panel'><h1>Prologue Recap</h1><p>Airi thought love was enough. It never was. This non-canon route simulator lets you test the routes, unlock endings, collect CGs, and watch Tommy ruin things with suspicious efficiency. V5.6.13 expands abrupt choice jumps into emotional reaction scenes, adds bilingual mode, deepens Ren, rebuilds Harrison, Marcus, and Tommy routes, and maps the new Harrison scene images.</p><button onclick="show('routes')">Choose Route</button><button class='secondary' onclick="show('menu')">Back</button></div></section>
+<section id='about' class='screen'><div class='panel'><h1>Prologue Recap</h1><p>Airi thought love was enough. It never was. This non-canon route simulator lets you test the routes, unlock endings, collect CGs, and watch Tommy ruin things with suspicious efficiency. V5.6.16 polishes the bilingual build, keeps the visible NO MORE MAYBE cheat entry, deepens Ren, and preserves the rebuilt Harrison, Marcus, and Tommy routes with the newer scene-image mapping.</p><button onclick="show('routes')">Choose Route</button><button class='secondary' onclick="show('menu')">Back</button></div></section>
 
 
 <section id='cheatCode' class='screen'>
@@ -5993,7 +5993,7 @@ const JP_UI = {
   settingsTitle:'設定',
   settingsIntro:'メニュー、選択肢、ローカライズ草稿の言語を選んでください。',
   settingsNote:'日本語モードはローカライズ層として作られているため、ゲームエンジンを変更せずにルートごとに翻訳を磨けます。',
-  pageTitle:'The Long Goodbye VN — V5.6 バイリンガル版',
+  pageTitle:'The Long Goodbye VN — V5.6.16 ポリッシュ版',
   next:'次へ ▸',
   saveLoad:'セーブ / ロード',
   routeSelect:'ルート選択',
@@ -6009,7 +6009,7 @@ const JP_UI = {
   unlocked:'解放済み',
   notUnlocked:'該当シーンまたはエンディングをプレイすると解放されます。',
   routeScreenTitle:'ルート選択',
-  routeScreenIntro:'6つのミニルートがプレイできます。V5.6では英語／日本語を切り替えられます。',
+  routeScreenIntro:'6つのミニルートがプレイできます。V5.6.16では英語／日本語の切り替え、可視チート入力、ルート再構築、CG統合を維持しています。',
   galleryTitle:'解放済みCG',
   endingsTitle:'解放済みエンディング'
 };
@@ -6017,7 +6017,7 @@ const EN_UI = {
   settingsTitle:'Settings',
   settingsIntro:'Choose the language for menus, choices, and the Japanese localization draft.',
   settingsNote:'Japanese mode is built as a localization layer, so the translation can be polished route by route without changing the game engine.',
-  pageTitle:'The Long Goodbye VN — V5.6.13 Route Rebuild Demo',
+  pageTitle:'The Long Goodbye VN — V5.6.16 Polished Build',
   next:'Next ▸',
   saveLoad:'Save / Load',
   routeSelect:'Route Select',
@@ -6033,7 +6033,7 @@ const EN_UI = {
   unlocked:'Unlocked and viewable in this build.',
   notUnlocked:'Play the matching scene or ending to unlock this image.',
   routeScreenTitle:'Choose Your Route',
-  routeScreenIntro:'All six mini-routes are playable. This V5.6.13 build adds English/Japanese language mode, corrected route cards, mapped Harrison scene images, expanded Ren route reactions, and rebuilt Harrison, Marcus, and Tommy routes.',
+  routeScreenIntro:'All six mini-routes are playable. This V5.6.16 polished build keeps the English/Japanese mode, visible cheat entry, corrected route cards, Ren updates, and the rebuilt Harrison, Marcus, and Tommy routes.',
   galleryTitle:'Unlocked CGs',
   endingsTitle:'Unlocked Endings'
 };
@@ -9456,6 +9456,1731 @@ Narration: He does not deny it. He just fails to be brave enough to call it love
   window.tlgUnlockNoMoreMaybeCheat = unlockCheat;
 
   console.log("V5.6.13 NO MORE MAYBE cheat-entry patch applied.");
+})();
+
+
+
+/* =========================================================
+   V5.6.16 FULL POLISH PATCH
+   - fixes missing helper functions used by route select / save labels
+   - polishes visible UI text in both languages
+   - keeps cheat-entry feedback and badge in sync with selected language
+   - clarifies that JP mode is a localization layer with fallback behavior
+   ========================================================= */
+(function applyV5614FullPolishPatch(){
+  window.isJapanese = function(){ return currentLanguage()==='ja'; };
+  window.routeDisplayName = function(r){ return localizeRouteName(r,false); };
+  window.routeTagDisplay = function(r){ return localizeRouteTag(r); };
+
+  Object.assign(EN_UI, {
+    slot:'Slot', empty:'Empty', save:'Save', load:'Load', clear:'Clear',
+    noCGs:'No CGs unlocked yet.', placeholder:'Unlocked memory / placeholder CG.',
+    unlockedViewable:'Unlocked and viewable in this build.', lockedHint:'Play the matching scene or ending to unlock this image.',
+    newGame:'New Game', chooseName:'Enter the name you want the boys and friends to call the main character. Canon/default name is <b>Airi</b>.',
+    chooseNameNote:'Demo note: this replaces visible “Airi” dialogue text with your chosen name.',
+    confirmName:'Confirm Name', useCanon:'Use Canon Name: Airi',
+    saveLoadTitle:'Save / Load', saveLoadIntro:'20 save slots. Saves are stored in this browser with localStorage.',
+    cgIntro:'Play scenes to unlock route CGs, character shots, Tommy interruptions, bad endings, and secret endings.',
+    aboutTitle:'Prologue Recap', aboutBtn:'Choose Route',
+    cheatTitle:'Enter Cheat Code', cheatIntro:'A route that should not exist can only open after the game knows you survived the truth first.',
+    cheatPlaceholder:'Enter code', submitCode:'Submit Code',
+    kenjiRevealTitle:'Secret Route Unlocked', kenjiRevealBody:'His picture is now viewable. The secret card will stay revealed on the main menu and route select from now on.',
+    kenjiRevealStart:'Start Kenji Route', backToRoutes:'Back to Routes',
+    tapAdvance:'Tap the dialogue box or Next to advance text.', endingUnlocked:'Ending Unlocked', chooseAnother:'Choose Another Route'
+  });
+  Object.assign(JP_UI, {
+    slot:'スロット', empty:'空き', save:'保存', load:'読込', clear:'削除',
+    noCGs:'まだCGは解放されていません。', placeholder:'解放済みメモリー / 仮CG',
+    unlockedViewable:'このビルドで解放済み・閲覧可能です。', lockedHint:'対応するシーンまたはエンディングをプレイすると解放されます。',
+    newGame:'新しいゲーム', chooseName:'主人公を呼ぶ名前を入力してください。デフォルト名は <b>アイリ</b> です。',
+    chooseNameNote:'デモ注記：表示上の「Airi」は入力した名前に置き換わります。',
+    confirmName:'名前を決定', useCanon:'デフォルト名を使う：アイリ',
+    saveLoadTitle:'セーブ / ロード', saveLoadIntro:'セーブスロットは20個です。ブラウザのlocalStorageに保存されます。',
+    cgIntro:'シーンを進めると、ルートCG、キャラ立ち絵、トミー割り込み、バッドエンド、シークレットエンドが解放されます。',
+    aboutTitle:'プロローグ要約', aboutBtn:'ルートを選ぶ',
+    cheatTitle:'チートコード入力', cheatIntro:'本来存在しないはずのルートは、先に真実を生き延びたとゲームが判断した時だけ開きます。',
+    cheatPlaceholder:'コードを入力', submitCode:'コード送信',
+    kenjiRevealTitle:'シークレットルート解放', kenjiRevealBody:'ケンジのカードが見えるようになりました。これ以降、メインメニューとルート選択でも表示されたままになります。',
+    kenjiRevealStart:'ケンジルート開始', backToRoutes:'ルートへ戻る',
+    tapAdvance:'台詞ボックスか「次へ」を押して進めてください。', endingUnlocked:'エンディング解放', chooseAnother:'別のルートを選ぶ'
+  });
+
+  function setText(sel, txt){ const el=document.querySelector(sel); if(el && txt!=null) el.textContent=txt; }
+  function setHTML(sel, html){ const el=document.querySelector(sel); if(el && html!=null) el.innerHTML=html; }
+  function setPlaceholder(sel, txt){ const el=document.querySelector(sel); if(el && txt!=null) el.placeholder=txt; }
+
+  window.applyStaticLanguage = function(){
+    const ja=isJapanese();
+    // Name setup
+    setText('#nameSetup h1', uiText('newGame'));
+    setHTML('#nameSetup .panel > p:first-of-type', uiText('chooseName'));
+    setText('#nameSetup .panel .small', uiText('chooseNameNote'));
+    setPlaceholder('#playerNameInput', ja ? 'アイリ' : 'Airi');
+    const nameBtns=document.querySelectorAll('#nameSetup button');
+    if(nameBtns[0]) nameBtns[0].textContent=uiText('confirmName');
+    if(nameBtns[1]) nameBtns[1].textContent=uiText('useCanon');
+    if(nameBtns[2]) nameBtns[2].textContent=uiText('back');
+
+    // Routes
+    setText('#routes h1', uiText('routeScreenTitle'));
+    setText('#routes .panel > p', uiText('routeScreenIntro'));
+    setText('#routes .panel > button', ja ? 'メインメニューへ戻る' : 'Back to Main Menu');
+
+    // Saves
+    setText('#saves h1', uiText('saveLoadTitle'));
+    setText('#saves .panel > p', uiText('saveLoadIntro'));
+    setText('#saves .panel > button', uiText('back'));
+
+    // Endings / CGs
+    setText('#endings h1', uiText('endingsTitle'));
+    setText('#endings .panel > button', uiText('back'));
+    setText('#cgs h1', uiText('galleryTitle'));
+    setText('#cgs .panel > p', uiText('cgIntro'));
+    setText('#cgs .panel > button', uiText('back'));
+
+    // About
+    setText('#about h1', uiText('aboutTitle'));
+    const aboutBtns=document.querySelectorAll('#about button');
+    if(aboutBtns[0]) aboutBtns[0].textContent=uiText('aboutBtn');
+    if(aboutBtns[1]) aboutBtns[1].textContent=uiText('back');
+
+    // Cheat screen
+    setText('#cheatCode h1', uiText('cheatTitle'));
+    setText('#cheatIntro', uiText('cheatIntro'));
+    setPlaceholder('#cheatCodeInput', uiText('cheatPlaceholder'));
+    const cheatBtns=document.querySelectorAll('#cheatCode button');
+    if(cheatBtns[0]) cheatBtns[0].textContent=uiText('submitCode');
+    if(cheatBtns[1]) cheatBtns[1].textContent=uiText('back');
+    const cheatLabel=document.querySelector('#cheatCode .panel > p:first-of-type');
+    if(cheatLabel) cheatLabel.textContent = ja ? '超隠しファイル' : 'Ultra Hidden File';
+
+    // Settings back button
+    setText('#settingsBackBtn', ja ? 'メインメニューへ戻る' : 'Back to Main Menu');
+
+    // Kenji reveal
+    setText('#kenjiReveal h1', uiText('kenjiRevealTitle'));
+    setHTML('#kenjiReveal .card p:nth-of-type(2)', uiText('kenjiRevealBody'));
+    const kenjiBtns=document.querySelectorAll('#kenjiReveal .card button');
+    if(kenjiBtns[0]) kenjiBtns[0].textContent=uiText('kenjiRevealStart');
+    if(kenjiBtns[1]) kenjiBtns[1].textContent=uiText('backToRoutes');
+
+    // In-game bottom panel
+    setHTML('#game .panel.small', `<span class='small'>${uiText('tapAdvance')}</span><br><button onclick="show('saves');renderSaves()">${uiText('saveLoad')}</button><button class='secondary' onclick="show('routes')">${uiText('routeSelect')}</button><button class='secondary' onclick="show('menu')">${uiText('mainMenu')}</button>`);
+
+    // Ending screen
+    const endingPanel=document.querySelector('#ending .panel');
+    if(endingPanel){
+      const label=endingPanel.querySelector('p');
+      if(label) label.textContent=uiText('endingUnlocked');
+      const btns=endingPanel.querySelectorAll('button');
+      if(btns[0]) btns[0].textContent=uiText('chooseAnother');
+      if(btns[1]) btns[1].textContent=uiText('endingsTitle');
+      if(btns[2]) btns[2].textContent=uiText('galleryTitle');
+      if(btns[3]) btns[3].textContent=uiText('mainMenu');
+    }
+
+    // Menu labels that are visible text
+    const menuCheatBtn=document.querySelector("#menu div[style*='bottom'] button");
+    if(menuCheatBtn) menuCheatBtn.textContent = ja ? 'チートコード入力' : 'Enter Cheat Code';
+  };
+
+  const originalApplyLanguage = window.applyLanguage;
+  window.applyLanguage = function(){
+    originalApplyLanguage();
+    applyStaticLanguage();
+    updateCheatBadge();
+  };
+
+  window.updateCheatBadge = function(){
+    const badge=document.getElementById('cheatEarnedBadge');
+    if(!badge)return;
+    if(isEarned()){
+      setEarned();
+      badge.textContent=isJapanese() ? 'NO MORE MAYBE 解放済み' : 'NO MORE MAYBE unlocked';
+    }else{
+      const left=missingRequiredEndings().length;
+      badge.textContent=left ? (isJapanese() ? `コード解放まで残りコアED ${left}` : `${left} core endings until code unlock`) : '';
+    }
+  };
+
+  window.showCheatCodeScreen = function(){
+    show('cheatCode');
+    const input=document.getElementById('cheatCodeInput');
+    const feedback=document.getElementById('cheatFeedback');
+    if(input) input.value='';
+    if(feedback){
+      if(isEarned()){
+        setEarned();
+        feedback.textContent = isJapanese()
+          ? '新しいファイルが現れました。\n獲得したコードを入力してください：NO MORE MAYBE'
+          : 'A new file has appeared.\nEnter the earned code: NO MORE MAYBE';
+      }else{
+        const missing=missingRequiredEndings();
+        const preview=missing.slice(0,6).map(x=>'• '+x).join('\n');
+        feedback.textContent = isJapanese()
+          ? ('まだロック中です。先にコアルートのエンディングをすべて獲得してください。\n\n残り: '+missing.length+(missing.length?'\n'+preview+(missing.length>6?'\n• ...':''):''))
+          : ('Locked. Earn all core endings first.\n\nRemaining: '+missing.length+(missing.length?'\n'+preview+(missing.length>6?'\n• ...':''):''));
+      }
+    }
+    setTimeout(()=>{if(input)input.focus();},50);
+  };
+
+  window.submitCheatCode = function(){
+    const input=document.getElementById('cheatCodeInput');
+    const feedback=document.getElementById('cheatFeedback');
+    const entered=norm(input?input.value:'').toUpperCase();
+    if(!isEarned()){
+      const missing=missingRequiredEndings();
+      if(feedback) feedback.textContent = isJapanese()
+        ? ('まだです。ゲーム側でこのコードが解放されていません。\n\n残りコアED: '+missing.length)
+        : ('Not yet. The game has not given you this code.\n\nRemaining core endings: '+missing.length);
+      return;
+    }
+    if(entered!==CHEAT_CODE){
+      if(feedback) feedback.textContent = isJapanese() ? 'そのファイルは開きません。\nヒント：no more ____.' : 'That file does not open.\nHint: no more ____.';
+      return;
+    }
+    store('tommyCheatEntered', true);
+    unlockCG('Tommy Ultra Hidden Cheat Code: NO MORE MAYBE');
+    startTommyUltraHiddenRoute();
+  };
+
+  // Ensure static text is correct immediately.
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded', ()=>{ applyStaticLanguage(); updateCheatBadge(); });
+  } else {
+    applyStaticLanguage();
+    updateCheatBadge();
+  }
+
+  console.log('V5.6.16 full JP script completion patch applied.');
+})();
+
+
+/* =========================================================
+   V5.6.16 FULL JP SCRIPT COMPLETION PASS
+   Adds complete Japanese coverage for every DATA scene key, scene title, and choice.
+   Japanese mode now uses JP_STORY_FULL first instead of falling back to English scene prose.
+   ========================================================= */
+(function applyV5615FullJapaneseScriptCompletionPass(){
+  const JP_SCENE_TITLES_FULL = {
+  "ren_intro": "蓮ルート・はじまり",
+  "ren_text": "蓮ルート・メッセージ",
+  "ren_text_maybe": "蓮ルート・メッセージ",
+  "ren_text_confident": "蓮ルート・メッセージ",
+  "ren_text_busy": "蓮ルート・メッセージ",
+  "ren_date": "蓮ルート・デート",
+  "ren_hand_here": "蓮ルート・手を取る瞬間",
+  "ren_hand_joke": "蓮ルート・手を取る瞬間",
+  "ren_hand_phone": "蓮ルート・手を取る瞬間",
+  "ren_bday": "蓮の誕生日・大きな選択",
+  "ren_bday_choose_ren": "蓮の誕生日・大きな選択",
+  "ren_bday_choose_tommy": "蓮の誕生日・大きな選択",
+  "ren_bday_try_both": "蓮の誕生日・大きな選択",
+  "ren_kyoto": "京都・揺れる境界線",
+  "ren_kyoto_choose_ren": "京都・揺れる境界線",
+  "ren_kyoto_apologize": "京都・揺れる境界線",
+  "ren_kyoto_call_him_out": "京都・揺れる境界線",
+  "ren_kyoto_stay": "京都・揺れる境界線",
+  "ren_tommy": "蓮ルート・蓮との場面",
+  "ren_after_train": "蓮ルート・蓮との場面",
+  "ren_train_text_transition": "蓮ルート・メッセージ",
+  "ren_train_silence_transition": "蓮ルート・蓮との場面",
+  "ren_waiting": "蓮ルート・蓮との場面",
+  "ren_tessa_call": "テッサへの電話",
+  "ren_returns": "蓮ルート・蓮との場面",
+  "ren_truth": "蓮ルート・正直さの選択",
+  "harrison_intro": "ハリソンルート・はじまり",
+  "harrison_park_easy": "ハリソンルート・デート",
+  "harrison_park_tease": "ハリソンルート・デート",
+  "harrison_park_guarded": "ハリソンルート・デート",
+  "harrison_museum": "ハリソンルート・美術館デート",
+  "harrison_museum_open": "ハリソンルート・美術館デート",
+  "harrison_museum_joke": "ハリソンルート・美術館デート",
+  "harrison_museum_compare": "ハリソンルート・美術館デート",
+  "harrison_red_dress": "ハリソンルート・ハリソンとの場面",
+  "harrison_gf_yes": "ハリソンルート・ハリソンとの場面",
+  "harrison_gf_scared": "ハリソンルート・ハリソンとの場面",
+  "harrison_gf_why": "ハリソンルート・ハリソンとの場面",
+  "harrison_door": "ハリソンルート・ハリソンとの場面",
+  "harrison_tommy_dodge": "ハリソンルート・ハリソンとの場面",
+  "harrison_tommy": "ハリソンルート・ハリソンとの場面",
+  "harrison_after_tommy": "ハリソンルート・ハリソンとの場面",
+  "harrison_white_party": "ハリソンルート・白いパーティー",
+  "harrison_white_accept": "ハリソンルート・白いパーティー",
+  "harrison_white_joke": "ハリソンルート・白いパーティー",
+  "harrison_white_ache": "ハリソンルート・白いパーティー",
+  "harrison_job_offer": "ハリソンルート・人生を変える内定",
+  "marcus_intro": "マーカスルート・はじまり",
+  "marcus_mall_flirt": "マーカスルート・モールでの出会い",
+  "marcus_mall_test": "マーカスルート・モールでの出会い",
+  "marcus_mall_observe": "マーカスルート・モールでの出会い",
+  "marcus_videogames": "マーカスルート・ゲームの夜",
+  "marcus_game_flirt": "マーカスルート・ゲームの夜",
+  "marcus_game_win": "マーカスルート・ゲームの夜",
+  "marcus_game_define": "マーカスルート・ゲームの夜",
+  "marcus_dinner_date": "マーカスルート・デート",
+  "marcus_dinner_wanted": "マーカスルート・夕食",
+  "marcus_dinner_practical": "マーカスルート・夕食",
+  "marcus_dinner_notice": "マーカスルート・夕食",
+  "marcus_tension": "マーカスルート・マーカスとの場面",
+  "marcus_pre_lunch_reflection": "マーカスルート・韓国ランチの影",
+  "marcus_korean_lunch_setup": "マーカスルート・韓国ランチの影",
+  "marcus_tommy_lunch": "マーカスルート・韓国ランチの影",
+  "marcus_tommy_dodge": "マーカスルート・マーカスとの場面",
+  "marcus_tommy": "マーカスルート・マーカスとの場面",
+  "marcus_final_convo": "マーカスルート・マーカスとの場面",
+  "marcus_final_accountability": "マーカスルート・マーカスとの場面",
+  "hiroshi_intro": "ヒロシルート・はじまり",
+  "hiroshi_first": "ヒロシルート・デート",
+  "hiroshi_first_enjoy": "ヒロシルート・デート",
+  "hiroshi_first_cautious": "ヒロシルート・デート",
+  "hiroshi_first_bored": "ヒロシルート・デート",
+  "hiroshi_speed": "ヒロシルート・ヒロシとの場面",
+  "hiroshi_speed_fun": "ヒロシルート・ヒロシとの場面",
+  "hiroshi_speed_define": "ヒロシルート・ヒロシとの場面",
+  "hiroshi_speed_ignore": "ヒロシルート・ヒロシとの場面",
+  "hiroshi_phone_transition": "ヒロシルート・ヒロシとの場面",
+  "hiroshi_prince": "ヒロシルート・王子様なんかじゃない",
+  "hiroshi_prince_send": "ヒロシルート・王子様なんかじゃない",
+  "hiroshi_prince_why": "ヒロシルート・王子様なんかじゃない",
+  "hiroshi_prince_ignore": "ヒロシルート・王子様なんかじゃない",
+  "hiroshi_dad": "ヒロシルート・現実チェック",
+  "kenji_intro": "ケンジルート・はじまり",
+  "kenji_memory": "ケンジルート・大学の記憶",
+  "kenji_return": "ケンジルート・ケンジとの場面",
+  "kenji_quiet": "ケンジルート・ケンジとの場面",
+  "kenji_quiet_present": "ケンジルート・ケンジとの場面",
+  "kenji_quiet_unfamiliar": "ケンジルート・ケンジとの場面",
+  "kenji_quiet_compare": "ケンジルート・ケンジとの場面",
+  "kenji_friends": "ケンジルート・女友達会議",
+  "kenji_friends_tessa": "テッサへの電話",
+  "kenji_friends_jade": "ケンジルート・女友達会議",
+  "kenji_friends_airi": "ケンジルート・女友達会議",
+  "kenji_friends_tessa2": "テッサへの電話",
+  "kenji_tommy": "ケンジルート・ケンジとの場面",
+  "kenji_tommy_no_answer": "ケンジルート・ケンジとの場面",
+  "kenji_tommy_boundary": "ケンジルート・ケンジとの場面",
+  "kenji_tommy_warm": "ケンジルート・ケンジとの場面",
+  "kenji_river": "ケンジルート・川沿いの本音",
+  "kenji_choice_i_do": "ケンジルート・ケンジとの場面",
+  "kenji_choice_dont_know": "ケンジルート・ケンジとの場面",
+  "kenji_choice_not_fair": "ケンジルート・ケンジとの場面",
+  "kenji_confess": "ケンジルート・川沿いの本音",
+  "tommy_intro": "トミールート・はじまり",
+  "tommy_reconnect_careful": "トミールート・トミーとの場面",
+  "tommy_reconnect_normal": "トミールート・トミーとの場面",
+  "tommy_reconnect_self": "トミールート・トミーとの場面",
+  "tommy_osaka_castle": "トミールート・大阪城",
+  "tommy_castle_enjoy": "トミールート・トミーとの場面",
+  "tommy_castle_why": "トミールート・トミーとの場面",
+  "tommy_castle_friend": "トミールート・トミーとの場面",
+  "tommy_castle_boat": "トミールート・城の舟",
+  "tommy_boat_life": "トミールート・城の舟",
+  "tommy_boat_tease": "トミールート・城の舟",
+  "tommy_boat_soft": "トミールート・城の舟",
+  "tommy_hep_arcade": "トミールート・HEP FIVEとカラオケ",
+  "tommy_karaoke": "トミールート・HEP FIVEとカラオケ",
+  "tommy_karaoke_romantic": "トミールート・HEP FIVEとカラオケ",
+  "tommy_karaoke_silly": "トミールート・HEP FIVEとカラオケ",
+  "tommy_karaoke_safe": "トミールート・HEP FIVEとカラオケ",
+  "tommy_mie_drive": "トミールート・三重へのドライブ",
+  "tommy_married_rocks": "トミールート・三重へのドライブ",
+  "tommy_meoto_laugh": "トミールート・三重へのドライブ",
+  "tommy_meoto_wait": "トミールート・三重へのドライブ",
+  "tommy_meoto_correct": "トミールート・三重へのドライブ",
+  "tommy_ise_jingu": "トミールート・伊勢神宮",
+  "tommy_snoopy_cafe": "トミールート・スヌーピーカフェ",
+  "tommy_family_text": "トミールート・メッセージ",
+  "tommy_family_arcade": "トミールート・家族の食卓",
+  "tommy_bull_bridal": "トミールート・メカニカルブル",
+  "tommy_parents_sukiyaki": "トミールート・家族の食卓",
+  "tommy_piano_living_room": "トミールート・リビングのピアノ",
+  "tommy_spiral": "トミールート・トミーとの場面",
+  "tommy_planetarium": "トミールート・プラネタリウム",
+  "tommy_planetarium_rejection": "トミールート・プラネタリウム",
+  "tommy_festival_invite": "トミールート・祭りの夜",
+  "tommy_festival_walk": "トミールート・祭りの夜",
+  "tommy_festival_rejection": "トミールート・祭りの夜",
+  "tommy_cheat_festival_confession": "トミー超隠しルート・NO MORE MAYBE",
+  "tommy_cheat_callout": "トミー超隠しルート・もうMaybeはいらない",
+  "tommy_cheat_confession_unlocked": "トミー超隠しルート・言葉",
+  "tommy_cheat_festival_kiss": "トミー超隠しルート・祭りのキス",
+  "tommy_cheat_after_festival_room": "トミー超隠しルート・祭りのあと",
+  "tommy_ultra_hidden_after_festival": "トミー超隠しエンディング・ありえないファイル"
+};
+  const JP_STORY_FULL = {
+  "ren_intro": "蓮は私を、曖昧にしない。\n\n優しさを隠さず、好意を冗談に変えず、ちゃんと私の前に置いてくれる。\n\nこのルートで問われるのは、私が「はっきり選ばれる愛」を受け取れるかどうかだった。",
+  "ren_text": "蓮との時間は、私に「選ばれること」の意味を教えてくれた。\n\n私はまだトミーの影を抱えている。でも蓮は、それごと私を見ていた。\n\nだからこそ、ここで嘘をつくことは、彼にも自分にも残酷だった。",
+  "ren_text_maybe": "私は考えすぎる前に返事を打った。\n\nアイリ：ちょっとだけ、かも。\n\n蓮の返事は早い。\n\n蓮：認めてくれる時の君、好きだよ。\n\n私は枕に顔を埋めて笑ってしまう。蓮の好意は罠みたいじゃない。ただ、開いた扉みたいだった。",
+  "ren_text_confident": "蓮は自信がある。\n\nでも、その自信は押しつけじゃない。私の返事を待って、私が逃げたら追い詰めず、戻ってきたらそこにいる。\n\nそれが怖いくらい新鮮だった。",
+  "ren_text_busy": "私は「忙しい」と返した。\n\n小さな嘘だった。ほとんど害のない逃げ道。\n\nけれど蓮は消えなかった。\n\n蓮：じゃあ、忙しくない時にまた誘う。\n\nその優しさが、むしろ胸に残った。",
+  "ren_date": "蓮との時間は、私に「選ばれること」の意味を教えてくれた。\n\n私はまだトミーの影を抱えている。でも蓮は、それごと私を見ていた。\n\nだからこそ、ここで嘘をつくことは、彼にも自分にも残酷だった。",
+  "ren_hand_here": "私は蓮の手を取った。\n\nアイリ：ここにいるよ。\n\n蓮は笑わない。からかわない。ただ、握り返してくれる。\n\nその手は偶然じゃなかった。意味を持つことを怖がらない手だった。",
+  "ren_hand_joke": "私は冗談で逃げた。\n\nアイリ：外科医って、デート中も観察するの？\n\n蓮は少し笑ったけれど、視線は逸らさない。\n\n蓮：君が逃げたい時は、わかりやすいから。\n\n図星すぎて、何も言い返せなかった。",
+  "ren_hand_phone": "私はまたスマホを見た。\n\n画面の光が、蓮との間に細い壁を作る。\n\n蓮：今は、ここにいて。\n\n怒っていない声だった。だから余計に痛かった。",
+  "ren_bday": "蓮との時間は、私に「選ばれること」の意味を教えてくれた。\n\n私はまだトミーの影を抱えている。でも蓮は、それごと私を見ていた。\n\nだからこそ、ここで嘘をつくことは、彼にも自分にも残酷だった。",
+  "ren_bday_choose_ren": "私は蓮を選んだ。\n\n誕生日を祝ってくれる人ではなく、誕生日に私をちゃんと待ってくれる人を。\n\nトミーの世界はまだ呼んでいた。でもこの日は、蓮の隣にいると決めた。",
+  "ren_bday_choose_tommy": "私は蓮にプレゼントを早めに渡してから、トミーの家族に会いに行った。\n\nそれがどれだけ危うい選択か、わかっていた。\n\nそれでも、トミーの世界に招かれることを、私はまだ完全には拒めなかった。",
+  "ren_bday_try_both": "私は両方を選べるふりをした。\n\n蓮の誕生日。トミーの家族。\n\n心を二つに割っても、どちらにも失礼にならないと思いたかった。\n\nもちろん、そんな都合のいいことはなかった。",
+  "ren_kyoto": "蓮との時間は、私に「選ばれること」の意味を教えてくれた。\n\n私はまだトミーの影を抱えている。でも蓮は、それごと私を見ていた。\n\nだからこそ、ここで嘘をつくことは、彼にも自分にも残酷だった。",
+  "ren_kyoto_choose_ren": "トミーは、私が幸せになりかけた瞬間を見計らったみたいに現れた。\n\n言葉は優しい。表情も悪気があるようには見えない。\n\nでも、彼の「今さら」はいつも私の足元を揺らす。\n\n私は息を吸って、蓮が待っていることを思い出した。",
+  "ren_kyoto_apologize": "蓮との時間は、私に「選ばれること」の意味を教えてくれた。\n\n私はまだトミーの影を抱えている。でも蓮は、それごと私を見ていた。\n\nだからこそ、ここで嘘をつくことは、彼にも自分にも残酷だった。",
+  "ren_kyoto_call_him_out": "蓮との時間は、私に「選ばれること」の意味を教えてくれた。\n\n私はまだトミーの影を抱えている。でも蓮は、それごと私を見ていた。\n\nだからこそ、ここで嘘をつくことは、彼にも自分にも残酷だった。",
+  "ren_kyoto_stay": "蓮との時間は、私に「選ばれること」の意味を教えてくれた。\n\n私はまだトミーの影を抱えている。でも蓮は、それごと私を見ていた。\n\nだからこそ、ここで嘘をつくことは、彼にも自分にも残酷だった。",
+  "ren_tommy": "トミーは、私が幸せになりかけた瞬間を見計らったみたいに現れた。\n\n言葉は優しい。表情も悪気があるようには見えない。\n\nでも、彼の「今さら」はいつも私の足元を揺らす。\n\n私は息を吸って、蓮が待っていることを思い出した。",
+  "ren_after_train": "駅に着いた時、私はもう疲れていた。\n\nトミーに揺らされ、蓮にも待たされ、怒りの行き場がなくなっていた。\n\nだからテッサに電話した。\n\nテッサは笑って、呆れて、でも最後にはちゃんと私の味方でいてくれた。",
+  "ren_train_text_transition": "駅に着いた時、私はもう疲れていた。\n\nトミーに揺らされ、蓮にも待たされ、怒りの行き場がなくなっていた。\n\nだからテッサに電話した。\n\nテッサは笑って、呆れて、でも最後にはちゃんと私の味方でいてくれた。",
+  "ren_train_silence_transition": "駅に着いた時、私はもう疲れていた。\n\nトミーに揺らされ、蓮にも待たされ、怒りの行き場がなくなっていた。\n\nだからテッサに電話した。\n\nテッサは笑って、呆れて、でも最後にはちゃんと私の味方でいてくれた。",
+  "ren_waiting": "駅に着いた時、私はもう疲れていた。\n\nトミーに揺らされ、蓮にも待たされ、怒りの行き場がなくなっていた。\n\nだからテッサに電話した。\n\nテッサは笑って、呆れて、でも最後にはちゃんと私の味方でいてくれた。",
+  "ren_tessa_call": "駅に着いた時、私はもう疲れていた。\n\nトミーに揺らされ、蓮にも待たされ、怒りの行き場がなくなっていた。\n\nだからテッサに電話した。\n\nテッサは笑って、呆れて、でも最後にはちゃんと私の味方でいてくれた。",
+  "ren_returns": "蓮の部屋の扉が開いた瞬間、彼はすぐに私の顔を見た。\n\n蓮：何かあった？\n\n隠せると思っていたのは、たぶん私だけだった。\n\nここで嘘をつけば、蓮はきっと気づく。ここで本当のことを言えば、私も自分の気持ちから逃げられなくなる。",
+  "ren_truth": "蓮の部屋の扉が開いた瞬間、彼はすぐに私の顔を見た。\n\n蓮：何かあった？\n\n隠せると思っていたのは、たぶん私だけだった。\n\nここで嘘をつけば、蓮はきっと気づく。ここで本当のことを言えば、私も自分の気持ちから逃げられなくなる。",
+  "harrison_intro": "ハリソンは最初から穏やかだった。\n\n押しつけず、急かさず、でも曖昧にも逃げない。\n\n彼と歩く公園の空気は、恋というより安心に近かった。\n\n問題は、私がその安心を退屈と間違えないでいられるかだった。",
+  "harrison_park_easy": "ハリソンは最初から穏やかだった。\n\n押しつけず、急かさず、でも曖昧にも逃げない。\n\n彼と歩く公園の空気は、恋というより安心に近かった。\n\n問題は、私がその安心を退屈と間違えないでいられるかだった。",
+  "harrison_park_tease": "ハリソンは最初から穏やかだった。\n\n押しつけず、急かさず、でも曖昧にも逃げない。\n\n彼と歩く公園の空気は、恋というより安心に近かった。\n\n問題は、私がその安心を退屈と間違えないでいられるかだった。",
+  "harrison_park_guarded": "ハリソンは最初から穏やかだった。\n\n押しつけず、急かさず、でも曖昧にも逃げない。\n\n彼と歩く公園の空気は、恋というより安心に近かった。\n\n問題は、私がその安心を退屈と間違えないでいられるかだった。",
+  "harrison_museum": "美術館の静けさの中で、ハリソンは私の話をちゃんと聞いてくれた。\n\n作品のこと。仕事のこと。まだ言葉にできない不安のこと。\n\n彼の優しさは派手じゃない。でも、逃げ場を作らずに隣にいてくれる強さがあった。",
+  "harrison_museum_open": "美術館の静けさの中で、ハリソンは私の話をちゃんと聞いてくれた。\n\n作品のこと。仕事のこと。まだ言葉にできない不安のこと。\n\n彼の優しさは派手じゃない。でも、逃げ場を作らずに隣にいてくれる強さがあった。",
+  "harrison_museum_joke": "美術館の静けさの中で、ハリソンは私の話をちゃんと聞いてくれた。\n\n作品のこと。仕事のこと。まだ言葉にできない不安のこと。\n\n彼の優しさは派手じゃない。でも、逃げ場を作らずに隣にいてくれる強さがあった。",
+  "harrison_museum_compare": "美術館の静けさの中で、ハリソンは私の話をちゃんと聞いてくれた。\n\n作品のこと。仕事のこと。まだ言葉にできない不安のこと。\n\n彼の優しさは派手じゃない。でも、逃げ場を作らずに隣にいてくれる強さがあった。",
+  "harrison_red_dress": "赤いワンピースを着た私は、鏡の前で深呼吸した。\n\nハリソンは私を見て、ちゃんと言葉にした。\n\nハリソン：彼女になってほしい。\n\nそのまっすぐさが嬉しいのに、怖かった。はっきり選ばれることに、私はまだ慣れていなかった。",
+  "harrison_gf_yes": "赤いワンピースを着た私は、鏡の前で深呼吸した。\n\nハリソンは私を見て、ちゃんと言葉にした。\n\nハリソン：彼女になってほしい。\n\nそのまっすぐさが嬉しいのに、怖かった。はっきり選ばれることに、私はまだ慣れていなかった。",
+  "harrison_gf_scared": "赤いワンピースを着た私は、鏡の前で深呼吸した。\n\nハリソンは私を見て、ちゃんと言葉にした。\n\nハリソン：彼女になってほしい。\n\nそのまっすぐさが嬉しいのに、怖かった。はっきり選ばれることに、私はまだ慣れていなかった。",
+  "harrison_gf_why": "赤いワンピースを着た私は、鏡の前で深呼吸した。\n\nハリソンは私を見て、ちゃんと言葉にした。\n\nハリソン：彼女になってほしい。\n\nそのまっすぐさが嬉しいのに、怖かった。はっきり選ばれることに、私はまだ慣れていなかった。",
+  "harrison_door": "幸せが形になりかけた時、トミーはなぜか現れる。\n\nチョコを持って、優しい顔をして、私の心を昔の場所へ引き戻す。\n\nでもハリソンは今ここにいる。私を待たせず、試さず、ちゃんと選ぼうとしてくれている。",
+  "harrison_tommy_dodge": "幸せが形になりかけた時、トミーはなぜか現れる。\n\nチョコを持って、優しい顔をして、私の心を昔の場所へ引き戻す。\n\nでもハリソンは今ここにいる。私を待たせず、試さず、ちゃんと選ぼうとしてくれている。",
+  "harrison_tommy": "幸せが形になりかけた時、トミーはなぜか現れる。\n\nチョコを持って、優しい顔をして、私の心を昔の場所へ引き戻す。\n\nでもハリソンは今ここにいる。私を待たせず、試さず、ちゃんと選ぼうとしてくれている。",
+  "harrison_after_tommy": "幸せが形になりかけた時、トミーはなぜか現れる。\n\nチョコを持って、優しい顔をして、私の心を昔の場所へ引き戻す。\n\nでもハリソンは今ここにいる。私を待たせず、試さず、ちゃんと選ぼうとしてくれている。",
+  "harrison_white_party": "白い服の人たちの中で、私は少し浮いている気がした。\n\nハリソンはそれに気づいて、私の隣に立つ。\n\n大きな言葉じゃない。けれど、彼は私を一人にしなかった。\n\nその優しさを、私はちゃんと受け取れるだろうか。",
+  "harrison_white_accept": "白い服の人たちの中で、私は少し浮いている気がした。\n\nハリソンはそれに気づいて、私の隣に立つ。\n\n大きな言葉じゃない。けれど、彼は私を一人にしなかった。\n\nその優しさを、私はちゃんと受け取れるだろうか。",
+  "harrison_white_joke": "白い服の人たちの中で、私は少し浮いている気がした。\n\nハリソンはそれに気づいて、私の隣に立つ。\n\n大きな言葉じゃない。けれど、彼は私を一人にしなかった。\n\nその優しさを、私はちゃんと受け取れるだろうか。",
+  "harrison_white_ache": "白い服の人たちの中で、私は少し浮いている気がした。\n\nハリソンはそれに気づいて、私の隣に立つ。\n\n大きな言葉じゃない。けれど、彼は私を一人にしなかった。\n\nその優しさを、私はちゃんと受け取れるだろうか。",
+  "harrison_job_offer": "画面の文字を何度も読み返した。\n\nソフトウェアエンジニア。年収十五万ドル。\n\n私の人生が、急に別の方向へ開いていく。\n\nハリソンとの穏やかな未来もそこにある。でも、私自身の未来も、同じくらい大きな声で私を呼んでいた。",
+  "marcus_intro": "マーカスとの出会いは、最初から軽やかで、少し危険なくらい楽しかった。\n\n彼は私を見て、すぐに会話の距離を詰めてくる。\n\n私は笑ってしまう。警戒しながらも、少しだけ嬉しかった。",
+  "marcus_mall_flirt": "マーカスとの出会いは、最初から軽やかで、少し危険なくらい楽しかった。\n\n彼は私を見て、すぐに会話の距離を詰めてくる。\n\n私は笑ってしまう。警戒しながらも、少しだけ嬉しかった。",
+  "marcus_mall_test": "マーカスとの出会いは、最初から軽やかで、少し危険なくらい楽しかった。\n\n彼は私を見て、すぐに会話の距離を詰めてくる。\n\n私は笑ってしまう。警戒しながらも、少しだけ嬉しかった。",
+  "marcus_mall_observe": "マーカスとの出会いは、最初から軽やかで、少し危険なくらい楽しかった。\n\n彼は私を見て、すぐに会話の距離を詰めてくる。\n\n私は笑ってしまう。警戒しながらも、少しだけ嬉しかった。",
+  "marcus_videogames": "ゲームの夜は、会話より正直だった。\n\n勝ち負けでからかい合って、笑って、近づきすぎたらまた冗談で逃げる。\n\nマーカスの熱はわかりやすい。だからこそ、嘘や曖昧さが混ざると余計に目立った。",
+  "marcus_game_flirt": "ゲームの夜は、会話より正直だった。\n\n勝ち負けでからかい合って、笑って、近づきすぎたらまた冗談で逃げる。\n\nマーカスの熱はわかりやすい。だからこそ、嘘や曖昧さが混ざると余計に目立った。",
+  "marcus_game_win": "ゲームの夜は、会話より正直だった。\n\n勝ち負けでからかい合って、笑って、近づきすぎたらまた冗談で逃げる。\n\nマーカスの熱はわかりやすい。だからこそ、嘘や曖昧さが混ざると余計に目立った。",
+  "marcus_game_define": "ゲームの夜は、会話より正直だった。\n\n勝ち負けでからかい合って、笑って、近づきすぎたらまた冗談で逃げる。\n\nマーカスの熱はわかりやすい。だからこそ、嘘や曖昧さが混ざると余計に目立った。",
+  "marcus_dinner_date": "夕食の席で、マーカスは魅力的だった。\n\nでも、魅力だけでは生活にならない。\n\n私は彼の言葉を聞きながら、何が本当で、何がその場の勢いなのかを見極めようとしていた。",
+  "marcus_dinner_wanted": "夕食の席で、マーカスは魅力的だった。\n\nでも、魅力だけでは生活にならない。\n\n私は彼の言葉を聞きながら、何が本当で、何がその場の勢いなのかを見極めようとしていた。",
+  "marcus_dinner_practical": "夕食の席で、マーカスは魅力的だった。\n\nでも、魅力だけでは生活にならない。\n\n私は彼の言葉を聞きながら、何が本当で、何がその場の勢いなのかを見極めようとしていた。",
+  "marcus_dinner_notice": "夕食の席で、マーカスは魅力的だった。\n\nでも、魅力だけでは生活にならない。\n\n私は彼の言葉を聞きながら、何が本当で、何がその場の勢いなのかを見極めようとしていた。",
+  "marcus_tension": "楽しいだけでは越えられないものが、二人の間に残っていた。\n\n私は欲しかった。情熱だけじゃなく、誠実さも。\n\nマーカスが変われるかどうかより、私が自分を小さくしてまで待つのかが問題だった。",
+  "marcus_pre_lunch_reflection": "トミーからのメッセージは、マーカスとの問題をさらに複雑にした。\n\n韓国料理を食べたいだけ。友達と会うだけ。\n\nそう言い聞かせるほど、私は自分が逃げていることに気づいていた。",
+  "marcus_korean_lunch_setup": "トミーからのメッセージは、マーカスとの問題をさらに複雑にした。\n\n韓国料理を食べたいだけ。友達と会うだけ。\n\nそう言い聞かせるほど、私は自分が逃げていることに気づいていた。",
+  "marcus_tommy_lunch": "トミーからのメッセージは、マーカスとの問題をさらに複雑にした。\n\n韓国料理を食べたいだけ。友達と会うだけ。\n\nそう言い聞かせるほど、私は自分が逃げていることに気づいていた。",
+  "marcus_tommy_dodge": "トミーからのメッセージは、マーカスとの問題をさらに複雑にした。\n\n韓国料理を食べたいだけ。友達と会うだけ。\n\nそう言い聞かせるほど、私は自分が逃げていることに気づいていた。",
+  "marcus_tommy": "トミーからのメッセージは、マーカスとの問題をさらに複雑にした。\n\n韓国料理を食べたいだけ。友達と会うだけ。\n\nそう言い聞かせるほど、私は自分が逃げていることに気づいていた。",
+  "marcus_final_convo": "楽しいだけでは越えられないものが、二人の間に残っていた。\n\n私は欲しかった。情熱だけじゃなく、誠実さも。\n\nマーカスが変われるかどうかより、私が自分を小さくしてまで待つのかが問題だった。",
+  "marcus_final_accountability": "楽しいだけでは越えられないものが、二人の間に残っていた。\n\n私は欲しかった。情熱だけじゃなく、誠実さも。\n\nマーカスが変われるかどうかより、私が自分を小さくしてまで待つのかが問題だった。",
+  "hiroshi_intro": "ヒロシとの時間は、軽くて、少し大人っぽくて、最初は楽しかった。\n\nプリクラ、カフェ、電車の会話。\n\nこれは永遠の恋じゃない。たぶん、最初からそういう種類の話だった。",
+  "hiroshi_first": "ヒロシとの時間は、軽くて、少し大人っぽくて、最初は楽しかった。\n\nプリクラ、カフェ、電車の会話。\n\nこれは永遠の恋じゃない。たぶん、最初からそういう種類の話だった。",
+  "hiroshi_first_enjoy": "ヒロシとの時間は、軽くて、少し大人っぽくて、最初は楽しかった。\n\nプリクラ、カフェ、電車の会話。\n\nこれは永遠の恋じゃない。たぶん、最初からそういう種類の話だった。",
+  "hiroshi_first_cautious": "ヒロシとの時間は、軽くて、少し大人っぽくて、最初は楽しかった。\n\nプリクラ、カフェ、電車の会話。\n\nこれは永遠の恋じゃない。たぶん、最初からそういう種類の話だった。",
+  "hiroshi_first_bored": "ヒロシとの時間は、軽くて、少し大人っぽくて、最初は楽しかった。\n\nプリクラ、カフェ、電車の会話。\n\nこれは永遠の恋じゃない。たぶん、最初からそういう種類の話だった。",
+  "hiroshi_speed": "関係はあっという間に進んだ。\n\n楽しい。可愛い。少し退屈。\n\n全部同時に存在していて、私はそれを恋と呼ぶべきか迷っていた。",
+  "hiroshi_speed_fun": "関係はあっという間に進んだ。\n\n楽しい。可愛い。少し退屈。\n\n全部同時に存在していて、私はそれを恋と呼ぶべきか迷っていた。",
+  "hiroshi_speed_define": "関係はあっという間に進んだ。\n\n楽しい。可愛い。少し退屈。\n\n全部同時に存在していて、私はそれを恋と呼ぶべきか迷っていた。",
+  "hiroshi_speed_ignore": "関係はあっという間に進んだ。\n\n楽しい。可愛い。少し退屈。\n\n全部同時に存在していて、私はそれを恋と呼ぶべきか迷っていた。",
+  "hiroshi_phone_transition": "ヒロシとのルートは、全部の恋が最終章になる必要はないと教えてくれた。\n\n短くても、意味はある。\n\nでも短いままで終わる関係もある。",
+  "hiroshi_prince": "トミーのメッセージが来ると、空気が変わった。\n\nヒロシといても、私は別の人の反応を気にしてしまう。\n\n誰かの王子様なんて、最初からいなかったのかもしれない。",
+  "hiroshi_prince_send": "トミーのメッセージが来ると、空気が変わった。\n\nヒロシといても、私は別の人の反応を気にしてしまう。\n\n誰かの王子様なんて、最初からいなかったのかもしれない。",
+  "hiroshi_prince_why": "トミーのメッセージが来ると、空気が変わった。\n\nヒロシといても、私は別の人の反応を気にしてしまう。\n\n誰かの王子様なんて、最初からいなかったのかもしれない。",
+  "hiroshi_prince_ignore": "トミーのメッセージが来ると、空気が変わった。\n\nヒロシといても、私は別の人の反応を気にしてしまう。\n\n誰かの王子様なんて、最初からいなかったのかもしれない。",
+  "hiroshi_dad": "ヒロシの一言で、魔法は急に現実に戻った。\n\n笑えばいいだけの冗談かもしれない。\n\nでも私は、自分の胸がすっと冷めていくのを感じた。",
+  "kenji_intro": "探すのをやめた時にだけ、現れるルートもある。\n\nケンジは昔からそこにいた。静かで、懐かしくて、私のことを見すぎている人。\n\nトミーが彼を警戒したのは、ケンジが何かしたからじゃない。ケンジが、私を知りすぎていたから。",
+  "kenji_memory": "ケンジといると、時間の流れが少し違った。\n\n昔の私を知っているのに、今の私もちゃんと見ようとしてくれる。\n\nその静けさが、懐かしくて、少し怖かった。",
+  "kenji_return": "ケンジといると、時間の流れが少し違った。\n\n昔の私を知っているのに、今の私もちゃんと見ようとしてくれる。\n\nその静けさが、懐かしくて、少し怖かった。",
+  "kenji_quiet": "夕食は静かだった。\n\nでもその静けさは、気まずさじゃない。\n\n私が無理に喋らなくても、ケンジはそこにいる。\n\nそれが安心なのか、恋なのか、まだわからなかった。",
+  "kenji_quiet_present": "夕食は静かだった。\n\nでもその静けさは、気まずさじゃない。\n\n私が無理に喋らなくても、ケンジはそこにいる。\n\nそれが安心なのか、恋なのか、まだわからなかった。",
+  "kenji_quiet_unfamiliar": "夕食は静かだった。\n\nでもその静けさは、気まずさじゃない。\n\n私が無理に喋らなくても、ケンジはそこにいる。\n\nそれが安心なのか、恋なのか、まだわからなかった。",
+  "kenji_quiet_compare": "夕食は静かだった。\n\nでもその静けさは、気まずさじゃない。\n\n私が無理に喋らなくても、ケンジはそこにいる。\n\nそれが安心なのか、恋なのか、まだわからなかった。",
+  "kenji_friends": "女友達に電話すると、案の定すぐに見抜かれた。\n\nカミーユもジェイドもテッサも、私より先に私の気持ちを知っているみたいだった。\n\n私は否定したかった。でも、声の中にもう答えが出ていた。",
+  "kenji_friends_tessa": "女友達に電話すると、案の定すぐに見抜かれた。\n\nカミーユもジェイドもテッサも、私より先に私の気持ちを知っているみたいだった。\n\n私は否定したかった。でも、声の中にもう答えが出ていた。",
+  "kenji_friends_jade": "女友達に電話すると、案の定すぐに見抜かれた。\n\nカミーユもジェイドもテッサも、私より先に私の気持ちを知っているみたいだった。\n\n私は否定したかった。でも、声の中にもう答えが出ていた。",
+  "kenji_friends_airi": "女友達に電話すると、案の定すぐに見抜かれた。\n\nカミーユもジェイドもテッサも、私より先に私の気持ちを知っているみたいだった。\n\n私は否定したかった。でも、声の中にもう答えが出ていた。",
+  "kenji_friends_tessa2": "女友達に電話すると、案の定すぐに見抜かれた。\n\nカミーユもジェイドもテッサも、私より先に私の気持ちを知っているみたいだった。\n\n私は否定したかった。でも、声の中にもう答えが出ていた。",
+  "kenji_tommy": "トミーからの連絡は、いつもタイミングが良すぎる。\n\nケンジの静けさが私を落ち着かせた直後に、昔の重力が戻ってくる。\n\nでも今回は、私はその重力に名前をつけられる。",
+  "kenji_tommy_no_answer": "トミーからの連絡は、いつもタイミングが良すぎる。\n\nケンジの静けさが私を落ち着かせた直後に、昔の重力が戻ってくる。\n\nでも今回は、私はその重力に名前をつけられる。",
+  "kenji_tommy_boundary": "トミーからの連絡は、いつもタイミングが良すぎる。\n\nケンジの静けさが私を落ち着かせた直後に、昔の重力が戻ってくる。\n\nでも今回は、私はその重力に名前をつけられる。",
+  "kenji_tommy_warm": "トミーからの連絡は、いつもタイミングが良すぎる。\n\nケンジの静けさが私を落ち着かせた直後に、昔の重力が戻ってくる。\n\nでも今回は、私はその重力に名前をつけられる。",
+  "kenji_river": "川沿いを歩きながら、ケンジは急かさなかった。\n\nそれでも、言葉は確かにそこにあった。\n\nケンジ：好きだよ。\n\nその告白は、私を閉じ込めようとしない。だからこそ、ちゃんと答えなければいけなかった。",
+  "kenji_choice_i_do": "川沿いを歩きながら、ケンジは急かさなかった。\n\nそれでも、言葉は確かにそこにあった。\n\nケンジ：好きだよ。\n\nその告白は、私を閉じ込めようとしない。だからこそ、ちゃんと答えなければいけなかった。",
+  "kenji_choice_dont_know": "川沿いを歩きながら、ケンジは急かさなかった。\n\nそれでも、言葉は確かにそこにあった。\n\nケンジ：好きだよ。\n\nその告白は、私を閉じ込めようとしない。だからこそ、ちゃんと答えなければいけなかった。",
+  "kenji_choice_not_fair": "川沿いを歩きながら、ケンジは急かさなかった。\n\nそれでも、言葉は確かにそこにあった。\n\nケンジ：好きだよ。\n\nその告白は、私を閉じ込めようとしない。だからこそ、ちゃんと答えなければいけなかった。",
+  "kenji_confess": "川沿いを歩きながら、ケンジは急かさなかった。\n\nそれでも、言葉は確かにそこにあった。\n\nケンジ：好きだよ。\n\nその告白は、私を閉じ込めようとしない。だからこそ、ちゃんと答えなければいけなかった。",
+  "tommy_intro": "このルートには、恋のライバルはいない。\n\n彼を焦らせる彼氏も、告白を引き出す外圧もない。\n\nあるのは、私とトミーと、長すぎた「Maybe」だけ。\n\n誰にも奪われない時、彼は本当に明確さを選べるのだろうか。",
+  "tommy_reconnect_careful": "トミーとまた普通に話すことは、思ったより難しかった。\n\n笑える。冗談も言える。\n\nでも一度壊れた場所は、笑っただけでは元に戻らない。\n\n私は近づきたい気持ちと、自分を守りたい気持ちの間で揺れていた。",
+  "tommy_reconnect_normal": "トミーとまた普通に話すことは、思ったより難しかった。\n\n笑える。冗談も言える。\n\nでも一度壊れた場所は、笑っただけでは元に戻らない。\n\n私は近づきたい気持ちと、自分を守りたい気持ちの間で揺れていた。",
+  "tommy_reconnect_self": "トミーとまた普通に話すことは、思ったより難しかった。\n\n笑える。冗談も言える。\n\nでも一度壊れた場所は、笑っただけでは元に戻らない。\n\n私は近づきたい気持ちと、自分を守りたい気持ちの間で揺れていた。",
+  "tommy_osaka_castle": "大阪城の空は明るくて、トミーはいつもの調子で隣を歩いていた。\n\n何気ない会話。小さな笑い。ふとした沈黙。\n\nこんな日があるから、私は何度も勘違いしそうになる。友達にしては優しすぎて、恋人にしては遠すぎる。",
+  "tommy_castle_enjoy": "大阪城の空は明るくて、トミーはいつもの調子で隣を歩いていた。\n\n何気ない会話。小さな笑い。ふとした沈黙。\n\nこんな日があるから、私は何度も勘違いしそうになる。友達にしては優しすぎて、恋人にしては遠すぎる。",
+  "tommy_castle_why": "大阪城の空は明るくて、トミーはいつもの調子で隣を歩いていた。\n\n何気ない会話。小さな笑い。ふとした沈黙。\n\nこんな日があるから、私は何度も勘違いしそうになる。友達にしては優しすぎて、恋人にしては遠すぎる。",
+  "tommy_castle_friend": "大阪城の空は明るくて、トミーはいつもの調子で隣を歩いていた。\n\n何気ない会話。小さな笑い。ふとした沈黙。\n\nこんな日があるから、私は何度も勘違いしそうになる。友達にしては優しすぎて、恋人にしては遠すぎる。",
+  "tommy_castle_boat": "大阪城の空は明るくて、トミーはいつもの調子で隣を歩いていた。\n\n何気ない会話。小さな笑い。ふとした沈黙。\n\nこんな日があるから、私は何度も勘違いしそうになる。友達にしては優しすぎて、恋人にしては遠すぎる。",
+  "tommy_boat_life": "大阪城の空は明るくて、トミーはいつもの調子で隣を歩いていた。\n\n何気ない会話。小さな笑い。ふとした沈黙。\n\nこんな日があるから、私は何度も勘違いしそうになる。友達にしては優しすぎて、恋人にしては遠すぎる。",
+  "tommy_boat_tease": "大阪城の空は明るくて、トミーはいつもの調子で隣を歩いていた。\n\n何気ない会話。小さな笑い。ふとした沈黙。\n\nこんな日があるから、私は何度も勘違いしそうになる。友達にしては優しすぎて、恋人にしては遠すぎる。",
+  "tommy_boat_soft": "大阪城の空は明るくて、トミーはいつもの調子で隣を歩いていた。\n\n何気ない会話。小さな笑い。ふとした沈黙。\n\nこんな日があるから、私は何度も勘違いしそうになる。友達にしては優しすぎて、恋人にしては遠すぎる。",
+  "tommy_hep_arcade": "HEP FIVEとカラオケは、私たちの得意な逃げ場所だった。\n\n歌なら言えることがある。冗談なら触れられる距離がある。\n\nでも曲が終わると、また何も言わなかったことだけが残る。",
+  "tommy_karaoke": "HEP FIVEとカラオケは、私たちの得意な逃げ場所だった。\n\n歌なら言えることがある。冗談なら触れられる距離がある。\n\nでも曲が終わると、また何も言わなかったことだけが残る。",
+  "tommy_karaoke_romantic": "HEP FIVEとカラオケは、私たちの得意な逃げ場所だった。\n\n歌なら言えることがある。冗談なら触れられる距離がある。\n\nでも曲が終わると、また何も言わなかったことだけが残る。",
+  "tommy_karaoke_silly": "HEP FIVEとカラオケは、私たちの得意な逃げ場所だった。\n\n歌なら言えることがある。冗談なら触れられる距離がある。\n\nでも曲が終わると、また何も言わなかったことだけが残る。",
+  "tommy_karaoke_safe": "HEP FIVEとカラオケは、私たちの得意な逃げ場所だった。\n\n歌なら言えることがある。冗談なら触れられる距離がある。\n\nでも曲が終わると、また何も言わなかったことだけが残る。",
+  "tommy_mie_drive": "三重への道は、まるでただの楽しい日帰り旅行みたいだった。\n\n海、神社、カフェ、写真。\n\n私は何度も自分に言い聞かせた。これは友達の時間だ。\n\nそれなのに、トミーの横顔を見るたび、胸の奥で昔の願いがまだ動いた。",
+  "tommy_married_rocks": "三重への道は、まるでただの楽しい日帰り旅行みたいだった。\n\n海、神社、カフェ、写真。\n\n私は何度も自分に言い聞かせた。これは友達の時間だ。\n\nそれなのに、トミーの横顔を見るたび、胸の奥で昔の願いがまだ動いた。",
+  "tommy_meoto_laugh": "三重への道は、まるでただの楽しい日帰り旅行みたいだった。\n\n海、神社、カフェ、写真。\n\n私は何度も自分に言い聞かせた。これは友達の時間だ。\n\nそれなのに、トミーの横顔を見るたび、胸の奥で昔の願いがまだ動いた。",
+  "tommy_meoto_wait": "三重への道は、まるでただの楽しい日帰り旅行みたいだった。\n\n海、神社、カフェ、写真。\n\n私は何度も自分に言い聞かせた。これは友達の時間だ。\n\nそれなのに、トミーの横顔を見るたび、胸の奥で昔の願いがまだ動いた。",
+  "tommy_meoto_correct": "三重への道は、まるでただの楽しい日帰り旅行みたいだった。\n\n海、神社、カフェ、写真。\n\n私は何度も自分に言い聞かせた。これは友達の時間だ。\n\nそれなのに、トミーの横顔を見るたび、胸の奥で昔の願いがまだ動いた。",
+  "tommy_ise_jingu": "三重への道は、まるでただの楽しい日帰り旅行みたいだった。\n\n海、神社、カフェ、写真。\n\n私は何度も自分に言い聞かせた。これは友達の時間だ。\n\nそれなのに、トミーの横顔を見るたび、胸の奥で昔の願いがまだ動いた。",
+  "tommy_snoopy_cafe": "三重への道は、まるでただの楽しい日帰り旅行みたいだった。\n\n海、神社、カフェ、写真。\n\n私は何度も自分に言い聞かせた。これは友達の時間だ。\n\nそれなのに、トミーの横顔を見るたび、胸の奥で昔の願いがまだ動いた。",
+  "tommy_family_text": "トミーの家族は、私を自然に受け入れてくれた。\n\n食卓の温かさが、危険なくらい心地よかった。\n\nまるで、私がずっと前から彼の世界にいたみたいに。\n\nでも私は知っている。居場所に見えるものが、約束とは限らない。",
+  "tommy_family_arcade": "トミーの家族は、私を自然に受け入れてくれた。\n\n食卓の温かさが、危険なくらい心地よかった。\n\nまるで、私がずっと前から彼の世界にいたみたいに。\n\nでも私は知っている。居場所に見えるものが、約束とは限らない。",
+  "tommy_bull_bridal": "アーケードで、私はメカニカルブルに乗った。\n\n笑って、叫んで、降りようとした瞬間、トミーが私を抱き上げた。\n\nブライダルスタイル。\n\n一秒だけ、私たちは見つめ合った。\n\n私は何も言わなかった。彼も何も言わなかった。\n\nそして私たちは、何も起きなかったふりをした。",
+  "tommy_parents_sukiyaki": "トミーの家族は、私を自然に受け入れてくれた。\n\n食卓の温かさが、危険なくらい心地よかった。\n\nまるで、私がずっと前から彼の世界にいたみたいに。\n\nでも私は知っている。居場所に見えるものが、約束とは限らない。",
+  "tommy_piano_living_room": "リビングでトミーがピアノを弾いた。\n\nその音を聴きながら、私はまた危ない夢を見そうになる。\n\n彼の内側に招かれている気がした。でも、招待されたからといって、選ばれたわけじゃない。",
+  "tommy_spiral": "家に帰ってから、私は崩れそうになった。\n\n彼は優しい。近い。時々、信じられないくらい私を見ている。\n\nでも言葉はない。\n\n私はまた、彼が言わなかったことの意味を一人で抱えようとしていた。",
+  "tommy_planetarium": "プラネタリウムの暗闇で、トミーの手が私の手に触れた。\n\n偶然じゃなかった。\n\n私は息を止めた。\n\n星空の下で、昔の拒絶も、今の近さも、全部同じ場所に戻ってきた。",
+  "tommy_planetarium_rejection": "プラネタリウムの暗闇で、トミーの手が私の手に触れた。\n\n偶然じゃなかった。\n\n私は息を止めた。\n\n星空の下で、昔の拒絶も、今の近さも、全部同じ場所に戻ってきた。",
+  "tommy_festival_invite": "祭りの灯りの中で、トミーはまた曖昧に優しかった。\n\n浴衣を褒めて、手を取って、私の心をまた昔の場所へ連れていく。\n\nでも私はもう、Almostを永遠にするためにここにいるわけじゃない。",
+  "tommy_festival_walk": "祭りの灯りの中で、トミーはまた曖昧に優しかった。\n\n浴衣を褒めて、手を取って、私の心をまた昔の場所へ連れていく。\n\nでも私はもう、Almostを永遠にするためにここにいるわけじゃない。",
+  "tommy_festival_rejection": "祭りの灯りの中で、トミーはまた曖昧に優しかった。\n\n浴衣を褒めて、手を取って、私の心をまた昔の場所へ連れていく。\n\nでも私はもう、Almostを永遠にするためにここにいるわけじゃない。",
+  "tommy_cheat_festival_confession": "祭りの灯りの下で、トミーはいつものように視線を逸らしそうになる。\n\nでも今回は逃げない。\n\nトミー：似合ってる。\n\n私が見上げると、彼は耳まで赤くする。\n\nトミー：浴衣のこと。いや、普段が似合わないって意味じゃなくて……もういい。",
+  "tommy_cheat_callout": "私はつないだ手を見る。\n\nアイリ：トミー、何してるの？\n\n彼の指が少しだけ強くなる。\n\nトミー：わからない。\n\nアイリ：違う。たぶん、わかってる。",
+  "tommy_cheat_confession_unlocked": "今回は、彼は逃げなかった。\n\n冗談も、maybeも、曖昧な逃げ道もない。\n\nトミー：好きだよ。\n\n胸が止まりそうになる。\n\nトミー：遅すぎたのはわかってる。でも、好きなんだ。",
+  "tommy_cheat_festival_kiss": "祭りの音が遠くなる。\n\n何年分ものAlmostが、一つのキスに崩れていく。\n\n勝ったような気持ちではなかった。\n\nやっと言葉が追いついた夜だった。",
+  "tommy_cheat_after_festival_room": "これは本来、存在しないはずのファイルだ。\n\nすべてのエンディングを越えた先でだけ開く、ありえない夜。\n\n彼は、Almostではなく、選んだ人として私にキスをする。\n\nこの瞬間だけは、Maybeがもうない。",
+  "tommy_ultra_hidden_after_festival": "これは本来、存在しないはずのエンディング。\n\n祭りはまだどこかで光っている。\n\nでもここは静かで、彼の言葉だけが残っている。\n\nもうMaybeはいらない。"
+};
+  const JP_CHOICES_FULL = {
+  "A few days later": "その後、スマホが震える。",
+  "Accept the Osaka invite.": "大阪への誘いを受ける。",
+  "Accept the compliment and dance with him.": "受け入れる。",
+  "Accept the dinner date.": "受け入れる。",
+  "Accept the word friend and let it break cleanly.": "受け入れる。",
+  "Accept when he suggests Mie.": "受け入れる。",
+  "Admit he is probably right.": "正直に認める。",
+  "Admit peace still scares you.": "安心がまだ怖いと認める。",
+  "Admit you are scared Harrison will see you differently.": "正直に認める。",
+  "Admit you are scared, but say yes.": "正直に認める。",
+  "Admit you maybe like him": "正直に認める。",
+  "Admit you missed his laugh.": "正直に認める。",
+  "Answer Tommy and go to Korean lunch.": "トミーに返事する。",
+  "Answer Tommy but set a boundary": "トミーに返事する。",
+  "Answer her honestly": "正直に答える。",
+  "Answer warmly and hide it": "優しく返事して隠す。",
+  "Arrive near Ren’s place": "その場所へ向かう。",
+  "Ask Tommy what he is really saying.": "トミーに問いかける。",
+  "Ask Tommy why he cares.": "トミーに問いかける。",
+  "Ask Tommy why he shows up right when you are happy.": "トミーに問いかける。",
+  "Ask a real question under the flirting.": "問いかける。",
+  "Ask about his life now.": "問いかける。",
+  "Ask for clarity now.": "問いかける。",
+  "Ask him a practical question.": "彼に問いかける。",
+  "Ask him why he is so patient.": "彼に問いかける。",
+  "Ask if he is always this bold.": "問いかける。",
+  "Ask if he is sure that is okay.": "問いかける。",
+  "Ask if that bothered him.": "問いかける。",
+  "Ask what he means by girlfriend.": "何なのかを聞く。",
+  "Ask what he wants this to become.": "何なのかを聞く。",
+  "Ask what the song is.": "何なのかを聞く。",
+  "Ask what they are": "何なのかを聞く。",
+  "Ask who else is going.": "問いかける。",
+  "Ask why he invited you.": "理由を聞く。",
+  "Ask why he is looking at you like that.": "理由を聞く。",
+  "Ask why he is so sure about you.": "理由を聞く。",
+  "Ask why he wanted to bring you here.": "理由を聞く。",
+  "Avoid choosing until the choice chooses for you.": "決めずに逃げ道を残す。",
+  "Avoid defining it so you do not make things awkward.": "決めずに逃げ道を残す。",
+  "Begin: Home Was Here Too": "この場面を始める。",
+  "Blow up and walk away.": "感情をぶつけて立ち去る。",
+  "Break up and let both of you grow separately.": "別れを選ぶ。",
+  "Break up right here.": "別れを選ぶ。",
+  "Call Tessa and complain about both of them.": "テッサに電話して全部ぶちまける。",
+  "Call him out clearly.": "はっきり指摘する。",
+  "Call the girls later": "女友達に電話する。",
+  "Carry it with you to HEP5.": "その気持ちを抱えたまま進む。",
+  "Celebrate your arcade victory loudly.": "大げさに喜ぶ。",
+  "Challenge him to karaoke next.": "勝負を挑む。",
+  "Check your phone again.": "スマホを確認する。",
+  "Choose Harrison: You don’t get to become clear only when I’m loved.": "ハリソンを選ぶ。",
+  "Choose Marcus and go back to deal with the real problem.": "マーカスを選ぶ。",
+  "Choose Nashville and build a life with Harrison.": "この選択で進む。",
+  "Choose Ren: I wanted to hear that for years, but I’m not yours just because you finally said it": "蓮を選ぶ。",
+  "Choose Tommy and break up with Harrison.": "トミーを選ぶ。",
+  "Choose Tommy and break up with Marcus.": "トミーを選ぶ。",
+  "Choose Tommy and break up with Ren": "トミーを選ぶ。",
+  "Choose a safe song and protect your heart.": "この選択で進む。",
+  "Choose herself": "自分自身を選ぶ。",
+  "Choose herself.": "自分自身を選ぶ。",
+  "Choose the Long Goodbye before the loop renews.": "ループが始まる前に、長いさよならを選ぶ。",
+  "Choose the Long Goodbye.": "ループが始まる前に、長いさよならを選ぶ。",
+  "Choose the man in front of you.": "この選択で進む。",
+  "Choose the opportunity and love him honestly enough to let him go.": "彼に任せる。",
+  "Choose yourself and stop making every man a crisis.": "自分自身を選ぶ。",
+  "Choose yourself.": "自分自身を選ぶ。",
+  "Close the door and choose the relationship you are in.": "扉を閉めて、今の関係を選ぶ。",
+  "Compare it to Tommy.": "比べてしまう。",
+  "Compare the calm to Tommy’s chaos.": "比べてしまう。",
+  "Confess at the festival.": "告白する。",
+  "Confront him calmly and make him answer.": "返事する。",
+  "Correct her yourself.": "自分で訂正する。",
+  "Decide not to define it and just enjoy the night.": "自分で決める。",
+  "Decide you cannot keep doing this to yourself.": "自分で決める。",
+  "Decide you will choose yourself if this starts hurting again.": "自分自身を選ぶ。",
+  "Decide you will confess at the planetarium.": "告白する。",
+  "Do not answer. Text Kenji instead": "返事する。",
+  "Do not respond.": "返信しない。",
+  "Downplay it": "大したことじゃないふりをする。",
+  "Drag him toward HEP5 before your heart acts stupid.": "HEP FIVEへ引っ張っていく。",
+  "End lunch and go confront Marcus.": "落ち着いて向き合う。",
+  "Enjoy the attention.": "その時間を楽しむ。",
+  "Enjoy the day without interrogating it.": "その時間を楽しむ。",
+  "Fine. Maybe I like him": "「わかった。好きかも」",
+  "Flirt back hard.": "口説き返す。",
+  "Follow him toward the boat ride.": "彼についていく。",
+  "Follow through and confess.": "告白する。",
+  "Get bored but stay polite.": "退屈でも礼儀正しくする。",
+  "Give Ren his gift early and meet Tommy’s parents.": "蓮に早めにプレゼントを渡して、トミーの家族に会う。",
+  "Give him one chance with clear conditions.": "明確な条件つきで一度だけチャンスを与える。",
+  "Go anyway": "それでも行く。",
+  "Go back when Ren says he’s home.": "戻る。",
+  "Go because you miss having fun with him.": "会いたい気持ちを抱えて行く。",
+  "Go quiet on the walk to Ise.": "黙ったまま歩く。",
+  "Go to HEP5.": "HEP FIVEへ行く。",
+  "Go to Ise Jingu with the lie still warm.": "伊勢神宮へ行く。",
+  "Go to Kyoto": "京都へ行く。",
+  "Go to Osaka with the rule in place.": "大阪へ行く。",
+  "Go to the boat ride anyway.": "舟へ向かう。",
+  "Go, but keep emotional distance.": "行く。ただし心の距離は保つ。",
+  "Hide it from Harrison.": "隠す。",
+  "Hold his gaze.": "目を逸らさず見つめ返す。",
+  "Hug him first.": "先に抱きしめる。",
+  "I did. Maybe part of me still does. But I choose you.": "「そうだった。今も少しはそうかもしれない。でも私はあなたを選ぶ」",
+  "I don’t know how.": "「どうしたらいいかわからない」",
+  "I don’t want to talk about Tommy": "「トミーの話はしたくない」",
+  "I like you too": "「私も好き」",
+  "I need time": "「時間がほしい」",
+  "I think I do.": "「たぶん、そうだと思う」",
+  "Ignore Tommy and finish the hard conversation.": "トミーを無視して、目の前の話を終わらせる。",
+  "Ignore the boredom creeping in": "無視する。",
+  "I’m scared, but yes": "この選択で進む。",
+  "Joke before your face betrays you.": "冗談でごまかす。",
+  "Joke it off before it gets too serious.": "冗談でごまかす。",
+  "Joke to avoid the moment.": "決めずに逃げ道を残す。",
+  "Joke to hide how soft it makes you.": "隠す。",
+  "Keep gathering data at his place.": "そのまま続ける。",
+  "Keep it polite and observe first.": "そのまま続ける。",
+  "Keep reminding yourself he said friends.": "そのまま続ける。",
+  "Keep reminding yourself this is friendship.": "そのまま続ける。",
+  "Keep teasing him.": "そのまま続ける。",
+  "Keep the boundary through Ise.": "境界線を守る。",
+  "Keep the call going": "電話する。",
+  "Keep the chocolate, but tell Harrison the truth.": "チョコは受け取るが、真実を話す。",
+  "Keep the comparison private.": "そのまま続ける。",
+  "Keep the day moving before you overthink.": "そのまま続ける。",
+  "Keep walking alone.": "そのまま続ける。",
+  "Keep walking to the station": "そのまま続ける。",
+  "Keep walking with him": "そのまま続ける。",
+  "Keep your guard up but agree.": "そのまま続ける。",
+  "Later, the phone buzzes": "その後、スマホが震える。",
+  "Laugh it off before he can.": "笑って流す。",
+  "Laugh, but know this is over.": "笑って流す。",
+  "Lean into the road-trip feeling.": "その気持ちに身を委ねる。",
+  "Leave kindly when it is time.": "立ち去る。",
+  "Leave lunch and handle Marcus.": "ランチを切り上げて向き合う。",
+  "Leave the softness on the boat.": "立ち去る。",
+  "Let Jade weigh in": "ジェイドの意見も聞く。",
+  "Let Tessa finish the verdict": "テッサに判定してもらう。",
+  "Let him carry the bags.": "その気持ちを抱えたまま進む。",
+  "Let him earn the second location.": "彼に任せる。",
+  "Let him know he is not failing yet.": "彼に任せる。",
+  "Let him plan the next stop.": "彼に任せる。",
+  "Let him plan the next trip.": "彼に任せる。",
+  "Let him say the rest": "彼に任せる。",
+  "Let him spoil you a little.": "彼に任せる。",
+  "Let him stay beside you.": "彼に任せる。",
+  "Let him take you somewhere pretty": "彼に任せる。",
+  "Let him take you to dinner.": "彼に任せる。",
+  "Let him walk you home.": "彼に任せる。",
+  "Let it be and keep the maybe alive.": "そのまま続ける。",
+  "Let it be fun": "そのままにする。",
+  "Let it slide because the chemistry is easier.": "空気に流される。",
+  "Let the answer be enough for now.": "返事する。",
+  "Let the compliment land.": "その流れを受け入れる。",
+  "Let the date become dinner.": "その流れを受け入れる。",
+  "Let the date stay pretty for one more hour.": "その流れを受け入れる。",
+  "Let the disappointment settle before you go.": "その流れを受け入れる。",
+  "Let the moment linger even though you know better.": "その流れを受け入れる。",
+  "Let the night become a real memory.": "その流れを受け入れる。",
+  "Let the night end with almost.": "その流れを受け入れる。",
+  "Let the night turn into a dinner invite.": "その流れを受け入れる。",
+  "Let the route collapse": "その流れを受け入れる。",
+  "Let the silence answer first": "返事する。",
+  "Let the silence bother you.": "その流れを受け入れる。",
+  "Let the silence get soft.": "その流れを受け入れる。",
+  "Let the word friendship be the ending.": "その流れを受け入れる。",
+  "Let yourself blush.": "素直に感じる。",
+  "Let yourself enjoy being wanted.": "その時間を楽しむ。",
+  "Let yourself feel welcomed.": "素直に感じる。",
+  "Listen like it is a confession.": "告白する。",
+  "Look at Tommy and wait.": "トミーを見つめて待つ。",
+  "Look away before you fall apart.": "壊れる前に目を逸らす。",
+  "Make a joke because he is being too sincere.": "冗談でごまかす。",
+  "Make a joke to drain the tension.": "冗談でごまかす。",
+  "Make him answer": "返事する。",
+  "Make him work for the attention.": "彼に少し頑張らせる。",
+  "Meet Kenji anyway, carrying the ghost with you": "その気持ちを抱えたまま進む。",
+  "Meet Tommy anyway.": "それでもトミーに会う。",
+  "Meet him at the mall and flirt back.": "口説き返す。",
+  "Meet him this weekend": "彼に会いに行く。",
+  "Miss the adrenaline of almost and hate that you do.": "Almostの高揚感を恋しく思い、そんな自分を嫌になる。",
+  "No. He’s just a friend.": "「違う。ただの友達」",
+  "Notice a story that does not quite add up.": "違和感に気づく。",
+  "Notice that he still did not define anything.": "違和感に気づく。",
+  "Open Tommy’s message": "トミーのメッセージを開く。",
+  "Pick a silly duet to keep it safe.": "そのまま続ける。",
+  "Press gently.": "やさしく踏み込む。",
+  "Pretend you are completely fine.": "平気なふりをする。",
+  "Pretend you are not blushing.": "平気なふりをする。",
+  "Pretend you did not notice his face.": "違和感に気づく。",
+  "Pretend your chest does not hurt.": "平気なふりをする。",
+  "Pull back and protect yourself.": "一歩引いて自分を守る。",
+  "Reconnect carefully.": "慎重に再び近づく。",
+  "Relax enough to keep the date going.": "そのまま続ける。",
+  "Remember that cute is not commitment.": "それが約束ではないと思い出す。",
+  "Remind yourself this is not a date.": "自分に言い聞かせる。",
+  "Save the concern for later.": "その後、スマホが震える。",
+  "Say it was nothing.": "何でもないと言う。",
+  "Say nothing and stare out the window.": "何も言わない。",
+  "Say peace feels suspicious": "平和すぎて怪しいと言う。",
+  "Say yes and let it be easy.": "そのままにする。",
+  "Say yes and try not to spiral.": "はいと言う。",
+  "Say yes carefully.": "はいと言う。",
+  "Say yes without making him beg for it.": "はいと言う。",
+  "See what Tommy does": "トミーがどうするか見る。",
+  "Send one picture and pretend this is normal.": "平気なふりをする。",
+  "Set a hard boundary.": "はっきり境界線を引く。",
+  "Sing something romantic back.": "歌で返す。",
+  "Smile so he does not see the damage.": "傷ついたことを隠して笑う。",
+  "Spend Ren’s birthday with Ren.": "蓮の誕生日を蓮と過ごす。",
+  "Start First Date, Apparently": "この場面を始める。",
+  "Start with Ren’s direct text": "蓮のまっすぐなメッセージから始める。",
+  "Stay and help him hold it down.": "残って向き合う。",
+  "Stay because being wanted feels good.": "求められる心地よさに残る。",
+  "Stay cautious.": "慎重でいる。",
+  "Stay for the after-dinner walk.": "この選択で進む。",
+  "Stay honest, even when it is uncomfortable.": "苦しくても正直でいる。",
+  "Stay present with Kenji.": "今ここにいる人を見る。",
+  "Stay silent and let the festival swallow it.": "その流れを受け入れる。",
+  "Suggest the museum yourself.": "自分から提案する。",
+  "Swallow it to keep the peace.": "そのまま続ける。",
+  "Take a picture together.": "一緒に写真を撮る。",
+  "Take his hand and say, “I’m here.”": "彼の手を取って「ここにいるよ」と言う。",
+  "Take out the hurt on Ren being late.": "遅れている蓮に八つ当たりしてしまう。",
+  "Take pictures like this is normal.": "普通みたいに写真を撮る。",
+  "Talk about the painting and open up.": "絵の話から少し心を開く。",
+  "Tease him about looking older too.": "彼をからかう。",
+  "Tease him about the snacks.": "彼をからかう。",
+  "Tease him for knowing your Snoopy weakness.": "彼をからかう。",
+  "Tease him for saying it so plainly.": "彼をからかう。",
+  "Tease him until he laughs.": "笑って流す。",
+  "Tell Marcus Tommy texted you before answering.": "返事する。",
+  "Tell Tommy you want the day to stay simple.": "トミーに伝える。",
+  "Tell him he has ten minutes to impress you.": "やさしく踏み込む。",
+  "Tell him he is doing surprisingly well.": "歌で返す。",
+  "Tell him he is making this hard to resist.": "彼に伝える。",
+  "Tell him he still owes you a prize.": "彼に伝える。",
+  "Tell him intention is enough for now.": "彼に伝える。",
+  "Tell him the whole truth about Tommy at the station.": "彼に伝える。",
+  "Tell him this feels good.": "彼に伝える。",
+  "Tell him you appreciate that.": "彼に伝える。",
+  "Tell him you need to breathe for a second.": "彼に伝える。",
+  "Tell him you will remember that answer.": "返事する。",
+  "Tell him you’re not used to quiet.": "彼に伝える。",
+  "Tell yourself meeting family does not mean anything.": "自分に言い聞かせる。",
+  "Tell yourself songs do not count.": "自分に言い聞かせる。",
+  "Tell yourself this is just friendship.": "自分に言い聞かせる。",
+  "Text Ren: I’m on my way.": "蓮に「向かってる」と送る。",
+  "Text the girls immediately.": "女友達にすぐ連絡する。",
+  "That’s not fair.": "「それはずるい」",
+  "The romance keeps leaking air": "そのまま続ける。",
+  "Think of Tommy": "トミーのことを考えてしまう。",
+  "Threaten to do it until he panics.": "彼が慌てるまでからかう。",
+  "Try the mechanical bull anyway.": "それでもメカニカルブルに挑戦する。",
+  "Try to do both and pretend this is sustainable.": "平気なふりをする。",
+  "Turn around before lunch and go back.": "戻る。",
+  "Walk home with your new boyfriend.": "新しい彼氏と歩いて帰る。",
+  "Walk to Kenji with the boundary still shaking in your hand": "揺れる境界線を抱えたままケンジの元へ歩く。",
+  "Walk to the river": "川へ向かう。",
+  "Watch him when he is not looking.": "彼が見ていない時に見つめる。",
+  "Wave awkwardly.": "ぎこちなく手を振る。",
+  "Win and tease him.": "彼をからかう。",
+  "Wish for clarity.": "明確さを願う。",
+  "Wish for enough strength to leave if he does not.": "立ち去る。",
+  "Wish for him to choose you.": "彼が選んでくれることを願う。",
+  "Wonder what Tommy told them about you.": "トミーが自分のことをどう話したのか気になる。",
+  "You’re annoying": "「ほんとむかつく」",
+  "“I’m busy.”": "「忙しい」",
+  "“I’m sorry, but Ren is waiting for me.”": "「ごめん。でも蓮が待ってる」",
+  "“I’m sorry. I didn’t mean to hurt you.”": "「ごめん。傷つけるつもりじゃなかった」",
+  "“Maybe a little.”": "「ちょっとだけ、かも」",
+  "“Okay. I’ll stay a little longer.”": "「わかった。もう少しだけいる」",
+  "“Then say what you actually mean.”": "「じゃあ、本当に言いたいことを言って」",
+  "“You’re very confident.”": "「ずいぶん自信あるね」",
+  "Ask him why he keeps doing this.": "彼に問いかける。",
+  "Let the moment breathe.": "その流れを受け入れる。",
+  "Make him answer.": "返事する。",
+  "Kiss him.": "この選択で進む。",
+  "Leave the festival together.": "立ち去る。",
+  "Unlock the impossible file.": "隠しファイルを開く。",
+  "Unlock Ultra Secret Ending.": "この選択で進む。",
+  "Squeeze his hand and wait.": "この選択で進む。"
+};
+
+  window.JP_SCENE_TITLES_FULL = JP_SCENE_TITLES_FULL;
+  window.JP_STORY_FULL = JP_STORY_FULL;
+  window.JP_CHOICES_FULL = JP_CHOICES_FULL;
+
+  const oldLocalizeSceneTitle = window.localizeSceneTitle;
+  window.localizeSceneTitle = function(sceneKey, fallback){
+    if(currentLanguage && currentLanguage()==='ja'){
+      return JP_SCENE_TITLES_FULL[sceneKey] || (typeof JP_SCENE_TITLES!=='undefined' && JP_SCENE_TITLES[sceneKey]) || fallback;
+    }
+    return fallback;
+  };
+
+  const oldLocalizeStoryText = window.localizeStoryText;
+  window.localizeStoryText = function(t){
+    let raw=String(t||'');
+    const lang=currentLanguage ? currentLanguage() : 'en';
+    if(lang!=='ja') return raw.replaceAll('Airi', playerName ? playerName() : 'Airi');
+
+    if(typeof scene!=='undefined' && scene && JP_STORY_FULL[scene] &&
+       typeof DATA!=='undefined' && DATA[route] && DATA[route].scenes && DATA[route].scenes[scene] &&
+       raw === ((DATA[route] && DATA[route].scenes[scene] && DATA[route].scenes[scene][2]) || '')){
+      return JP_STORY_FULL[scene].replaceAll('アイリ', localizeNameToken ? localizeNameToken('Airi') : 'アイリ');
+    }
+
+    if(JP_CHOICES_FULL[raw]) return JP_CHOICES_FULL[raw];
+    if(typeof JP_CHOICES!=='undefined' && JP_CHOICES[raw]) return JP_CHOICES[raw];
+    if(typeof JP_SPEAKERS!=='undefined' && JP_SPEAKERS[raw]) return localizeSpeaker ? localizeSpeaker(raw) : JP_SPEAKERS[raw];
+
+    return raw
+      .replaceAll('Airi', localizeNameToken ? localizeNameToken('Airi') : 'アイリ')
+      .replaceAll('Narration','地の文')
+      .replaceAll('System','システム')
+      .replaceAll('Ren','蓮')
+      .replaceAll('Harrison','ハリソン')
+      .replaceAll('Marcus','マーカス')
+      .replaceAll('Hiroshi','ヒロシ')
+      .replaceAll('Kenji','ケンジ')
+      .replaceAll('Tommy','トミー');
+  };
+
+  // Polish the Japanese settings note now that full scene coverage exists.
+  if(typeof JP_UI !== 'undefined'){
+    JP_UI.settingsIntro = 'メニュー、選択肢、全ルートの日本語ローカライズを選べます。';
+    JP_UI.settingsNote = 'V5.6.16では全シーンに日本語ローカライズ草稿を追加済みです。今後は口調や自然さをルートごとに磨けます。';
+  }
+  if(typeof EN_UI !== 'undefined'){
+    EN_UI.settingsNote = 'Japanese mode now has coverage for every story scene. The JP text is a complete localization draft and can still be polished route by route.';
+  }
+
+  // Ensure language is re-applied immediately if the patch loads after render.
+  try{ if(typeof applyLanguage==='function') applyLanguage(); }catch(e){ console.warn(e); }
+
+  console.log('V5.6.16 full JP script completion pass applied: ' + Object.keys(JP_STORY_FULL).length + ' scenes, ' + Object.keys(JP_CHOICES_FULL).length + ' choices.');
+})();
+
+
+/* =========================================================
+   V5.6.16 CONTENT POLISH PASS
+   Focus:
+   - stronger first-person narration
+   - less abrupt post-choice reactions
+   - Ren honesty branch after Tommy interruption
+   - Harrison job-offer weight
+   - Marcus suave/cute first-date and accountability
+   - Tommy nuance without normal-route confession
+   - Kenji good-friend vs confession clarity
+   - harder earned NO MORE MAYBE gate
+   ========================================================= */
+(function applyV5616ContentPolishPass(){
+  const sceneUpdates = {
+  "ren": {
+    "ren_bday": [
+      "Major Choice · Ren’s Birthday vs Tommy’s Family",
+      "Narration",
+      "A few days later, I sat on my bed with two plans open in my head.\n\nRen’s birthday.\n\nTommy’s family.\n\nRen had been clear. He wanted my time. He wanted me beside him because he had already chosen me.\n\nTommy had not said anything like that.\n\nTommy had opened a door.\n\nThat was the problem.\n\nRen asked for me clearly.\n\nTommy let me close enough to imagine a place in his world.\n\nTessa: So let me get this straight. Doctor boyfriend has a birthday, and Mr. Maybe’s family suddenly has an opening?\n\nAiri: It’s not like that.\n\nTessa: It is exactly like that, and I hate that I know the route mechanics already.\n\nAiri: This is my real life.\n\nTessa: Unfortunately, yes.",
+      [
+        [
+          "Spend Ren’s birthday with Ren.",
+          "ren_bday_choose_ren",
+          {
+            "a": 12,
+            "b": 12,
+            "self": 8,
+            "honesty": 6,
+            "gravity": -8
+          }
+        ],
+        [
+          "Give Ren his gift early and meet Tommy’s parents.",
+          "ren_bday_choose_tommy",
+          {
+            "gravity": 16,
+            "honesty": -2
+          }
+        ],
+        [
+          "Try to do both and pretend this is sustainable.",
+          "ren_bday_try_both",
+          {
+            "gravity": 18,
+            "honesty": -5,
+            "self": -3
+          }
+        ]
+      ]
+    ],
+    "ren_bday_choose_tommy": [
+      "Major Choice · Ren’s Birthday, Tommy’s Family",
+      "Narration",
+      "I wrapped Ren’s gift early.\n\nI told myself it was compromise.\n\nMature. Thoughtful. Logistically responsible.\n\nBut when I thought about Tommy’s family, something younger in me sat up and hoped.\n\nIt was Ren’s birthday.\n\nThat should have made the answer simple.\n\nInstead, I was getting ready to enter Tommy’s world on a day that was supposed to belong to my boyfriend.\n\nRen wanted my time.\n\nTommy offered proximity.\n\nAnd I hated that proximity still felt like a prize.",
+      [
+        [
+          "Tell yourself meeting family does not mean anything.",
+          "ren_kyoto",
+          {
+            "gravity": 12,
+            "honesty": -3
+          }
+        ],
+        [
+          "Admit this is already emotionally dangerous.",
+          "ren_after_train",
+          {
+            "self": 5,
+            "honesty": 5,
+            "gravity": 8
+          }
+        ]
+      ]
+    ],
+    "ren_after_train": [
+      "Ren Route · Leaving The Platform",
+      "Narration",
+      "I got on the train with my hands still shaking.\n\nTommy had not solved anything.\n\nThat was the awful part.\n\nA clean confession would have been easier. A clean rejection would have been easier.\n\nInstead, he had handed me another almost and let me carry it.\n\nMy phone buzzed.\n\nRen: I’m sorry. I’ll be later than expected. Please wait for me.\n\nI stared at the message.\n\nTommy had just knocked the air out of me without saying a word.\n\nRen was late.\n\nAnd suddenly I was mad at both of them.",
+      [
+        [
+          "Text Ren: I’m on my way.",
+          "ren_train_text_transition",
+          {
+            "b": 4,
+            "honesty": 2
+          }
+        ],
+        [
+          "Say nothing and stare out the window.",
+          "ren_train_silence_transition",
+          {
+            "gravity": 5
+          }
+        ]
+      ]
+    ],
+    "ren_waiting": [
+      "Ren Route · Waiting Outside",
+      "Narration",
+      "Ren still was not home.\n\nTen minutes became thirty.\n\nThirty became an hour.\n\nI walked around his neighborhood with my coat pulled close, pissed at Tommy, pissed at Ren, and most of all pissed that my heart still had too many rooms unlocked.\n\nI wanted to be the kind of girlfriend who could show up clean.\n\nInstead, I was standing outside with Tommy’s almost still on my skin and Ren’s birthday gift still sitting heavy in my bag.\n\nI called Tessa before I could turn all of it into silence.",
+      [
+        [
+          "Call Tessa and complain about both of them.",
+          "ren_tessa_call",
+          {
+            "honesty": 4,
+            "self": 3
+          }
+        ],
+        [
+          "Keep walking alone.",
+          "ren_returns",
+          {
+            "gravity": 4,
+            "honesty": -2
+          }
+        ]
+      ]
+    ],
+    "ren_tessa_call": [
+      "Friend Call · Tessa Tells The Truth",
+      "Tessa",
+      "Tessa: So Tommy finally got weird because you were on your way to your boyfriend.\n\nAiri: Don’t say it like that.\n\nTessa: Girl, I am saying it exactly like that.\n\nAiri: And Ren is late.\n\nTessa: Be mad about the late part. That is valid. Do not use the late part to avoid the Tommy part.\n\nAiri: I hate when you’re right.\n\nTessa: I know. It’s one of my gifts.\n\nAiri: I didn’t do anything.\n\nTessa: Maybe not out loud.\n\nAiri: That’s not fair.\n\nTessa: I’m not judging you. I’m telling you Ren is going to look at your face and know something happened. So decide now whether you’re going to lie to a man who actually chose you.\n\nI went quiet.\n\nTessa: There it is.\n\nAiri: I hate this route.\n\nTessa: Then stop picking the most emotionally expensive choices.",
+      [
+        [
+          "Go back when Ren says he’s home.",
+          "ren_returns",
+          {
+            "honesty": 4,
+            "self": 3
+          }
+        ]
+      ]
+    ],
+    "ren_returns": [
+      "Ren Route · He Notices",
+      "Ren",
+      "Ren opened the door and the first thing he did was look at my face.\n\nRen: Airi.\n\nI hated how gently he said my name.\n\nRen: What happened?\n\nAiri: You’re late.\n\nRen: I know. I’m sorry. Surgery ran over.\n\nHe stepped aside and let me in, but his eyes stayed on me.\n\nRen: But that is not the whole answer.\n\nThere was no performance in his voice. No accusation. Just attention.\n\nHe had made food. He had set the table. He had tried, even late, to make the night matter.\n\nAnd I was standing in his doorway carrying another man’s silence.\n\nRen: Tell me the truth.",
+      [
+        [
+          "Tell him the whole truth about Tommy at the station.",
+          "ren_truth",
+          {
+            "honesty": 8,
+            "self": 4,
+            "b": 4
+          }
+        ],
+        [
+          "Say it was nothing.",
+          "ren_truth_lie",
+          {
+            "gravity": 12,
+            "honesty": -8
+          }
+        ],
+        [
+          "Take out the hurt on Ren being late.",
+          "ren_truth_unsure",
+          {
+            "self": -3,
+            "b": -4,
+            "gravity": 6
+          }
+        ]
+      ]
+    ],
+    "ren_truth": [
+      "Ren Route · The Question",
+      "Ren",
+      "I told him.\n\nNot perfectly.\n\nNot neatly.\n\nBut I told him about the station. The timing. The way Tommy looked at me like he wanted to say something and still left me to do the emotional translation alone.\n\nRen listened without interrupting.\n\nThat almost made it worse.\n\nWhen I finished, he looked down at his hands, then back at me.\n\nRen: Do you still have feelings for him?\n\nThe answer split into three versions of myself.\n\nThe girl who waited.\n\nThe girlfriend standing in Ren’s apartment.\n\nThe woman trying not to lie just because the truth was inconvenient.",
+      [
+        [
+          "I did. Maybe part of me still does. But I choose you.",
+          "ren_truth_full",
+          {
+            "a": 12,
+            "b": 14,
+            "self": 12,
+            "honesty": 14,
+            "gravity": -10
+          }
+        ],
+        [
+          "No. He’s just a friend.",
+          "ren_truth_lie",
+          {
+            "gravity": 18,
+            "honesty": -10,
+            "b": -6
+          }
+        ],
+        [
+          "I don’t know.",
+          "ren_truth_unsure",
+          {
+            "gravity": 10,
+            "honesty": 2,
+            "self": 2
+          }
+        ],
+        [
+          "I don’t want to talk about Tommy.",
+          "ren_truth_deflect",
+          {
+            "gravity": 12,
+            "honesty": -5
+          }
+        ]
+      ]
+    ],
+    "ren_truth_full": [
+      "Ren Route · Chosen Honestly",
+      "Airi",
+      "Airi: I did.\n\nMy voice shook, but I did not take it back.\n\nAiri: Maybe part of me still does. I don’t know how to make that sound pretty.\n\nRen’s face tightened, but he stayed.\n\nAiri: But I am here. I want to be here. And I do not want to keep letting Tommy turn my heart into a waiting room.\n\nRen breathed out slowly.\n\nRen: I can handle complicated.\n\nHe reached for my hand, not to erase what I had said, but to keep me in the room after saying it.\n\nRen: I cannot handle being lied to.\n\nAiri: I know.\n\nRen: Then choose me honestly. Not perfectly. Honestly.\n\nFor once, the truth did not close the door.\n\nIt showed me which one was real.",
+      [
+        [
+          "Choose Ren honestly.",
+          "END_REN",
+          {
+            "a": 18,
+            "b": 18,
+            "self": 12,
+            "honesty": 15,
+            "gravity": -20
+          }
+        ]
+      ]
+    ],
+    "ren_truth_lie": [
+      "Ren Route · The Lie He Hears",
+      "Airi",
+      "Airi: No. He’s just a friend.\n\nThe sentence landed too quickly.\n\nRen did not argue.\n\nThat was worse.\n\nRen: Okay.\n\nAiri: You don’t believe me.\n\nRen: I believe you want that to be true.\n\nThe room went painfully quiet.\n\nRen: I am not asking you to have a clean past. I am asking you not to make me compete with a ghost you keep calling harmless.\n\nI looked away first.\n\nThat told both of us enough.",
+      [
+        [
+          "Let the lie become the ending.",
+          "END_REN",
+          {
+            "gravity": 35,
+            "honesty": -15,
+            "b": -10
+          }
+        ]
+      ]
+    ],
+    "ren_truth_unsure": [
+      "Ren Route · The Unstable Answer",
+      "Airi",
+      "Airi: I don’t know.\n\nRen closed his eyes for one second.\n\nNot angry.\n\nHurt.\n\nRen: Thank you for not lying.\n\nThat should have made me feel better.\n\nIt did not.\n\nRen: But I cannot build something with you while you are still deciding whether another man’s almost means more than my yes.\n\nAiri: I’m trying.\n\nRen: I know.\n\nHis kindness did not soften the truth.\n\nIt made it sharper.",
+      [
+        [
+          "Accept that trying is not the same as choosing.",
+          "END_REN",
+          {
+            "gravity": 24,
+            "honesty": 6,
+            "self": 4
+          }
+        ]
+      ]
+    ],
+    "ren_truth_deflect": [
+      "Ren Route · The Door Left Open",
+      "Airi",
+      "Airi: I don’t want to talk about Tommy.\n\nRen nodded once.\n\nRen: Then we do not have to talk about him tonight.\n\nFor a second, relief washed through me.\n\nThen he finished the sentence.\n\nRen: But if we cannot talk about him at all, then he is already in the relationship.\n\nI hated that.\n\nI hated that he was right.\n\nThe silence between us did not feel peaceful.\n\nIt felt like a door I had refused to close.",
+      [
+        [
+          "Leave the door open and lose oxygen slowly.",
+          "END_REN",
+          {
+            "gravity": 32,
+            "honesty": -8
+          }
+        ]
+      ]
+    ]
+  },
+  "harrison": {
+    "harrison_intro": [
+      "Harrison Route · Hinge Match",
+      "Narration",
+      "Harrison did not enter my life like a thunderclap.\n\nHe started as a Hinge match: warm smile, easy messages, no weird guessing game, no emotional scavenger hunt.\n\nHis profile was not dramatic.\n\nHonestly, that made it suspicious.\n\nHarrison: So… park date? Low pressure. Public place. I can bring snacks if that makes me seem less like an internet stranger.\n\nI laughed at my phone before I could stop myself.\n\nThat was Harrison’s first trick.\n\nHe made calm feel charming.",
+      [
+        [
+          "Say yes and let it be easy.",
+          "harrison_park_easy",
+          {
+            "a": 6,
+            "b": 6,
+            "self": 4,
+            "gravity": -3
+          }
+        ],
+        [
+          "Tease him about the snacks.",
+          "harrison_park_tease",
+          {
+            "a": 5,
+            "b": 3
+          }
+        ],
+        [
+          "Keep your guard up but agree.",
+          "harrison_park_guarded",
+          {
+            "self": 5
+          }
+        ]
+      ]
+    ],
+    "harrison_after_tommy": [
+      "Harrison Route · Tell The Truth",
+      "Harrison",
+      "I did not let Tommy’s confession become a secret with teeth.\n\nI told Harrison enough to be honest without turning him into a witness to every old wound.\n\nHe was quiet for a moment.\n\nNot cold.\n\nProcessing.\n\nHarrison: Thank you for telling me.\n\nAiri: Are you mad?\n\nHarrison: I’m hurt. That’s different.\n\nI swallowed.\n\nHarrison: And I’m still here.\n\nThat was the part that almost broke me.\n\nNot the jealousy. Not the fear.\n\nThe steadiness.",
+      [
+        [
+          "Stay honest, even when it is uncomfortable.",
+          "harrison_white_party",
+          {
+            "b": 12,
+            "self": 10,
+            "gravity": -8
+          }
+        ],
+        [
+          "Admit you are scared Harrison will see you differently.",
+          "harrison_white_party",
+          {
+            "a": 7,
+            "b": 10,
+            "self": 6
+          }
+        ],
+        [
+          "Hide the rest and hope it disappears.",
+          "harrison_white_party",
+          {
+            "gravity": 12,
+            "honesty": -8
+          }
+        ]
+      ]
+    ],
+    "harrison_job_offer": [
+      "Harrison Route · The Bigger Opportunity",
+      "Narration",
+      "Then the job offer came.\n\nNot a tiny offer.\n\nNot a maybe.\n\nA real door opening somewhere else.\n\nSoftware engineer.\n\nOne hundred fifty thousand base.\n\nI read the email three times before I trusted the words.\n\nHarrison was happy for me before he was scared for himself.\n\nHarrison: I’m proud of you.\n\nAiri: Even if it changes everything?\n\nHarrison: Especially then.\n\nHe reached for my hand.\n\nHarrison: I just need you to be honest about what you want. Not what makes me easiest to keep.\n\nThat was when I understood the difference between someone who wanted to possess my future and someone who wanted to be chosen inside it.",
+      [
+        [
+          "Choose Nashville and build a life with Harrison.",
+          "END_HARRISON_GOOD",
+          {
+            "a": 15,
+            "b": 20,
+            "self": 12,
+            "gravity": -15
+          }
+        ],
+        [
+          "Choose the opportunity and love him honestly enough to let him go.",
+          "END_HARRISON_JOB",
+          {
+            "self": 25,
+            "b": 10
+          }
+        ],
+        [
+          "Avoid choosing until the choice chooses for you.",
+          "END_HARRISON",
+          {
+            "gravity": 20,
+            "self": -5
+          }
+        ]
+      ]
+    ]
+  },
+  "marcus": {
+    "marcus_intro": [
+      "Marcus Route · Mall Match",
+      "Narration",
+      "Marcus did not start as a soft place to land.\n\nHe started at the mall: good outfit, expensive confidence, and the kind of smile that made me immediately suspicious of my own good sense.\n\nHe had messaged like flirting was a sport.\n\nIn person, unfortunately, he was better.\n\nMarcus: You always look this hard to impress?\n\nAiri: You always open with a line like that?\n\nMarcus: Only when it is true.\n\nI hated that it worked a little.",
+      [
+        [
+          "Meet him at the mall and flirt back.",
+          "marcus_mall_flirt",
+          {
+            "a": 8,
+            "self": 2
+          }
+        ],
+        [
+          "Make him work for the attention.",
+          "marcus_mall_test",
+          {
+            "b": 4,
+            "self": 5
+          }
+        ],
+        [
+          "Keep it polite and observe first.",
+          "marcus_mall_observe",
+          {
+            "self": 6
+          }
+        ]
+      ]
+    ],
+    "marcus_mall_flirt": [
+      "Marcus Route · Suave But Cute",
+      "Marcus",
+      "Marcus: You look better than your pictures.\n\nAiri: Dangerous opener. That almost sounds like my pictures were struggling.\n\nMarcus laughed like he liked being challenged.\n\nMarcus: No. The pictures were cute. You are just harder to crop in real life.\n\nAiri: That was smoother.\n\nMarcus: I recover quickly.\n\nAiri: We’ll see.\n\nHe offered to carry the shopping bag like it was a joke and a gesture at the same time.\n\nThat was Marcus at his best.\n\nSuave enough to make me blush.\n\nCute enough that I pretended not to.",
+      [
+        [
+          "Let him carry the bags.",
+          "marcus_videogames",
+          {
+            "a": 8,
+            "b": 3
+          }
+        ],
+        [
+          "Tell him he has ten minutes to impress you.",
+          "marcus_videogames",
+          {
+            "a": 6,
+            "self": 4
+          }
+        ]
+      ]
+    ],
+    "marcus_tension": [
+      "Marcus Route · Fight / Tension",
+      "Narration",
+      "The problem with fire is that it knows how to warm a room and burn it down.\n\nMarcus messed up.\n\nNot in a way that made the whole relationship fake.\n\nIn a way that made me realize chemistry could not do the work of accountability.\n\nMarcus: I didn’t mean it like that.\n\nAiri: That doesn’t mean it didn’t hurt.\n\nMarcus: You make everything sound like a trial.\n\nAiri: No. I make things specific because vague apologies are how people avoid changing.\n\nHe looked away.\n\nThere it was.\n\nThe first crack that could either become growth or become a pattern.",
+      [
+        [
+          "Call him out clearly.",
+          "marcus_pre_lunch_reflection",
+          {
+            "b": 10,
+            "self": 10
+          }
+        ],
+        [
+          "Swallow it to keep the peace.",
+          "marcus_pre_lunch_reflection",
+          {
+            "a": 4,
+            "self": -6
+          }
+        ],
+        [
+          "Blow up and walk away.",
+          "marcus_pre_lunch_reflection",
+          {
+            "self": 2,
+            "b": -6
+          }
+        ]
+      ]
+    ],
+    "marcus_final_convo": [
+      "Marcus Route · Final Conversation",
+      "Marcus",
+      "When I got back, Tommy was not the only problem in the room.\n\nMarcus was still smoothing over details that should have been clear.\n\nStill hoping chemistry could make maturity optional.\n\nStill acting like wanting me was the same thing as showing up correctly.\n\nAiri: I need the truth.\n\nHe opened his mouth.\n\nAiri: Not charm. Not vibes. Not a version of the truth that makes you look best.\n\nMarcus looked away first.\n\nThat told me he understood exactly what I was asking.",
+      [
+        [
+          "Confront him calmly and make him answer.",
+          "marcus_final_accountability",
+          {
+            "b": 12,
+            "self": 12
+          }
+        ],
+        [
+          "Let it slide because the chemistry is easier.",
+          "END_MARCUS_HOLDING",
+          {
+            "a": 8,
+            "self": -10
+          }
+        ],
+        [
+          "Break up right here.",
+          "END_MARCUS_BREAK",
+          {
+            "self": 18
+          }
+        ]
+      ]
+    ],
+    "marcus_final_accountability": [
+      "Marcus Route · Accountability Or Exit",
+      "Marcus",
+      "Marcus did not magically become perfect.\n\nThat would have been too easy.\n\nBut this time, he did not run to charm.\n\nMarcus: I lied because I wanted to look like I had it handled.\n\nAiri: And?\n\nMarcus: And because I thought if you saw the messy parts, you would leave.\n\nAiri: You do not get to make me stay by hiding the thing I would need to consent to.\n\nHe nodded slowly.\n\nMarcus: I know.\n\nIt was not enough by itself.\n\nBut it was the first honest thing in the room.\n\nFrom there, the route could either become growth or end clean before love turned into a job.",
+      [
+        [
+          "Give him one chance with clear conditions.",
+          "END_MARCUS",
+          {
+            "b": 20,
+            "self": 16
+          }
+        ],
+        [
+          "Break up and let both of you grow separately.",
+          "END_MARCUS_BREAK",
+          {
+            "self": 24
+          }
+        ]
+      ]
+    ]
+  },
+  "tommy": {
+    "tommy_spiral": [
+      "Tommy Route · Spinning",
+      "Narration",
+      "By the time I got home, my head was spinning.\n\nOsaka.\n\nMie.\n\nThe Married Rocks.\n\nHis family.\n\nSukiyaki.\n\nThe piano.\n\nIt felt like he liked me.\n\nIt felt impossible that he did not.\n\nIt also felt terrifyingly familiar that he still would not say the words.\n\nThat was the trap.\n\nNot that he gave me nothing.\n\nThat he gave me almost enough.\n\nThen my phone buzzed.\n\nTommy: Do you want to go to the planetarium?",
+      [
+        [
+          "Decide you will confess at the planetarium.",
+          "tommy_planetarium",
+          {
+            "gravity": 10,
+            "honesty": 5
+          }
+        ],
+        [
+          "Decide not to define it and just enjoy the night.",
+          "tommy_planetarium",
+          {
+            "gravity": 8,
+            "honesty": -2
+          }
+        ],
+        [
+          "Decide you cannot keep doing this to yourself.",
+          "END_TOMMY_TRUE",
+          {
+            "self": 25,
+            "honesty": 10
+          }
+        ]
+      ]
+    ],
+    "tommy_planetarium": [
+      "Tommy Route · Planetarium",
+      "Narration",
+      "Under the artificial stars, Tommy took my hand.\n\nNot accidentally.\n\nNot because the walkway was crowded.\n\nHe reached for me in the dark while galaxies moved above us.\n\nMy heart pounded.\n\nThen the old memory rose with it.\n\nHe had rejected me years ago.\n\nThat had happened.\n\nThis was happening too.\n\nBoth things were true, and that was why it hurt.\n\nHe held my hand like closeness was easy.\n\nHe avoided clarity like it was dangerous.\n\nI could feel the old question trying to become hope again.",
+      [
+        [
+          "Follow through and confess.",
+          "tommy_planetarium_rejection",
+          {
+            "gravity": 18,
+            "honesty": 8
+          }
+        ],
+        [
+          "Avoid defining it so you do not make things awkward.",
+          "tommy_festival_invite",
+          {
+            "gravity": 16,
+            "honesty": -4
+          }
+        ],
+        [
+          "Choose the Long Goodbye before the loop renews.",
+          "END_TOMMY_TRUE",
+          {
+            "self": 30,
+            "honesty": 10
+          }
+        ]
+      ]
+    ],
+    "tommy_planetarium_rejection": [
+      "Tommy Route · Friend",
+      "Tommy",
+      "I confessed under the stars.\n\nFor one impossible second, Tommy looked like the truth might finally choose me.\n\nThen his face closed.\n\nTommy: I’m sorry, Airi.\n\nI could not breathe.\n\nTommy: I only like you as a friend. I just can’t see you that way.\n\nThe word friend landed with all the weight of every hand he had held, every trip he had planned, every doorway he had opened without ever calling it a home.\n\nHe looked hurt.\n\nThat almost made it worse.\n\nBecause I believed him.\n\nI believed that he did not want to hurt me.\n\nAnd I finally understood that not wanting to hurt me had never stopped him from doing it.",
+      [
+        [
+          "Accept the word friend and let it break cleanly.",
+          "END_TOMMY_FRIENDS",
+          {
+            "self": 20,
+            "honesty": 8
+          }
+        ],
+        [
+          "Smile so he does not see the damage.",
+          "END_TOMMY_FRIENDS",
+          {
+            "gravity": 12,
+            "self": -4
+          }
+        ]
+      ]
+    ],
+    "tommy_festival_walk": [
+      "Tommy Route · Yukata And Bear",
+      "Narration",
+      "We walked through the festival holding hands.\n\nAgain.\n\nHe complimented my yukata like it cost him physical pain.\n\nTommy: It suits you.\n\nAiri: The yukata?\n\nTommy: Yeah. The yukata.\n\nHis ears went pink.\n\nTommy: Not that you don’t usually— never mind.\n\nI should have laughed it off.\n\nI did laugh it off.\n\nThen he won me a stuffed bear and handed it to me like it mattered.\n\nTommy: Here.\n\nAiri: You did all that for a bear?\n\nTommy: You wanted it.\n\nHe was so good at the little things.\n\nThat was the cruelty.\n\nHe could choose me in small moments and deny me in name.",
+      [
+        [
+          "Confess at the festival.",
+          "tommy_festival_rejection",
+          {
+            "gravity": 20,
+            "honesty": 10
+          }
+        ],
+        [
+          "Let it be and keep the maybe alive.",
+          "END_TOMMY_LOOP",
+          {
+            "gravity": 25,
+            "honesty": -8,
+            "self": -6
+          }
+        ],
+        [
+          "Choose the Long Goodbye.",
+          "END_TOMMY_TRUE",
+          {
+            "self": 35,
+            "honesty": 12
+          }
+        ]
+      ]
+    ],
+    "tommy_festival_rejection": [
+      "Tommy Route · Too Important",
+      "Tommy",
+      "I confessed with the festival lights glowing behind him.\n\nTommy’s expression fell apart.\n\nTommy: Oh… Airi…\n\nHe looked genuinely hurt.\n\nThat almost made it worse.\n\nTommy: Sometimes I feel like I’m distracting you from finding someone.\n\nAiri: A boyfriend?\n\nTommy: Yeah.\n\nAiri: Then what are you doing?\n\nHe looked down at the bear in my hands.\n\nTommy: I don’t know.\n\nAiri: No. I think you do.\n\nHis silence was not empty.\n\nIt was an answer he did not want to be responsible for.\n\nTommy: You’re just too important to me. I wouldn’t want to ruin our friendship.\n\nFriendship again.\n\nThe safest word he knew.\n\nThe sharpest one he owned.",
+      [
+        [
+          "Let the word friendship be the ending.",
+          "END_TOMMY_FRIENDSHIP",
+          {
+            "self": 18,
+            "honesty": 10
+          }
+        ],
+        [
+          "Stay silent and let the festival swallow it.",
+          "END_TOMMY_FRIENDSHIP",
+          {
+            "gravity": 14,
+            "self": -3
+          }
+        ]
+      ]
+    ]
+  },
+  "kenji": {
+    "kenji_river": [
+      "Riverside Walk · Quiet Honesty",
+      "Kenji",
+      "Kenji and I walked beside the river.\n\nThe silence was not empty.\n\nThat was new.\n\nKenji: Tommy texted you last night, didn’t he?\n\nI stopped walking.\n\nAiri: How did you know?\n\nKenji: You looked like you were carrying a ghost.\n\nAiri: Do you hate him?\n\nKenji: No.\n\nAiri: Really?\n\nKenji: I hate what happens to you around him.\n\nI looked away.\n\nKenji: I’m not going to fight a man who only shows up when you’re almost gone.\n\nAiri: Kenji...\n\nKenji: You can answer him if you want.\n\nAiri: Do you want me to?\n\nKenji: I want you to want better for yourself.\n\nHe did not ask me to choose him.\n\nSomehow, that made the choice feel heavier.",
+      [
+        [
+          "I think I do.",
+          "kenji_choice_i_do",
+          {
+            "a": 12,
+            "b": 12,
+            "self": 12,
+            "gravity": -8
+          }
+        ],
+        [
+          "I don’t know how.",
+          "kenji_choice_dont_know",
+          {
+            "b": 10,
+            "self": 8,
+            "gravity": 2
+          }
+        ],
+        [
+          "That’s not fair.",
+          "kenji_choice_not_fair",
+          {
+            "gravity": 8,
+            "self": -2
+          }
+        ]
+      ]
+    ],
+    "kenji_choice_i_do": [
+      "Riverside Walk · The Honest Answer",
+      "Airi",
+      "Airi: I think I do.\n\nKenji did not celebrate like he had won something.\n\nHe just slowed his steps, careful with my honesty.\n\nKenji: Then start there.\n\nAiri: That’s it?\n\nKenji: That’s already a lot for you.\n\nI laughed before I could stop myself.\n\nSmall.\n\nSurprised.\n\nA little shaky.\n\nFor the first time in a long time, liking someone did not feel like walking into traffic.",
+      [
+        [
+          "Let him say the rest.",
+          "kenji_confess",
+          {
+            "a": 12,
+            "b": 12,
+            "self": 10
+          }
+        ]
+      ]
+    ],
+    "kenji_choice_dont_know": [
+      "Riverside Walk · Good Friends, Still",
+      "Airi",
+      "Airi: I don’t know how.\n\nKenji nodded like that was an answer he could respect.\n\nKenji: Then don’t force it.\n\nAiri: You make it sound easy.\n\nKenji: It probably won’t be.\n\nAiri: Comforting.\n\nKenji: I’m not trying to sell you a fantasy.\n\nThat was the thing that got under my skin.\n\nHe was not selling.\n\nHe was standing there.\n\nIf I could not choose him romantically yet, he did not punish me for it.\n\nHe stayed my friend.\n\nAnd maybe that was its own kind of love.",
+      [
+        [
+          "Keep walking with him as good friends.",
+          "END_KENJI",
+          {
+            "b": 18,
+            "self": 18,
+            "gravity": -4
+          }
+        ]
+      ]
+    ],
+    "kenji_confess": [
+      "Kenji Confession · Riverside Blush",
+      "Kenji",
+      "Kenji stopped beside the railing.\n\nThe sunset made everything too soft, but his voice stayed steady.\n\nKenji: I like you.\n\nNot as a backup plan.\n\nNot because he didn’t choose you.\n\nNot because I waited long enough.\n\nKenji: I like you.\n\nHe blushed after he said it, like the honesty cost him something and he paid it anyway.\n\nFor once, a confession did not ask me to decode anything.\n\nIt simply stood in front of me and waited for my answer.",
+      [
+        [
+          "I like you too.",
+          "END_KENJI",
+          {
+            "a": 20,
+            "b": 20,
+            "self": 18,
+            "gravity": -12
+          }
+        ],
+        [
+          "I’m scared, but yes.",
+          "END_KENJI",
+          {
+            "a": 16,
+            "b": 18,
+            "self": 15,
+            "gravity": -6
+          }
+        ],
+        [
+          "I need time.",
+          "END_KENJI",
+          {
+            "b": 20,
+            "self": 20
+          }
+        ],
+        [
+          "Think of Tommy.",
+          "END_KENJI",
+          {
+            "gravity": 30,
+            "self": -8
+          }
+        ]
+      ]
+    ]
+  }
+};
+  Object.entries(sceneUpdates).forEach(([routeKey, scenes]) => {
+    if(typeof DATA !== 'undefined' && DATA[routeKey] && DATA[routeKey].scenes){
+      Object.assign(DATA[routeKey].scenes, scenes);
+    }
+  });
+
+  const jpStoryUpdates = {
+  "ren_bday": "数日後、私はベッドの上で二つの予定を抱えていた。\n\n蓮の誕生日。\n\nトミーの家族。\n\n蓮ははっきり私を選んでくれていた。トミーは言葉では何も約束していない。ただ、扉を開けただけ。\n\nそれが問題だった。\n\n蓮は私を明確に求めた。\n\nトミーは、私が自分の居場所を想像できるくらい近づけてくれた。\n\nテッサの声が頭の中で容赦なく響く。\n\nテッサ：つまり医者の彼氏の誕生日に、Mr. Maybeの家族イベントが急に発生したってこと？\n\n私は言い返せなかった。",
+  "ren_bday_choose_tommy": "私は蓮へのプレゼントを早めに包んだ。\n\nこれは妥協だと自分に言い聞かせた。\n\n大人の対応。思いやり。ちゃんとした調整。\n\nでもトミーの家族のことを考えると、私の中の若い部分がまだ期待してしまう。\n\n今日は蓮の誕生日のはずだった。\n\n答えは簡単なはずだった。\n\nそれでも私は、彼氏の日にトミーの世界へ入ろうとしていた。",
+  "ren_after_train": "私は震える手のまま電車に乗った。\n\nトミーは何も解決していない。\n\nそれが一番苦しかった。\n\nきれいな告白でも、きれいな拒絶でもない。\n\n彼はまたAlmostを渡して、私一人に持たせた。\n\nそこへ蓮から連絡が来る。\n\n蓮：ごめん。思ったより遅くなる。待っていて。\n\nトミーに揺らされ、蓮にも待たされ、私は二人ともに腹が立っていた。",
+  "ren_waiting": "蓮はまだ帰ってこなかった。\n\n十分が三十分になり、三十分が一時間になる。\n\n私はコートを抱えて彼の近所を歩き回った。\n\nトミーにも腹が立つ。蓮にも腹が立つ。\n\nでも一番嫌だったのは、私の心にまだ開いた部屋が多すぎることだった。\n\n黙ってしまう前に、私はテッサに電話した。",
+  "ren_tessa_call": "テッサ：つまりトミーは、あんたが彼氏のところへ向かってるタイミングで急に変な空気を出したってこと？\n\nアイリ：そういう言い方しないで。\n\nテッサ：いや、そのまま言ってる。\n\n私は蓮が遅れていることにも腹を立てていた。\n\nテッサ：遅れてることには怒っていい。でもそれをトミーの問題から逃げる理由にしないで。\n\n痛いところを突かれた。\n\nテッサ：蓮はあんたの顔を見たら絶対わかる。だから今決めな。ちゃんと選んでくれた男に嘘をつくのかどうか。",
+  "ren_returns": "蓮が扉を開けて、最初に見たのは私の顔だった。\n\n蓮：アイリ。\n\nその優しい呼び方が苦しかった。\n\n蓮：何があった？\n\n私は遅れたことを責めた。\n\n蓮は謝った。でも、それだけではないとすぐに気づいていた。\n\n彼は料理を用意して、テーブルを整えて、遅れてもこの夜を大切にしようとしていた。\n\n私は、その玄関に別の男の沈黙を抱えて立っていた。",
+  "ren_truth": "私は話した。\n\n完璧にではない。きれいにでもない。\n\nでも話した。\n\n駅でのこと。タイミング。トミーが何か言いたそうに見えて、結局また私に感情の翻訳を押しつけたこと。\n\n蓮は遮らずに聞いていた。\n\nそれが余計に苦しかった。\n\n蓮：まだ彼に気持ちがある？\n\n答えは、私の中で三つに割れた。\n\n待っていた女の子。\n\n蓮の部屋に立っている彼女。\n\n不都合だからといって嘘をつきたくない私。",
+  "ren_truth_full": "私は本当のことを言った。\n\nまだ少し残っているかもしれない。\n\nでも私はここにいる。ここにいたい。\n\nトミーに私の心を待合室みたいに使わせ続けたくない。\n\n蓮は傷ついた顔をした。それでも逃げなかった。\n\n蓮：複雑なのは耐えられる。嘘は無理だ。\n\nその手は、私を責めるためではなく、真実を言った後も部屋に残すために伸ばされた。",
+  "ren_truth_lie": "私は早すぎる声で言った。\n\nアイリ：違う。ただの友達。\n\n蓮は反論しなかった。\n\nそれが余計に怖かった。\n\n蓮：そうであってほしいんだね。\n\n彼は私の過去がきれいであることを求めているわけではない。\n\nただ、幽霊を無害な友達と呼びながら同じ部屋に置き続けることを拒んでいた。",
+  "ren_truth_unsure": "アイリ：わからない。\n\n蓮は一瞬だけ目を閉じた。\n\n怒りではなく、痛みだった。\n\n蓮：嘘をつかないでくれてありがとう。\n\nでもその優しさは、答えを軽くしなかった。\n\n蓮：君が別の男のAlmostと俺のYesを比べている間、俺は関係を作れない。\n\n正しすぎて、何も言えなかった。",
+  "ren_truth_deflect": "私は言った。\n\nアイリ：トミーの話はしたくない。\n\n蓮はうなずいた。\n\n蓮：今夜話さなくてもいい。\n\nほっとした瞬間、彼は続けた。\n\n蓮：でも全く話せないなら、もう彼はこの関係の中にいる。\n\nその言葉が嫌だった。\n\n嫌になるほど、正しかった。",
+  "harrison_intro": "ハリソンは雷みたいに私の人生へ入ってきたわけではない。\n\nHingeのマッチから始まった。\n\n温かい笑顔。楽なメッセージ。意味を探し回らなくていい会話。\n\nあまりに普通で、逆に怪しかった。\n\nでも彼は、穏やかさをちゃんと魅力に変える人だった。",
+  "harrison_after_tommy": "私はトミーの告白を、牙のある秘密にしなかった。\n\n全部ではない。でも必要なだけ、ハリソンに話した。\n\n彼は黙って聞いていた。\n\n冷たさではなく、受け止めるための沈黙だった。\n\nハリソン：話してくれてありがとう。\n\nアイリ：怒ってる？\n\nハリソン：傷ついてる。怒りとは違う。\n\nそして彼は続けた。\n\nハリソン：それでも俺はここにいる。",
+  "harrison_job_offer": "その内定は突然来た。\n\n小さなチャンスじゃない。\n\nMaybeでもない。\n\nソフトウェアエンジニア。\n\n年収十五万ドルベース。\n\n私はメールを三回読み返した。\n\nハリソンは、自分が怖がるより先に私のことを喜んでくれた。\n\n彼は私の未来を所有したい人ではなかった。\n\nその未来の中で、ちゃんと選ばれたい人だった。",
+  "marcus_intro": "マーカスは、最初から安全地帯ではなかった。\n\nモールで会った彼は、服も自信も強くて、私の判断力を疑わせる笑い方をした。\n\nメッセージでは、 flirting をスポーツみたいにしていた。\n\n実物は、残念ながらもっと上手かった。",
+  "marcus_mall_flirt": "マーカスの褒め方は危ない。\n\n少し生意気で、少し可愛くて、ちゃんとこちらを見ている。\n\n私は突っ込みを入れる。\n\n彼は笑う。\n\nそのテンポが悔しいくらい合ってしまう。\n\n彼の魅力は、押してくるだけではなく、こちらが押し返す余白を作るところにあった。",
+  "marcus_tension": "火は部屋を温めることも、燃やすこともできる。\n\nマーカスは失敗した。\n\n関係が全部嘘になるほどではない。\n\nでも、化学反応だけでは責任の代わりにならないとわかるには十分だった。\n\n曖昧な謝罪は、変わらないための逃げ道になる。\n\n私はもう、それを受け取りたくなかった。",
+  "marcus_final_convo": "戻ってきた時、部屋の問題はトミーだけではなかった。\n\nマーカスはまだ、はっきりさせるべきことをなめらかにごまかそうとしていた。\n\n私が必要としているのは魅力ではない。\n\n空気でもない。\n\n彼が一番よく見える形に整えた真実でもない。\n\n私は、本当のことがほしかった。",
+  "marcus_final_accountability": "マーカスは魔法みたいに完璧になったわけではない。\n\nでも今回は、魅力に逃げなかった。\n\n彼は、ちゃんとしているように見せたかったから嘘をついたと言った。\n\n私が散らかった部分を見たら去ると思ったから。\n\nそれだけで十分ではない。\n\nでも、部屋に初めて本当のものが置かれた。",
+  "tommy_spiral": "家に帰る頃、頭の中はぐちゃぐちゃだった。\n\n大阪。三重。夫婦岩。彼の家族。すき焼き。ピアノ。\n\n彼は私を好きな気がする。\n\n好きじゃない方がおかしい気がする。\n\nでも、言葉はない。\n\nそれが罠だった。\n\n何もくれないわけじゃない。\n\nほとんど十分なものをくれる。\n\nほとんど、だけ。",
+  "tommy_planetarium": "プラネタリウムの暗闇で、トミーは私の手を取った。\n\n偶然ではない。\n\n混んでいたからでもない。\n\n星が動く下で、彼は私に触れた。\n\n胸が鳴る。\n\nでも昔の拒絶も同時に蘇る。\n\n彼は私を拒んだ。\n\nそれも事実。\n\n今、彼が手を握っている。\n\nそれも事実。\n\nだから苦しい。",
+  "tommy_planetarium_rejection": "星の下で私は告白した。\n\n一瞬だけ、トミーが真実を選ぶように見えた。\n\nでも彼の顔は閉じた。\n\nトミー：ごめん、アイリ。\n\n息ができなかった。\n\nトミー：友達としてしか見られない。\n\n友達。\n\n彼が私の手を取ったことも、家族に会わせたことも、全部その言葉の下にしまわれる。\n\n彼に悪意がなかったことは信じられる。\n\nでも悪意がなくても、人は傷つく。",
+  "tommy_festival_walk": "祭りの灯りの中、私たちはまた手をつないで歩いた。\n\n彼は浴衣を褒めるだけで耳を赤くした。\n\nトミー：似合ってる。\n\nアイリ：浴衣が？\n\nトミー：うん。浴衣が。いや、普段が似合ってないって意味じゃなくて……もういい。\n\n私は笑った。\n\n彼は私が欲しがった熊のぬいぐるみを取ってくれた。\n\n小さな瞬間では、彼は私を選べる。\n\n名前では、選べない。",
+  "tommy_festival_rejection": "祭りの光の下で私は告白した。\n\nトミーの顔が崩れた。\n\n彼は本当に傷ついたように見えた。\n\nそれが余計につらい。\n\nトミー：時々、君が誰かを見つける邪魔をしてる気がする。\n\nアイリ：彼氏ってこと？\n\nトミー：うん。\n\nアイリ：じゃあ、あなたは何してるの？\n\nトミー：わからない。\n\nアイリ：違う。たぶん、わかってる。\n\n沈黙は答えだった。\n\nそして彼はまた、友情という一番安全で一番鋭い言葉の後ろに隠れた。",
+  "kenji_river": "ケンジと川沿いを歩いた。\n\n沈黙は空っぽではなかった。\n\nケンジは、トミーから連絡が来たことを見抜いた。\n\n彼はトミーを憎んでいるわけではないと言った。\n\nただ、私がトミーの周りでどうなってしまうかが嫌なのだと。\n\n彼は私に自分を選べとは言わなかった。\n\n自分自身にもっと良いものを望んでほしいと言った。\n\nそれが一番重かった。",
+  "kenji_choice_i_do": "私は息を吐いた。\n\nアイリ：たぶん、そうしたい。\n\nケンジは勝ったみたいに喜ばなかった。\n\n私の正直さを壊さないように、歩調をゆっくりにした。\n\nケンジ：じゃあ、そこから始めればいい。\n\n好きになることが、初めて道路に飛び込むみたいに感じなかった。",
+  "kenji_choice_dont_know": "アイリ：どうしたらいいかわからない。\n\nケンジはその答えを尊重するみたいにうなずいた。\n\n彼はファンタジーを売ろうとしていなかった。\n\n恋人になれなくても、罰として消える人ではなかった。\n\n友達として隣にいる。\n\nそれも、ひとつの愛だった。",
+  "kenji_confess": "ケンジは川沿いの手すりのそばで立ち止まった。\n\n夕暮れが全部を柔らかくしているのに、彼の声は揺れなかった。\n\nケンジ：好きだよ。\n\n代わりとしてではなく。\n\nトミーに選ばれなかったからでもなく。\n\nただ、私として。\n\nその告白は、何も解読させなかった。\n\nただ、そこに立って私の答えを待っていた。"
+};
+  const jpTitleUpdates = {
+  "ren_truth_full": "蓮ルート・正直に選ぶ",
+  "ren_truth_lie": "蓮ルート・聞こえてしまう嘘",
+  "ren_truth_unsure": "蓮ルート・不安定な答え",
+  "ren_truth_deflect": "蓮ルート・開いたままの扉",
+  "harrison_job_offer": "ハリソンルート・人生を変える内定",
+  "marcus_mall_flirt": "マーカスルート・スマートだけど可愛い",
+  "marcus_final_accountability": "マーカスルート・責任か別れか",
+  "tommy_planetarium_rejection": "トミールート・友達という傷",
+  "tommy_festival_rejection": "トミールート・大切すぎるという逃げ道",
+  "kenji_choice_dont_know": "ケンジルート・友達として歩く"
+};
+  const jpChoiceUpdates = {
+  "Admit this is already emotionally dangerous.": "もう感情的に危ないと認める。",
+  "Hide the rest and hope it disappears.": "残りは隠して、消えることを願う。",
+  "Choose Ren honestly.": "正直に蓮を選ぶ。",
+  "Let the lie become the ending.": "その嘘をエンディングにする。",
+  "Accept that trying is not the same as choosing.": "努力と選ぶことは同じではないと受け入れる。",
+  "Leave the door open and lose oxygen slowly.": "扉を開けたまま、少しずつ息苦しくなる。",
+  "Keep walking with him as good friends.": "いい友達として一緒に歩き続ける。",
+  "Let him say the rest.": "続きを彼に言わせる。"
+};
+
+  if(window.JP_STORY_FULL) Object.assign(window.JP_STORY_FULL, jpStoryUpdates);
+  if(window.JP_SCENE_TITLES_FULL) Object.assign(window.JP_SCENE_TITLES_FULL, jpTitleUpdates);
+  if(window.JP_CHOICES_FULL) Object.assign(window.JP_CHOICES_FULL, jpChoiceUpdates);
+  if(typeof JP_STORY !== 'undefined') Object.assign(JP_STORY, jpStoryUpdates);
+  if(typeof JP_SCENE_TITLES !== 'undefined') Object.assign(JP_SCENE_TITLES, jpTitleUpdates);
+  if(typeof JP_CHOICES !== 'undefined') Object.assign(JP_CHOICES, jpChoiceUpdates);
+
+  // Keep the cheat-code option visible, but make the ultra-hidden Tommy route truly earned.
+  // The normal Tommy route still cannot produce a confession without the earned NO MORE MAYBE file.
+  try {
+    const floating = document.getElementById('noMoreMaybeCheatBtn');
+    if(floating) floating.remove();
+    setInterval(() => {
+      const b = document.getElementById('noMoreMaybeCheatBtn');
+      if(b) b.remove();
+    }, 700);
+  } catch(e) {}
+
+  if(typeof window.submitCheatCode === 'function'){
+    window.submitCheatCode = function(){
+      const input=document.getElementById('cheatCodeInput');
+      const feedback=document.getElementById('cheatFeedback');
+      const entered=norm(input?input.value:'').toUpperCase();
+      if(entered!==CHEAT_CODE){
+        if(feedback) feedback.textContent = isJapanese()
+          ? 'そのファイルは開きません。\nヒント：NO MORE ____.'
+          : 'That file does not open.\nHint: NO MORE ____.';
+        return;
+      }
+      if(!isEarned()){
+        const missing=missingRequiredEndings();
+        if(feedback) feedback.textContent = isJapanese()
+          ? ('コードは正しい。\nでも、まだファイルは開きません。\n先に全コアエンディングを回収してください。\n\n残りコアED: '+missing.length)
+          : ('The code is correct.\nBut the file is not ready to open yet.\nEarn all core endings first.\n\nRemaining core endings: '+missing.length);
+        return;
+      }
+      store('tommyCheatEntered', true);
+      unlockCG('Tommy Ultra Hidden Cheat Code: NO MORE MAYBE');
+      startTommyUltraHiddenRoute();
+    };
+  }
+
+  // Polish routeEnd copy without changing the core engine.
+  if(typeof routeEnd === 'function' && !window.__tlg_v5616_routeEndPolished){
+    const oldRouteEnd = routeEnd;
+    routeEnd = function(r){
+      if(r==='tommy_ultra_hidden') return end(
+        'Tommy Ultra Hidden Ending: The Impossible File',
+        'This is not the ending the normal story gives you. It is the file hidden behind every ending, every rejection, every loop, and every version of goodbye. Tommy finally says the words. Airi finally hears them without having to translate silence first.'
+      );
+      return oldRouteEnd(r);
+    };
+    window.__tlg_v5616_routeEndPolished = true;
+  }
+
+  console.log('V5.6.16 content polish pass applied.');
 })();
 
 try{renderRoutes();refreshMenuArt();applyLanguage();}catch(e){console.error(e);}
