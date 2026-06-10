@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- V5.7.10 Full JP: bilingual shell with Japanese DATA_JA, corrected JP route names, Marcus expanded asset patch, and JP menu 隠しルート asset. -->
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
@@ -46,7 +47,7 @@ h1,h2,h3{margin:0 0 10px;color:#ffd7ec}p{line-height:1.55}.small{font-family:Ari
 input::placeholder{color:rgba(255,234,246,.55)}
 input{width:min(460px,100%);padding:14px 16px;border-radius:999px;border:1px solid rgba(255,176,215,.6);background:rgba(255,255,255,.12);color:#ffeaf6;font-size:18px;margin:10px 0}
 
-.lang-toggle{position:fixed;right:18px;top:16px;z-index:80;background:rgba(15,7,22,.82);border:1px solid rgba(255,155,205,.35);border-radius:999px;padding:6px;display:flex;gap:6px;backdrop-filter:blur(10px)}
+.lang-toggle{position:fixed;right:18px;top:16px;z-index:9999;background:rgba(15,7,22,.82);border:1px solid rgba(255,155,205,.35);border-radius:999px;padding:6px;display:flex;gap:6px;backdrop-filter:blur(10px)}
 .lang-toggle button{margin:0;padding:8px 12px;font-family:Arial,sans-serif;font-size:13px;background:rgba(255,255,255,.08)}
 .lang-toggle button.active{background:linear-gradient(135deg,#ff78b6,#ad4d90);box-shadow:0 0 18px rgba(255,120,182,.32)}
 .jp-note{font-family:Arial,sans-serif;font-size:13px;color:#ffd2e8;margin-top:8px;opacity:.9}
@@ -61,6 +62,12 @@ body.lang-ja button,body.lang-ja .small,body.lang-ja .stat{font-family:'Hiragino
 </style>
 </head>
 <body>
+
+<div class='lang-toggle global-lang-toggle' aria-label='Language Toggle'>
+  <button id='langEnBtn' onclick="setLanguage('en')">EN</button>
+  <button id='langJaBtn' onclick="setLanguage('ja')">和</button>
+</div>
+
 
 <section id='menu' class='screen active'>
   <div id='menuWrap' class='menu-wrap'>
@@ -82,12 +89,6 @@ body.lang-ja button,body.lang-ja .small,body.lang-ja .stat{font-family:'Hiragino
     <button class='hotspot' title='Prologue Recap' onclick="show('about')" style='left:86.0%;top:89.0%;width:12.5%;height:6.2%;'></button>
   </div>
   <div class='hint' id='buildHint'>V5.7.10 Full Japanese Story Build — EN/和 toggle with translated route gameplay.</div>
-
-  <div class='lang-toggle' aria-label='Language Toggle'>
-    <button id='langEnBtn' onclick="setLanguage('en')">EN</button>
-    <button id='langJaBtn' onclick="setLanguage('ja')">和</button>
-  </div>
-  
 </section>
 
 <section id='nameSetup' class='screen'><div class='panel'><h1 id='nameTitle'>New Game</h1><p id='nameIntro'>Enter the name you want the boys and friends to call the main character. Canon/default name is <b>Airi</b>.</p><input id='playerNameInput' maxlength='24' placeholder='Airi'><div><button id='nameConfirmBtn' onclick="setPlayerNameAndGo()">Confirm Name</button><button id='nameCanonBtn' class='secondary' onclick="document.getElementById('playerNameInput').value='Airi';setPlayerNameAndGo()">Use Canon Name: Airi</button><button id='nameBackBtn' class='secondary' onclick="show('menu')">Back</button></div><p id='nameNote' class='small'>This replaces visible “Airi” dialogue text with your chosen name.</p></div></section>
@@ -11525,6 +11526,16 @@ function showCGs(){let unlocked=read('cgs',[]);let g=document.getElementById('cg
 function showCheatCodeScreen(){show('cheatCode');document.getElementById('cheatCodeInput').value='';document.getElementById('cheatFeedback').textContent='Enter the earned code. Hint: no more ____.';}
 function submitCheatCode(){const entered=(document.getElementById('cheatCodeInput').value||'').trim().toUpperCase().replace(/\s+/g,' ');const f=document.getElementById('cheatFeedback');if(entered!==CHEAT_CODE){f.textContent='That code does not open this file.';return;}if(!(activeData().tommy&&activeData().tommy.scenes.tommy_cheat_festival_confession)){f.textContent='Code accepted, but the hidden scene is not in this script build yet.';return;}route='tommy';scene='tommy_cheat_festival_confession';stats={a:0,b:0,self:99,gravity:99,honesty:99,tommyRisk:99};show('game');render();}
 document.addEventListener('DOMContentLoaded',()=>{applyLanguageUI();renderRoutes();});
+
+(function(){
+  window.addEventListener('error', function(e){
+    const t=e.target;
+    if(t && t.tagName==='IMG'){
+      console.warn('[TLG asset missing]', t.getAttribute('src'), t.alt || '');
+    }
+  }, true);
+})();
+
 </script>
 </body>
 </html>
