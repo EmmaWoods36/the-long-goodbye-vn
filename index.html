@@ -1,5 +1,4 @@
 <!doctype html>
-<!-- V5.7.10 Full JP: bilingual shell with Japanese DATA_JA, corrected JP route names, Marcus expanded asset patch, and JP menu 隠しルート asset. -->
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
@@ -78,7 +77,7 @@ body.lang-ja button,body.lang-ja .small,body.lang-ja .stat{font-family:'Hiragino
     <button class='hotspot' title='Hiroshi Route' onclick="startRoute('hiroshi')" style='left:58.0%;top:47.4%;width:12.7%;height:27.5%;'></button>
     <button class='hotspot' title='Tommy Route' onclick="startRoute('tommy')" style='left:71.6%;top:47.4%;width:12.7%;height:27.5%;'></button>
     <button class='hotspot' title='Secret Kenji Route' onclick="kenjiMenuClick()" style='left:85.2%;top:47.4%;width:12.7%;height:27.5%;'></button>
-    <button class='hotspot' title='True Ending' onclick="unlockEnding('True Ending: Choose Yourself','Airi stops treating love as proof she is worth choosing. She chooses peace, writes the story, and walks into the next era as herself.');showEndings();" style='left:57.6%;top:89.0%;width:13.2%;height:6.2%;'></button>
+    <button class='hotspot' title='True Ending' onclick="unlockTrueEnding();showEndings();" style='left:57.6%;top:89.0%;width:13.2%;height:6.2%;'></button>
     <button class='hotspot' title='Continue Last Save' onclick="show('saves');renderSaves()" style='left:72.3%;top:89.0%;width:12.7%;height:6.2%;'></button>
     <button class='hotspot' title='Prologue Recap' onclick="show('about')" style='left:86.0%;top:89.0%;width:12.5%;height:6.2%;'></button>
   </div>
@@ -7720,8 +7719,8 @@ const CG_ART = {
   "tommy_planetarium_bg": "assets/new_uploads__tommy_planetarium_bg.jpg",
   "ren_motorcycle_after_tommy_station": "assets/new_uploads__ren_motorcycle_after_tommy_station.jpg",
   "harrison_good_ending_kitchen_morning": "assets/new_uploads__harrison_good_ending_kitchen_morning.jpg",
-  "harrison_bittersweet_airport_goodbye": "assets/harrison_bittersweet_airport_goodbye.png",
-  "harrison_bad_empty_space_between_us": "assets/harrison_bad_empty_space_between_us.png",
+  "harrison_bittersweet_airport_goodbye": "assets/harrison_bittersweet_airport_goodbye.jpg",
+  "harrison_bad_empty_space_between_us": "assets/harrison_bad_empty_space_between_us.jpg",
   "tommy_arcade_cheek_kiss_ren_interruption": "assets/new_uploads__tommy_arcade_cheek_kiss_ren_interruption.jpg",
   "harrison_cafe_conversation_latest": "assets/new_uploads__harrison_cafe_conversation_latest.jpg",
   "kenji_final_walk_good_friends": "assets/new_uploads__kenji_final_walk_good_friends.jpg",
@@ -8857,12 +8856,12 @@ const ASSET_META = {
   "harrison_bittersweet_airport_goodbye": {
     "title": "Harrison Bittersweet Airport Goodbye",
     "route": "Harrison Route",
-    "file": "harrison_bittersweet_airport_goodbye.png"
+    "file": "harrison_bittersweet_airport_goodbye.jpg"
   },
   "harrison_bad_empty_space_between_us": {
     "title": "Harrison Bad Ending Empty Space Between Us",
     "route": "Harrison Route",
-    "file": "harrison_bad_empty_space_between_us.png"
+    "file": "harrison_bad_empty_space_between_us.jpg"
   },
   "tommy_arcade_cheek_kiss_ren_interruption": {
     "title": "Tommy Arcade Cheek Kiss Ren Interruption",
@@ -9119,6 +9118,18 @@ const SCENE_ASSETS = {
     "ren_doctor_hallway"
   ],
   "ren_truth": [
+    "ren_serious_after_tommy_fight"
+  ],
+  "ren_truth_deflect": [
+    "ren_serious_after_tommy_fight"
+  ],
+  "ren_truth_full": [
+    "ren_serious_after_tommy_fight"
+  ],
+  "ren_truth_lie": [
+    "ren_serious_after_tommy_fight"
+  ],
+  "ren_truth_unsure": [
     "ren_serious_after_tommy_fight"
   ],
   "harrison_intro": [
@@ -11231,8 +11242,8 @@ function checkTommy(){
   else return routeEnd('END_'+route.toUpperCase());
   render();
 }
-function chooseTommy(){end('Tommy Variant: Back to You','Airi chooses Tommy in a route that was never supposed to be his. It feels powerful for one second, then terrifying, because choosing Tommy has never been the same thing as being chosen clearly.');}
-function chooseSelf(){end('Mini True Ending: No One This Time','Airi steps out of the triangle before it becomes another room she cannot breathe in. She chooses herself, and the story keeps going.');}
+function chooseTommy(){const p=localizedEndingPair('Tommy Variant: Back to You','Airi chooses Tommy in a route that was never supposed to be his. It feels powerful for one second, then terrifying, because choosing Tommy has never been the same thing as being chosen clearly.');end(p[0],p[1]);}
+function chooseSelf(){const p=localizedEndingPair('Mini True Ending: No One This Time','Airi steps out of the triangle before it becomes another room she cannot breathe in. She chooses herself, and the story keeps going.');end(p[0],p[1]);}
 
 const ENDING_COPY = {
   END_REN:['Ren Good Ending: Chosen Every Day','Ren chooses Airi clearly, and Airi chooses the love that does not require begging.'],
@@ -11250,7 +11261,249 @@ const ENDING_COPY = {
   END_TOMMY_FRIENDSHIP:['Tommy Friends Ending: Too Important To Risk','Tommy keeps the safest word and loses the truth inside it.'],
   END_TOMMY_ULTRA_HIDDEN:['Tommy Ultra Hidden Ending: The Impossible File','After every ending, after every maybe, after every version of goodbye, the hidden file opens.']
 };
-function routeEnd(code){const e=ENDING_COPY[code]||['Ending: '+code,'This ending is unlocked.'];end(e[0],e[1]);}
+
+const ENDING_COPY_JA = {
+  "END_REN": [
+    "蓮グッドエンド：毎日選ばれる",
+    "蓮はアイリをまっすぐ選び、アイリもまた、乞わなくていい愛を選ぶ。"
+  ],
+  "END_HARRISON": [
+    "ハリソンバッドエンド：安心だけでは足りなかった",
+    "アイリは、休める場所として差し出された平穏の中に、まだ刺激を探してしまう。"
+  ],
+  "END_HARRISON_GOOD": [
+    "ハリソングッドエンド：居場所は選択だった",
+    "ハリソンは、平穏もちゃんとロマンチックになれることを証明してくれる。"
+  ],
+  "END_HARRISON_JOB": [
+    "ハリソンビタースイートエンド：手放すほど愛してくれた",
+    "チャンスは愛の形を変えた。でも、その中にあった敬意までは変えなかった。"
+  ],
+  "END_MARCUS": [
+    "マーカスグッドエンド：彼はちゃんと向き合った",
+    "マーカスは、アイリを欲しがるだけでは足りないと学ぶ。誠実に向き合わなければならない。"
+  ],
+  "END_MARCUS_BREAK": [
+    "マーカスビタースイートエンド：二人とも成長した",
+    "アイリは、相性が仕事になる前に離れる。二人とも、別々の場所で成長していく。"
+  ],
+  "END_MARCUS_HOLDING": [
+    "マーカスバッドエンド：彼を支えるだけになった",
+    "愛は労働に変わり、アイリはその違いに遅れて気づく。"
+  ],
+  "END_HIROSHI": [
+    "ひろしグッドエンド：美しい一時的なもの",
+    "すべての恋が永遠になる必要はない。終わるからこそ美しい恋もある。"
+  ],
+  "END_KENJI": [
+    "健司グッドエンド：帰る場所はここにもあった",
+    "健司はアイリに自分を中心に回れとは言わない。ただ、そばにいる。"
+  ],
+  "END_TOMMY_TRUE": [
+    "トミー真エンド：長いお別れ",
+    "アイリは、『ほとんど』がいつか十分になるのを待つのをやめる。"
+  ],
+  "END_TOMMY_LOOP": [
+    "トミーバッドエンド：終わらないループ",
+    "メイビーは生き残り、痛みも生き残る。"
+  ],
+  "END_TOMMY_FRIENDS": [
+    "トミー友達エンド：『友達』という言葉",
+    "『友達』という言葉が、すべての『ほとんど』では届かなかった場所にようやく落ちる。"
+  ],
+  "END_TOMMY_FRIENDSHIP": [
+    "トミー友達エンド：失うには大切すぎた",
+    "トミーは一番安全な言葉を選び、その中に真実を失う。"
+  ],
+  "END_TOMMY_ULTRA_HIDDEN": [
+    "トミー超隠しエンド：存在しないはずのファイル",
+    "すべてのエンドのあと、すべてのメイビーのあと、すべての別れのあと、隠しファイルが開く。"
+  ]
+};
+const ENDING_JA_BY_EN = {
+  "Secret Ending: Dream Wedding": [
+    "秘密エンド：夢の結婚式",
+    "夢のような結婚式は、選ばれた可能性のひとつとして解放された。"
+  ],
+  "Secret Ending: House in Hyogo": [
+    "秘密エンド：兵庫の家",
+    "兵庫の家で、別の未来が静かに息づいている。"
+  ],
+  "Secret Ending: Our Little Boy": [
+    "秘密エンド：私たちの小さな男の子",
+    "もしも、の先にある小さな家族の記憶。"
+  ],
+  "Tommy Variant: Back to You": [
+    "トミー分岐エンド：あなたのもとへ戻る",
+    "アイリは、本来トミーのものではなかったルートでトミーを選ぶ。一瞬だけ強くなれた気がする。でも次の瞬間には怖くなる。トミーを選ぶことは、彼に明確に選ばれることと同じではなかったから。"
+  ],
+  "Mini True Ending: No One This Time": [
+    "ミニ真エンド：今回は誰も選ばない",
+    "アイリは、その三角関係がまた息のできない部屋になる前に抜け出す。彼女は自分自身を選び、物語は続いていく。"
+  ],
+  "True Ending: Choose Yourself": [
+    "真エンド：自分自身を選ぶ",
+    "アイリは、愛されることを自分の価値の証明にするのをやめる。平穏を選び、物語を書き、次の時代へ自分自身として歩いていく。"
+  ],
+  "Ren Good Ending: Chosen Every Day": [
+    "蓮グッドエンド：毎日選ばれる",
+    "蓮はアイリをまっすぐ選び、アイリもまた、乞わなくていい愛を選ぶ。"
+  ],
+  "Ren Bittersweet Ending: Almost Over Him": [
+    "蓮ビタースイートエンド：もう少しで彼を越えられた",
+    "アイリは明確な愛へ向かう。それでも、古い痛みは最後の雨のようにしばらく残る。"
+  ],
+  "Ren Bad Ending: The Door She Left Open": [
+    "蓮バッドエンド：閉じなかった扉",
+    "閉じなかった扉から、トミーの曖昧さが関係の中へ入り込み続ける。"
+  ],
+  "Harrison Good Ending: Home Felt Like a Choice": [
+    "ハリソングッドエンド：居場所は選択だった",
+    "ハリソンは、平穏もちゃんとロマンチックになれることを証明してくれる。"
+  ],
+  "Harrison Bittersweet Ending: Loved Her Enough to Let Her Go": [
+    "ハリソンビタースイートエンド：手放すほど愛してくれた",
+    "チャンスは愛の形を変えた。でも、その中にあった敬意までは変えなかった。"
+  ],
+  "Harrison Bittersweet Ending: The Right Man, Wrong Life": [
+    "ハリソンビタースイートエンド：正しい人、違う人生",
+    "彼は正しい人だった。けれど、二人の人生は同じ場所へ続いていなかった。"
+  ],
+  "Harrison Bad Ending: Safe Was Not Enough": [
+    "ハリソンバッドエンド：安心だけでは足りなかった",
+    "アイリは、休める場所として差し出された平穏の中に、まだ刺激を探してしまう。"
+  ],
+  "Marcus Good Ending: He Got His Shit Together": [
+    "マーカスグッドエンド：彼はちゃんと向き合った",
+    "マーカスは、アイリを欲しがるだけでは足りないと学ぶ。誠実に向き合わなければならない。"
+  ],
+  "Marcus Bittersweet Ending: They Both Grew": [
+    "マーカスビタースイートエンド：二人とも成長した",
+    "アイリは、相性が仕事になる前に離れる。二人とも、別々の場所で成長していく。"
+  ],
+  "Marcus Bittersweet Ending: Almost Enough Fire": [
+    "マーカスビタースイートエンド：炎はあと少し足りなかった",
+    "熱は本物だった。けれど、恋を家にするには、炎だけでは少し足りなかった。"
+  ],
+  "Marcus Bad Ending: Chemistry Is Not a Home": [
+    "マーカスバッドエンド：相性だけでは家にならない",
+    "惹かれ合うことはできた。でも、そこに安心して帰れる場所は作れなかった。"
+  ],
+  "Marcus Bad Ending: Holding Him Down": [
+    "マーカスバッドエンド：彼を支えるだけになった",
+    "愛は労働に変わり、アイリはその違いに遅れて気づく。"
+  ],
+  "Hiroshi Good Ending: A Beautiful Temporary Thing": [
+    "ひろしグッドエンド：美しい一時的なもの",
+    "すべての恋が永遠になる必要はない。終わるからこそ美しい恋もある。"
+  ],
+  "Hiroshi Neutral Ending: Your Prince?": [
+    "ひろしニュートラルエンド：君の王子様？",
+    "ひろしは一時的な輝きだった。トミーの嫉妬は、その輝きに古い影を落とした。"
+  ],
+  "Hiroshi Bad Ending: Stayed Too Long": [
+    "ひろしバッドエンド：長く居すぎた",
+    "終わるべき章に長く留まりすぎて、アイリは欲しがられることと居場所を混同してしまう。"
+  ],
+  "Kenji Good Ending: Home Was Here Too": [
+    "健司グッドエンド：帰る場所はここにもあった",
+    "健司はアイリに自分を中心に回れとは言わない。ただ、そばにいる。"
+  ],
+  "Kenji Bittersweet Ending: Too Precious to Risk": [
+    "健司ビタースイートエンド：大切すぎて賭けられない",
+    "大切すぎるから、今は恋に変えられない。けれど、その優しさは失われない。"
+  ],
+  "Kenji Bad Ending: Backup Plan": [
+    "健司バッドエンド：代わりの選択肢",
+    "健司を本当の選択ではなく、誰かの代わりにしようとした瞬間、優しさは重荷になる。"
+  ],
+  "Tommy True Ending: The Long Goodbye": [
+    "トミー真エンド：長いお別れ",
+    "アイリは、『ほとんど』がいつか十分になるのを待つのをやめる。"
+  ],
+  "Tommy Bad Ending: Endless Loop": [
+    "トミーバッドエンド：終わらないループ",
+    "メイビーは生き残り、痛みも生き残る。"
+  ],
+  "Tommy Heartbreak Ending: Almost Is Not Enough": [
+    "トミー失恋エンド：『ほとんど』では足りない",
+    "優しさは本物だった。でも拒絶も本物だった。アイリは、その両方を認めるしかない。"
+  ],
+  "Tommy Ending: Forever Maybe": [
+    "トミーエンド：永遠のメイビー",
+    "答えは最後まで形にならない。だからこそ、痛みだけが形を持ち続ける。"
+  ],
+  "Tommy Friends Ending: The Word Friend": [
+    "トミー友達エンド：『友達』という言葉",
+    "『友達』という言葉が、すべての『ほとんど』では届かなかった場所にようやく落ちる。"
+  ],
+  "Tommy Friends Ending: Too Important To Risk": [
+    "トミー友達エンド：失うには大切すぎた",
+    "トミーは一番安全な言葉を選び、その中に真実を失う。"
+  ],
+  "Tommy Ultra Hidden Ending: The Impossible File": [
+    "トミー超隠しエンド：存在しないはずのファイル",
+    "すべてのエンドのあと、すべてのメイビーのあと、すべての別れのあと、隠しファイルが開く。"
+  ],
+  "Kenji Good Ending: The Friend Who Stayed": [
+    "健司グッドエンド：そばにいてくれた友達",
+    "健司は答えを急がせず、アイリの隣に残る。"
+  ],
+  "Kenji Bittersweet Ending: Still Beside You": [
+    "健司ビタースイートエンド：それでも隣にいる",
+    "恋にならなくても、彼は隣を歩く。その静けさもまた、愛の形だった。"
+  ]
+};
+const END_ASSETS_JA_ALIAS = {
+  "秘密エンド：夢の結婚式": "Secret Ending: Dream Wedding",
+  "秘密エンド：兵庫の家": "Secret Ending: House in Hyogo",
+  "秘密エンド：私たちの小さな男の子": "Secret Ending: Our Little Boy",
+  "トミー分岐エンド：あなたのもとへ戻る": "Tommy Variant: Back to You",
+  "ミニ真エンド：今回は誰も選ばない": "Mini True Ending: No One This Time",
+  "蓮グッドエンド：毎日選ばれる": "Ren Good Ending: Chosen Every Day",
+  "蓮ビタースイートエンド：もう少しで彼を越えられた": "Ren Bittersweet Ending: Almost Over Him",
+  "蓮バッドエンド：閉じなかった扉": "Ren Bad Ending: The Door She Left Open",
+  "ハリソングッドエンド：居場所は選択だった": "Harrison Good Ending: Home Felt Like a Choice",
+  "ハリソンビタースイートエンド：手放すほど愛してくれた": "Harrison Bittersweet Ending: Loved Her Enough to Let Her Go",
+  "ハリソンビタースイートエンド：正しい人、違う人生": "Harrison Bittersweet Ending: The Right Man, Wrong Life",
+  "ハリソンバッドエンド：安心だけでは足りなかった": "Harrison Bad Ending: Safe Was Not Enough",
+  "マーカスグッドエンド：彼はちゃんと向き合った": "Marcus Good Ending: He Got His Shit Together",
+  "マーカスビタースイートエンド：二人とも成長した": "Marcus Bittersweet Ending: They Both Grew",
+  "マーカスビタースイートエンド：炎はあと少し足りなかった": "Marcus Bittersweet Ending: Almost Enough Fire",
+  "マーカスバッドエンド：相性だけでは家にならない": "Marcus Bad Ending: Chemistry Is Not a Home",
+  "マーカスバッドエンド：彼を支えるだけになった": "Marcus Bad Ending: Holding Him Down",
+  "ひろしグッドエンド：美しい一時的なもの": "Hiroshi Good Ending: A Beautiful Temporary Thing",
+  "ひろしニュートラルエンド：君の王子様？": "Hiroshi Neutral Ending: Your Prince?",
+  "ひろしバッドエンド：長く居すぎた": "Hiroshi Bad Ending: Stayed Too Long",
+  "健司グッドエンド：帰る場所はここにもあった": "Kenji Good Ending: Home Was Here Too",
+  "健司ビタースイートエンド：大切すぎて賭けられない": "Kenji Bittersweet Ending: Too Precious to Risk",
+  "健司バッドエンド：代わりの選択肢": "Kenji Bad Ending: Backup Plan",
+  "トミー真エンド：長いお別れ": "Tommy True Ending: The Long Goodbye",
+  "トミーバッドエンド：終わらないループ": "Tommy Bad Ending: Endless Loop",
+  "トミー失恋エンド：『ほとんど』では足りない": "Tommy Heartbreak Ending: Almost Is Not Enough",
+  "トミーエンド：永遠のメイビー": "Tommy Ending: Forever Maybe",
+  "トミー友達エンド：『友達』という言葉": "Tommy Friends Ending: The Word Friend",
+  "トミー友達エンド：失うには大切すぎた": "Tommy Friends Ending: Too Important To Risk",
+  "トミー超隠しエンド：存在しないはずのファイル": "Tommy Ultra Hidden Ending: The Impossible File",
+  "健司グッドエンド：そばにいてくれた友達": "Kenji Good Ending: The Friend Who Stayed",
+  "健司ビタースイートエンド：それでも隣にいる": "Kenji Bittersweet Ending: Still Beside You",
+  "真エンド：自分自身を選ぶ": "True Ending: Choose Yourself"
+};
+Object.entries(END_ASSETS_JA_ALIAS).forEach(([jpTitle,enTitle])=>{END_ASSETS[jpTitle]=END_ASSETS[enTitle]||[];});
+function localizedEndingPair(enTitle,enText){
+  if(currentLang&&currentLang()==='ja'&&ENDING_JA_BY_EN[enTitle]) return ENDING_JA_BY_EN[enTitle];
+  return [enTitle,enText];
+}
+function endingDisplayTitle(title){return (currentLang&&currentLang()==='ja'&&ENDING_JA_BY_EN[title])?ENDING_JA_BY_EN[title][0]:title;}
+function endingDisplayText(title,text){return (currentLang&&currentLang()==='ja'&&ENDING_JA_BY_EN[title])?ENDING_JA_BY_EN[title][1]:(text||'');}
+function unlockTrueEnding(){
+  const p=localizedEndingPair('True Ending: Choose Yourself','Airi stops treating love as proof she is worth choosing. She chooses peace, writes the story, and walks into the next era as herself.');
+  const assets=endingAssetsFor(p[0]);
+  assets.forEach(k=>unlockCG(assetTitle(k)));
+  unlockEnding(p[0],p[1],assets);
+}
+
+function routeEnd(code){const e=(currentLang&&currentLang()==='ja'&&ENDING_COPY_JA[code])?ENDING_COPY_JA[code]:(ENDING_COPY[code]||['Ending: '+code,'This ending is unlocked.']);end(e[0],e[1]);}
 
 function endingAssetsFor(title){return (END_ASSETS[title]||[]).filter(k=>CG_ART[k]);}
 function renderEndingArt(keys){const wrap=document.getElementById('endingArt');wrap.innerHTML='';(keys||[]).forEach((k,i)=>{const frame=document.createElement('div');frame.className='ending-frame';frame.innerHTML='<img src="'+CG_ART[k]+'" alt="'+escapeHtml(assetTitle(k))+'"><div class="caption">'+(i+1)+'. '+escapeHtml(assetTitle(k))+'</div>';wrap.appendChild(frame);});}
@@ -11267,7 +11520,7 @@ function renderSaves(){let saves=read('saves',Array(20).fill(null));let g=docume
 function saveSlot(i){if(!route||!scene){alert('Start a route before saving.');return}let saves=read('saves',Array(20).fill(null));saves[i]={route,scene,stats:{...stats},playerName:playerName(),date:new Date().toLocaleString()};store('saves',saves);renderSaves();}
 function loadSlot(i){let s=read('saves',Array(20).fill(null))[i];if(!s)return;route=s.route;scene=s.scene;stats=s.stats||{a:0,b:0,self:0,gravity:0,honesty:0,tommyRisk:0};if(s.playerName)store('playerName',s.playerName);show('game');render();}
 function clearSlot(i){let saves=read('saves',Array(20).fill(null));saves[i]=null;store('saves',saves);renderSaves();}
-function showEndings(){let arr=read('endings',[]);let g=document.getElementById('endingGrid');g.innerHTML=arr.length?'':'<p>No endings unlocked yet.</p>';arr.forEach(x=>{let keys=(x.assets&&x.assets.length?x.assets:(END_ASSETS[x.title]||[])).filter(k=>CG_ART[k]);let thumb=keys.length?'<img class="cg-thumb" src="'+CG_ART[keys[0]]+'" alt="'+escapeHtml(x.title)+'">':'';let d=document.createElement('div');d.className='card';d.innerHTML=thumb+'<h3>'+escapeHtml(x.title)+'</h3><p>'+escapeHtml(x.text||'')+'</p>';g.appendChild(d);});show('endings');}
+function showEndings(){let arr=read('endings',[]);let g=document.getElementById('endingGrid');g.innerHTML=arr.length?'':'<p>No endings unlocked yet.</p>';arr.forEach(x=>{let displayTitle=endingDisplayTitle(x.title);let displayBody=endingDisplayText(x.title,x.text);let keys=(x.assets&&x.assets.length?x.assets:(END_ASSETS[x.title]||END_ASSETS[displayTitle]||[])).filter(k=>CG_ART[k]);let thumb=keys.length?'<img class="cg-thumb" src="'+CG_ART[keys[0]]+'" alt="'+escapeHtml(displayTitle)+'">':'';let d=document.createElement('div');d.className='card';d.innerHTML=thumb+'<h3>'+escapeHtml(displayTitle)+'</h3><p>'+escapeHtml(displayBody||'')+'</p>';g.appendChild(d);});show('endings');}
 function showCGs(){let unlocked=read('cgs',[]);let g=document.getElementById('cgGrid');g.innerHTML='';GALLERY_ORDER.forEach(item=>{const k=item.key;const title=assetTitle(k);const isUnlocked=unlocked.includes(title)||unlocked.includes(item.title)||ROUTE_COVER && Object.values(ROUTE_COVER).includes(k);let d=document.createElement('div');d.className='card';d.innerHTML=isUnlocked?'<img class="cg-thumb" src="'+CG_ART[k]+'" alt="'+escapeHtml(title)+'"><h3>'+escapeHtml(title)+'</h3><p class="small">'+escapeHtml(ASSET_META[k]?.route||'')+'</p>':'<div class="cg-thumb locked">LOCKED</div><h3>'+escapeHtml(title)+'</h3><p class="small">Play the matching scene or ending to unlock this image.</p>';g.appendChild(d);});if(!g.children.length)g.innerHTML='<p>No CGs available.</p>';show('cgs');}
 function showCheatCodeScreen(){show('cheatCode');document.getElementById('cheatCodeInput').value='';document.getElementById('cheatFeedback').textContent='Enter the earned code. Hint: no more ____.';}
 function submitCheatCode(){const entered=(document.getElementById('cheatCodeInput').value||'').trim().toUpperCase().replace(/\s+/g,' ');const f=document.getElementById('cheatFeedback');if(entered!==CHEAT_CODE){f.textContent='That code does not open this file.';return;}if(!(activeData().tommy&&activeData().tommy.scenes.tommy_cheat_festival_confession)){f.textContent='Code accepted, but the hidden scene is not in this script build yet.';return;}route='tommy';scene='tommy_cheat_festival_confession';stats={a:0,b:0,self:99,gravity:99,honesty:99,tommyRisk:99};show('game');render();}
