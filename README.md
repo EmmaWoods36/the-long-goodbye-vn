@@ -1,35 +1,30 @@
 # The Long Goodbye — V5.7.10 Full JP Deploy Build
 
-This package merges the full uploaded JPEG-only asset folder with the corrected bilingual/Japanese index.
+This package contains the corrected bilingual English/Japanese visual novel build.
 
-## Use
+## Important deploy structure
 
-Upload the contents of this ZIP so that:
+Upload these items to the SAME GitHub Pages folder/repo root:
 
-- `index.html` is at the site root.
-- the complete `assets/` folder sits beside it.
-- do not rename asset files unless you also update `index.html`.
+- `index.html`
+- `assets/`
+- `ASSET_MANIFEST.csv`
+- `README.md`
 
-## Included
+Do not paste the HTML directly into Google Sites. The images use relative paths like `assets/...`, so the `assets/` folder must be hosted beside `index.html` on GitHub Pages.
 
-- Full base asset folder from `tlg_v5_6_24_JPEG_ONLY_ASSETS_FOLDER.zip`
-- Updated Japanese/English index with translated route text and translated endings
-- Japanese menu assets:
-  - `assets/menu_locked_secret_jp.jpg` with `隠しルート`
-  - `assets/menu_unlocked_kenji_jp.jpg`
-- Expanded Marcus assets
-- Harrison bittersweet and bad ending assets, mapped to the Japanese and English ending logic
-- Patch and audit manifests
+## Fixes in this package
 
-## Current audit summary
+- EN/和 language toggle is now global and visible throughout gameplay, endings, gallery, saves, and menus.
+- `index.html` image references were checked against the included `assets/` folder.
+- Japanese route/story/endings remain mapped to the same image assets as English.
+- Harrison bittersweet/bad ending art remains mapped correctly.
+- Japanese locked menu uses `隠しルート`.
 
-- Referenced image assets in index: 258
-- Image files included in asset folder: 436
-- JPEG/JPG image files included: 436
-- Non-JPEG image files included: 0
+## Verification
+
+- Referenced image paths in `index.html`: 258
 - Missing referenced assets: 0
-- Extra/unreferenced image assets preserved from base folder: 178
+- Non-JPEG/JPG asset files: 0
 
-## Notes
-
-This is a full deploy package, not a small patch bundle.
+If images do not appear after deployment, confirm GitHub Pages contains `assets/` at the same level as `index.html`, not inside another nested folder.
