@@ -1,0 +1,157 @@
+target_asset,source_zip_folder,source_index_in_contact_sheet,source_filename,source_dimensions,note,status
+assets/route_kenji_card__webp.jpg,Route Cards,1,12611F88-F818-4EE5-B6AE-2457AAFE7508.PNG,1122x1402,Kenji route card,mapped
+assets/kenji_character_card.jpg,Route Cards,1,12611F88-F818-4EE5-B6AE-2457AAFE7508.PNG,1122x1402,Kenji reveal card uses same Kenji card,mapped
+assets/route_harrison_card__webp.jpg,Route Cards,2,1384F48E-20A4-488D-BB2B-BDCEFF3057ED.PNG,1122x1402,Harrison route card,mapped
+assets/route_hiroshi_card__webp.jpg,Route Cards,3,84260057-AA01-4E44-8936-794E72262445.PNG,1122x1402,Hiroshi route card,mapped
+assets/secret_route_locked_card_jp.jpg,Route Cards,4,17E24A3A-9B5A-4FD1-9222-A7B175A07B1A.PNG,1024x1536,Japanese locked secret route card,mapped
+assets/secret_route_locked_card.jpg,Route Cards,5,98399D85-4267-4544-8B3D-03F74309BFF6.PNG,1122x1402,English locked secret route card,mapped
+assets/route_ren_card__webp.jpg,Route Cards,6,C59A4FE0-83D5-4B9A-AE3A-0894B94CC5EC.PNG,1122x1402,Ren route card,mapped
+assets/route_marcus_card__webp.jpg,Route Cards,7,EFB57C44-EB1F-44E7-937E-98328B3F99F5.PNG,1122x1402,Marcus route card,mapped
+assets/route_tommy_card__webp.jpg,Route Cards,8,6CEE69F5-B323-4DF6-9965-139A43CC1803.PNG,1122x1402,Tommy route card,mapped
+assets/menu_locked_secret.jpg,Menu,1,24133C11-6EDD-4F9D-8991-33D6D7EA0105.PNG,1672x941,English menu locked Kenji,mapped
+assets/menu_unlocked_kenji.jpg,Menu,3,B0632B78-5C00-4EC8-B2E8-22C6B3B9D212.PNG,1672x941,English menu Kenji unlocked,mapped
+assets/menu_locked_secret_jp.jpg,Menu,5,EA52CC44-073A-4D84-BBDD-E79F67FFC962.PNG,1672x941,Japanese menu locked Kenji,mapped
+assets/menu_unlocked_kenji_jp.jpg,Menu,6,A1976A5E-AB44-4C7F-AC74-EE7D7A10A99B.PNG,1672x941,Japanese menu Kenji unlocked,mapped
+assets/marcus_first_date_mall_gift.jpg,Marcus Route,8,EFE7DA3E-47F7-42CA-B6EE-210F5AAFE4C0.PNG,1672x941,Marcus/Airi mall first date with shopping bag,mapped
+assets/a_romantic_moment_in_a_mall.jpg,Marcus Route,14,9A51C76F-97A8-479F-B4D3-D75583FDDB1D.PNG,1672x941,Marcus/Airi romantic mall moment,mapped
+assets/golden_hour_romance_in_the_mall.jpg,Marcus Route,14,9A51C76F-97A8-479F-B4D3-D75583FDDB1D.PNG,1672x941,Marcus/Airi golden mall romance,mapped
+assets/stylish_young_man_in_upscale_mall.jpg,Marcus Route,11,5955F3DC-0D9E-478C-87F7-9B1DEC39AD2C.PNG,1672x941,Marcus solo in upscale mall,mapped
+assets/marcus_cozy_game_night.jpg,Marcus Route,5,800C86AE-179C-4E1B-959D-32C36F66632B.PNG,1672x941,Marcus game night couch,mapped
+assets/cozy_game_night_in_city_apartment.jpg,Marcus Route,2,22E8C2EB-9AB8-4A78-90FE-7F2D64851418.PNG,1672x941,Marcus soft launch / close game night,mapped
+assets/cozy_game_night_in_city_lights.jpg,Marcus Route,5,800C86AE-179C-4E1B-959D-32C36F66632B.PNG,1672x941,Marcus game night city lights,mapped
+assets/cozy_game_night_in_the_city.jpg,Marcus Route,7,D2C4EBA1-9797-4390-8155-8B8C00A2D892.PNG,1672x941,Marcus game night wide,mapped
+assets/cozy_game_night_with_a_city_view.jpg,Marcus Route,9,2FB7A0D6-683E-4CCE-9CAA-3BD5E98719B2.PNG,1672x941,Marcus game night city view,mapped
+assets/romantic_gaming_night_in_cozy_light.jpg,Marcus Route,12,64E351E6-B920-480E-93AA-EB2D7B116F18.PNG,1672x941,Marcus romantic gaming,mapped
+assets/romantic_gaming_night_in_the_city.jpg,Marcus Route,12,64E351E6-B920-480E-93AA-EB2D7B116F18.PNG,1672x941,Marcus romantic gaming city,mapped
+assets/romantic_dinner_with_city_view.jpg,Marcus Route,1,D9AF3A03-51B9-47AD-A0D8-C56BDFE43B29.PNG,1672x941,Marcus dinner date,mapped
+assets/romantic_dinner_with_city_lights.jpg,Marcus Route,1,D9AF3A03-51B9-47AD-A0D8-C56BDFE43B29.PNG,1672x941,Marcus dinner date lights,mapped
+assets/romantic_night_out_in_the_city.jpg,Marcus Route,4,A4B5EA6F-F508-46ED-8A90-D52EDC963F24.PNG,1672x941,Marcus after dinner walk,mapped
+assets/marcus_city_night_out.jpg,Marcus Route,15,85B6C1BA-3374-41B8-B3FC-48FA39D78AA2.PNG,1672x941,Marcus good ending/city night out,mapped
+assets/intimate_dinner_with_city_view.jpg,Marcus Route,10,7B9C78D9-A8E6-44A7-9F54-C58A0C53944D.PNG,1672x941,Marcus practical dinner conversation,mapped
+assets/contemplative_evening_dinner_in_the_city.jpg,Marcus Route,6,413A810F-F89C-4FC1-A426-35A2B9D08010.PNG,1672x941,Marcus contemplative dinner,mapped
+assets/a_tense_dinner_in_the_city.jpg,Marcus Route,16,860537FE-5E4F-4544-8E2C-896912AD0222.PNG,1672x941,Marcus tense dinner / bad ending,mapped
+assets/tense_dinner_in_a_dimly_lit_city_apartment.jpg,Marcus Route,3,D1F0BC3D-9890-4311-BA16-1B49470D21C5.PNG,1672x941,Marcus final conversation/tension,mapped
+assets/marcus_bittersweet_growth.jpg,Marcus Route,13,9035415A-1FC0-4A5A-8BD0-7959C2B24E06.PNG,1672x941,Marcus growth/bittersweet,mapped
+assets/confident_style_in_casual_streetwear.jpg,Marcus Route,11,5955F3DC-0D9E-478C-87F7-9B1DEC39AD2C.PNG,1672x941,Marcus solo streetwear,mapped
+assets/confident_elegance_in_neutral_tones.jpg,Marcus Route,6,413A810F-F89C-4FC1-A426-35A2B9D08010.PNG,1672x941,Marcus solo dinner portrait,mapped
+assets/harrison_white_roses_latest.jpg,Harrison Route,1,5C44E4C1-280D-4034-9988-54A84BF05118.PNG,1672x941,Harrison with white roses,mapped
+assets/harrison_white_roses.jpg,Harrison Route,1,5C44E4C1-280D-4034-9988-54A84BF05118.PNG,1672x941,Harrison with white roses,mapped
+assets/harrison_job_offer_airi_laptop.jpg,Harrison Route,2,D4BB3D79-D8E4-4C2D-8F71-CB6B5961371D.PNG,1672x941,Airi laptop/job offer,mapped
+assets/harrison_job_offer_apartment_before_email.jpg,Harrison Route,2,D4BB3D79-D8E4-4C2D-8F71-CB6B5961371D.PNG,1672x941,Job offer apartment setup,mapped
+assets/harrison_good_ending_couch_kiss.jpg,Harrison Route,8,23235DC9-7AD2-47C5-A217-AF6A6406DFD4.PNG,1672x941,Harrison couch kiss,mapped
+assets/harrison_park_first_date_latest.jpg,Harrison Route,4,8CC6E868-BA85-40A8-B3AC-64B2690DEA21.PNG,1672x941,Harrison park first date,mapped
+assets/harrison_park_first_date.jpg,Harrison Route,4,8CC6E868-BA85-40A8-B3AC-64B2690DEA21.PNG,1672x941,Harrison park first date,mapped
+assets/harrison_good_ending_kitchen_morning.jpg,Harrison Route,11,AE4AEE9B-3845-43D0-9542-3BA4CA1E89FB.PNG,1672x941,Harrison kitchen morning,mapped
+assets/harrison_domestic_good_ending.jpg,Harrison Route,11,AE4AEE9B-3845-43D0-9542-3BA4CA1E89FB.PNG,1672x941,Harrison domestic good ending,mapped
+assets/harrison_bittersweet_airport_goodbye.jpg,Harrison Route,6,99791623-6638-49DB-B6FF-3D72F99D78CA.PNG,1672x941,Harrison bittersweet goodbye,mapped
+assets/harrison_cafe_conversation_latest.jpg,Harrison Route,14,51D8E614-AB0A-4331-B9C5-260BB1D268A6.PNG,1672x941,Harrison cafe conversation,mapped
+assets/harrison_cafe_conversation.jpg,Harrison Route,14,51D8E614-AB0A-4331-B9C5-260BB1D268A6.PNG,1672x941,Harrison cafe conversation,mapped
+assets/harrison_girlfriend_ask_latest.jpg,Harrison Route,9,58343969-445E-412E-BB94-17ED785DFEAD.PNG,1672x941,Harrison girlfriend ask,mapped
+assets/harrison_girlfriend_ask.jpg,Harrison Route,9,58343969-445E-412E-BB94-17ED785DFEAD.PNG,1672x941,Harrison girlfriend ask,mapped
+assets/harrison_white_party_latest.jpg,Harrison Route,10,8EEA28D4-C990-45C5-B3EC-14358C95AE05.PNG,1672x941,Harrison white party,mapped
+assets/harrison_white_party.jpg,Harrison Route,10,8EEA28D4-C990-45C5-B3EC-14358C95AE05.PNG,1672x941,Harrison white party,mapped
+assets/harrison_museum_date_latest.jpg,Harrison Route,12,5EFB25C4-044E-492F-92E6-E8085585528C.PNG,1672x941,Harrison museum date,mapped
+assets/harrison_museum_date.jpg,Harrison Route,12,5EFB25C4-044E-492F-92E6-E8085585528C.PNG,1672x941,Harrison museum date,mapped
+assets/harrison_bad_empty_space_between_us.jpg,Harrison Route,13,19069CFB-DE0E-499E-A00B-8BC9108760C7.PNG,1672x941,Harrison bad ending empty space,mapped
+assets/harrison_city_dinner.jpg,Harrison Route,7,6BEF62ED-7B54-413F-9EE4-5370BE9F142F.PNG,1672x941,Harrison city dinner solo/conversation,mapped
+assets/harrison_park_walk.jpg,Harrison Route,4,8CC6E868-BA85-40A8-B3AC-64B2690DEA21.PNG,1672x941,Harrison park walk,mapped
+assets/hiroshi_dad_couch.jpg,Hiroshi Route,1,A8975A60-1558-465E-B48E-0DB9C4709C6B.PNG,1672x941,Hiroshi dad-line couch,mapped
+assets/hiroshi_character_card.jpg,Hiroshi Route,3,E66FB3CA-A9F0-4D4F-AEFF-3C81407E4B31.PNG,1672x941,Hiroshi portrait/character,mapped
+assets/hiroshi_aquarium_tunnel.jpg,Hiroshi Route,4,B6D71A53-34E3-448C-81AC-2DC2DA9C4F72.PNG,1672x941,Hiroshi aquarium tunnel,mapped
+assets/hiroshi_aquarium.jpg,Hiroshi Route,4,B6D71A53-34E3-448C-81AC-2DC2DA9C4F72.PNG,1672x941,Hiroshi aquarium,mapped
+assets/hiroshi_karaoke_lounge.jpg,Hiroshi Route,6,FAC4798F-732C-42D9-A5AD-E6476206B387.PNG,1672x941,Hiroshi karaoke lounge,mapped
+assets/hiroshi_waterfront_date.jpg,Hiroshi Route,7,D15CE5F9-5F8D-4925-8AD4-7AF9157A3D2B.PNG,1672x941,Hiroshi waterfront date,mapped
+assets/hiroshi_osaka_city_stroll.jpg,Hiroshi Route,11,D00879FA-A7A2-48F3-A434-9C1DC9ECA34E.PNG,1672x941,Hiroshi Osaka city stroll,mapped
+assets/hiroshi_osaka_alley_rain.jpg,Hiroshi Route,8,E43BA122-3F3E-4B45-9DD6-CDED52D3DBCE.PNG,1672x941,Hiroshi Osaka alley rain,mapped
+assets/noir_vibes_in_osaka_alley.jpg,Hiroshi Route,8,E43BA122-3F3E-4B45-9DD6-CDED52D3DBCE.PNG,1672x941,Hiroshi noir alley,mapped
+assets/hiroshi_train_reflection.jpg,Hiroshi Route,9,E5F507C7-98B7-42C4-B062-5FFA9726790B.PNG,1672x941,Hiroshi train reflection,mapped
+assets/hiroshi_dotonbori_night.jpg,Hiroshi Route,12,F6934222-F3DE-4F0B-9A2F-F152DBA57329.PNG,1672x941,Hiroshi Dotonbori night,mapped
+assets/aquarium_tunnel_stroll_with_a_serene_gaze.jpg,Hiroshi Route,4,B6D71A53-34E3-448C-81AC-2DC2DA9C4F72.PNG,1672x941,Aquarium tunnel stroll,mapped
+assets/route_kenji.jpg,Kenji Route,3,BEB4D38B-F599-46B4-8ADC-1BCD10A105F6.PNG,1672x941,Kenji route intro/walk,mapped
+assets/kenji_riverside_talking.jpg,Kenji Route,3,BEB4D38B-F599-46B4-8ADC-1BCD10A105F6.PNG,1672x941,Kenji riverside talking/walk,mapped
+assets/kenji_last_scene_talking_cherry.jpg,Kenji Route,3,BEB4D38B-F599-46B4-8ADC-1BCD10A105F6.PNG,1672x941,Kenji final talking cherry,mapped
+assets/kenji_cherry_riverside_walk_couple.jpg,Kenji Route,3,BEB4D38B-F599-46B4-8ADC-1BCD10A105F6.PNG,1672x941,Kenji cherry riverside walk,mapped
+assets/kenji_final_walk_good_friends.jpg,Kenji Route,3,BEB4D38B-F599-46B4-8ADC-1BCD10A105F6.PNG,1672x941,Kenji final walk/good friends,mapped
+assets/riverside_transition_sunset.jpg,Kenji Route,2,324F0295-16DD-4DDC-9F99-673FB2DA6C26.PNG,1672x941,Riverside sunset transition,mapped
+assets/kenji_quiet_study.jpg,Kenji Route,5,3A8926C0-F530-4509-9865-9541FB421FD1.PNG,1672x941,Kenji quiet/cafe conversation,mapped
+assets/quiet_study_in_warm_light.jpg,Kenji Route,5,3A8926C0-F530-4509-9865-9541FB421FD1.PNG,1672x941,Kenji quiet study/cafe,mapped
+assets/kenji_cafe_warmth.jpg,Kenji Route,7,5249BFFF-0497-4DDC-BE86-A648C4BBBEF6.PNG,1536x1024,Kenji cafe warmth,mapped
+assets/kenji_riverside_confession.jpg,Kenji Route,4,72D836FE-B62E-415E-9AD9-BD05D26B0923.PNG,1672x941,Kenji confession,mapped
+assets/kenji_riverside_kiss_good_ending.jpg,Kenji Route,8,307128FB-7CE4-48EF-9D06-661011DB49FE.PNG,1672x941,Kenji riverside kiss,mapped
+assets/kenji_final_kiss_cherry.jpg,Kenji Route,8,307128FB-7CE4-48EF-9D06-661011DB49FE.PNG,1672x941,Kenji final kiss cherry,mapped
+assets/romantic_evening_by_the_riverside.jpg,Kenji Route,8,307128FB-7CE4-48EF-9D06-661011DB49FE.PNG,1672x941,Riverside romance/kiss,mapped
+assets/serene_sunset_riverside_reflection.jpg,Kenji Route,2,324F0295-16DD-4DDC-9F99-673FB2DA6C26.PNG,1672x941,Kenji riverside reflection,mapped
+assets/ren_motorcycle_pickup_kyoto.jpg,Ren Route,1,259C29F2-BAC3-4A55-B539-B32C76D697B4.PNG,1672x941,Ren motorcycle pickup,mapped
+assets/ren_after_tommy_fight_motorcycle.jpg,Ren Route,14,AE93FCAD-5BB0-43AD-A2DD-CD8A95028918.PNG,1672x941,Ren after Tommy station motorcycle,mapped
+assets/ren_motorcycle_after_tommy_station.jpg,Ren Route,14,AE93FCAD-5BB0-43AD-A2DD-CD8A95028918.PNG,1672x941,Ren motorcycle after Tommy station,mapped
+assets/ren_doctor_hallway.jpg,Ren Route,2,20D03EF5-2B1E-47CE-A2C1-F1B9DD83BE49.PNG,1672x941,Ren intro/date portrait replacement,mapped
+assets/ren_ferris_wheel_closeup_latest.jpg,Ren Route,4,033EFE05-E114-48E9-9B9B-0103196A2379.PNG,1672x941,Ren ferris closeup,mapped
+assets/ren_ferris_wheel_close_new.jpg,Ren Route,6,221262FB-127E-4840-B766-033D88D19CB3.PNG,1672x941,Ren ferris wheel couple,mapped
+assets/ren_cherry_blossom_kiss_new.jpg,Ren Route,3,CDD93F58-5063-454F-A153-876138FCA3AB.PNG,1672x941,Ren cherry blossom kiss new,mapped
+assets/ren_cherry_blossom_kiss.jpg,Ren Route,5,EB329E0A-FACA-4C06-BCE1-A88F933E4968.PNG,1672x941,Ren cherry blossom kiss,mapped
+assets/ren_cherry_blossom_date_new.jpg,Ren Route,22,D499DBD4-5F72-4B79-A94B-4CF9F71A2474.PNG,1672x941,Ren cherry blossom date,mapped
+assets/ren_festival_solo_invite.jpg,Ren Route,17,B41F6283-E4A6-46F8-9E29-C73EBE0E14B5.PNG,1536x864,Ren solo invite / ferris alt,mapped
+assets/ren_k_university_festival_girlfriend.jpg,Ren Route,12,5B67009A-CFC7-4F26-B189-57A4F01E318F.PNG,1672x941,K University festival girlfriend,mapped
+assets/ren_sukiyaki_actual.jpg,Ren Route,16,53F774C6-FFAF-48C4-BF50-01DEB7CAFC08.PNG,1672x941,Ren sukiyaki actual,mapped
+assets/ren_sukiyaki_dinner.jpg,Ren Route,16,53F774C6-FFAF-48C4-BF50-01DEB7CAFC08.PNG,1672x941,Ren sukiyaki dinner,mapped
+assets/ren_sukiyaki_dinner_latest.jpg,Ren Route,16,53F774C6-FFAF-48C4-BF50-01DEB7CAFC08.PNG,1672x941,Ren sukiyaki dinner latest,mapped
+assets/ren_serious_after_tommy_fight.jpg,Ren Route,19,817C800A-0148-457D-A538-B41C296B3C42.PNG,1672x941,Ren serious doorway after Tommy,mapped
+assets/ren_apartment_exterior_night.jpg,Ren Route,19,817C800A-0148-457D-A538-B41C296B3C42.PNG,1672x941,Ren doorway/apartment night,mapped
+assets/ren_cherry_blossom_date_alt.jpg,Ren Route,23,827B5C2E-F419-4D70-AC9F-C006390E61BF.PNG,1672x941,Ren cherry date alternate/raw extra,mapped
+assets/tommy_parents_sukiyaki_actual.jpg,Ren Route,13,DF6AE7BD-3C40-4324-A15A-3ED45B40B62F.PNG,1672x941,Tommy parents sukiyaki actual,mapped
+assets/tommy_family_sukiyaki_pov.jpg,Ren Route,13,DF6AE7BD-3C40-4324-A15A-3ED45B40B62F.PNG,1672x941,Tommy family sukiyaki POV,mapped
+assets/tommy_family_sukiyaki_wide_latest.jpg,Ren Route,13,DF6AE7BD-3C40-4324-A15A-3ED45B40B62F.PNG,1672x941,Tommy family sukiyaki wide,mapped
+assets/tommy_family_dinner_pov_latest.jpg,Ren Route,13,DF6AE7BD-3C40-4324-A15A-3ED45B40B62F.PNG,1672x941,Tommy family dinner POV,mapped
+assets/tommy_piano_living_room_actual.jpg,Tommy Route,1,219DE3D9-93C7-455E-9314-3B8DEBD66E95.PNG,1672x941,Tommy piano at parents house,mapped
+assets/tommy_music_room.jpg,Tommy Route,19,17677743-0078-4E11-A468-D2AD28923D28.PNG,1672x941,Tommy music room/piano solo,mapped
+assets/tommy_osaka_castle_lilac.jpg,Tommy Route,17,ECF82733-8974-4B27-B3CB-BF212D24D11C.PNG,1672x941,Tommy Osaka Castle couple,mapped
+assets/tommy_osaka_castle_solo.jpg,Tommy Route,7,9C445CA3-9067-468A-91A5-F2ED2C36FC68.PNG,1672x941,Tommy Osaka Castle solo extra,mapped
+assets/tommy_hep5_game_fun.jpg,Tommy Route,2,C1F06DE6-4535-43D2-A0D3-9E2E2D8D1C83.PNG,1672x941,Tommy HEP5 arcade game fun,mapped
+assets/tommy_hep5_arcade_buttons_couple.jpg,Tommy Route,4,B7DC1295-F772-48B7-97C8-E6CC0EB1C9B2.PNG,1672x941,Tommy HEP5 arcade couple,mapped
+assets/tommy_hep5_arcade_solo_latest.jpg,Tommy Route,21,20427D0E-F253-49B4-96C5-BAF0A25DBA97.PNG,1672x941,Tommy HEP5 arcade solo latest,mapped
+assets/tommy_arcade_solo_hep5_neon.jpg,Tommy Route,31,EBD7B39B-A9F9-457D-940D-5065741F26E9.PNG,1672x941,Tommy arcade solo neon,mapped
+assets/tommy_karaoke_lilac_latest.jpg,Tommy Route,13,DB5D9F3B-FE4F-4B51-8117-15CCA8F95B8C.PNG,1672x941,Tommy karaoke latest,mapped
+assets/tommy_hep5_karaoke_lilac.jpg,Tommy Route,16,48098740-C8E7-4A09-ACD2-7457C956E643.PNG,1672x941,Tommy HEP5 karaoke,mapped
+assets/seaside_sunset_and_shared_dango.jpg,Tommy Route,5,DE0B7F3A-4156-4C80-B793-C741B27CF5C6.PNG,1672x941,Meoto Iwa / seaside dango,mapped
+assets/sunset_stroll_with_dango_at_sea.jpg,Tommy Route,5,DE0B7F3A-4156-4C80-B793-C741B27CF5C6.PNG,1672x941,Sunset stroll with dango at sea,mapped
+assets/tommy_ise_jingu_entrance_latest.jpg,Tommy Route,8,84B9CB75-581F-4D79-985E-886F79D05924.PNG,1672x941,Tommy Ise Jingu entrance latest,mapped
+assets/tommy_ise_jingu_entrance.jpg,Tommy Route,12,52241680-5E6E-473D-83F7-79F2322DDB2C.PNG,1672x941,Tommy Ise Jingu entrance,mapped
+assets/tommy_ise_jingu_path_sunset_latest.jpg,Tommy Route,32,98CBEAD8-0B1A-4806-8BBF-4078A0D07D5A.PNG,1672x941,Tommy Ise Jingu path sunset latest,mapped
+assets/tommy_ise_jingu_path_sunset.jpg,Tommy Route,32,98CBEAD8-0B1A-4806-8BBF-4078A0D07D5A.PNG,1672x941,Tommy Ise Jingu path sunset,mapped
+assets/tommy_family_karaoke_pink.jpg,Tommy Route,13,DB5D9F3B-FE4F-4B51-8117-15CCA8F95B8C.PNG,1672x941,Tommy family/karaoke pink,mapped
+assets/tommy_family_sukiyaki_pov.jpg,Tommy Route,14,89E3B5E5-E0B0-4F23-A462-011088520B33.PNG,1672x941,Tommy family dinner POV,overwrote_previous_mapping
+assets/tommy_family_dinner_pov_latest.jpg,Tommy Route,14,89E3B5E5-E0B0-4F23-A462-011088520B33.PNG,1672x941,Tommy family dinner POV latest,overwrote_previous_mapping
+assets/tommy_family_sukiyaki_wide_latest.jpg,Tommy Route,15,DF6AE7BD-3C40-4324-A15A-3ED45B40B62F.PNG,1672x941,Tommy family sukiyaki wide latest,overwrote_previous_mapping
+assets/tommy_parents_sukiyaki_actual.jpg,Tommy Route,15,DF6AE7BD-3C40-4324-A15A-3ED45B40B62F.PNG,1672x941,Tommy parents sukiyaki actual,overwrote_previous_mapping
+assets/tommy_planetarium_tommy_solo.jpg,Tommy Route,22,7E27DA2F-A802-421B-BB7D-9EDDE8C017BA.PNG,1672x941,Tommy planetarium solo,mapped
+assets/tommy_arcade_solo_awkward_confession.jpg,Tommy Route,23,80593BE1-E488-42F8-B6DD-7D1EB62D4057.PNG,1672x941,Tommy awkward confession/hand out,mapped
+assets/tommy_planetarium_bg.jpg,Tommy Route,27,556D57D8-AB63-4625-A82A-F0A0BA232CB2.PNG,1672x941,Planetarium background,mapped
+assets/tommy_planetarium_couple_latest.jpg,Tommy Route,26,A77CB9D6-F840-4D84-9B93-F8D9F1590F5C.PNG,1672x941,Planetarium couple latest,mapped
+assets/tommy_planetarium_couple_wide.jpg,Tommy Route,26,A77CB9D6-F840-4D84-9B93-F8D9F1590F5C.PNG,1672x941,Planetarium couple wide,mapped
+assets/tommy_planetarium_handhold_close_latest.jpg,Tommy Route,6,CF0C89E3-6C6D-48CE-8CF8-6430406A51B0.PNG,1672x941,Planetarium handhold close latest,mapped
+assets/tommy_planetarium_handhold_close.jpg,Tommy Route,6,CF0C89E3-6C6D-48CE-8CF8-6430406A51B0.PNG,1672x941,Planetarium handhold close,mapped
+assets/tommy_festival_market_bg.jpg,Tommy Route,28,3B4AB3E1-B5B9-454E-A9F3-D7A04DAD9A61.PNG,1672x941,Tommy festival market bg,mapped
+assets/tommy_festival_solo_yukata_awake.jpg,Tommy Route,3,BD1A9007-2991-45F4-8205-A2783196A185.PNG,1672x941,Tommy festival solo yukata awake,mapped
+assets/tommy_festival_tommy_solo.jpg,Tommy Route,3,BD1A9007-2991-45F4-8205-A2783196A185.PNG,1672x941,Tommy festival solo,mapped
+assets/tommy_festival_solo_stalls.jpg,Tommy Route,18,5198EABA-0AD2-477A-8A0F-608C793890F0.PNG,1672x941,Tommy festival solo stalls,mapped
+assets/tommy_festival_yukata_solo_dark.jpg,Tommy Route,18,5198EABA-0AD2-477A-8A0F-608C793890F0.PNG,1672x941,Tommy festival solo dark,mapped
+assets/tommy_festival_yukata_walk.jpg,Tommy Route,25,B3FB8962-7B09-4F36-871F-01B5D7AF4527.PNG,1672x941,Tommy festival walk,mapped
+assets/tommy_festival_handhold_close_latest.jpg,Tommy Route,30,9858A232-BB95-4B19-B4AD-35B1933830A8.PNG,1672x941,Tommy festival handhold close latest,mapped
+assets/tommy_festival_handhold_close.jpg,Tommy Route,30,9858A232-BB95-4B19-B4AD-35B1933830A8.PNG,1672x941,Tommy festival handhold close,mapped
+assets/tommy_bridal_style_arcade.jpg,Tommy Route,29,CFBD068B-0796-427D-ABF4-969B8F71C9A1.PNG,1672x941,Tommy bridal/arcade kiss,mapped
+assets/tommy_arcade_kiss_cheek_latest.jpg,Tommy Route,29,CFBD068B-0796-427D-ABF4-969B8F71C9A1.PNG,1672x941,Tommy arcade kiss cheek latest,mapped
+assets/tommy_arcade_cheek_kiss_hidden.jpg,Tommy Cheat,1,DBFBCBD8-4BBD-4A1C-9C0E-B7D6A64EF562.PNG,1672x941,Tommy arcade cheek kiss hidden,mapped
+assets/tommy_hidden_after_festival_kiss.jpg,Tommy Cheat,2,8EB900E8-8B11-44F3-885D-F0740262445E.PNG,1672x941,Tommy hidden after festival kiss,mapped
+assets/tommy_festival_secret_kiss.jpg,Tommy Cheat,3,602F7B4D-C95B-4E26-86FC-79D931EFDB05.PNG,1672x941,Tommy festival secret kiss,mapped
+assets/tommy_texting_marcus_route.jpg,Tommy Interruptions,1,tommy_rain_phone_wide.jpg,1536x864,Tommy rain phone / texting,mapped
+assets/tommy_rain_phone_wide.jpg,Tommy Interruptions,1,tommy_rain_phone_wide.jpg,1536x864,Tommy rain phone wide raw semantic,mapped
+assets/tommy_prince_text_gloomy.jpg,Tommy Interruptions,1,tommy_rain_phone_wide.jpg,1536x864,Tommy gloomy phone/prince text,mapped
+assets/tommy_interrupt_dont_go_train_station.jpg,Tommy Interruptions,9,B9791E5F-A23B-447A-84A5-B88992C357F3.PNG,1672x941,Tommy interruption train/station rainy phone,mapped
+assets/tommy_ren_dodge_station.jpg,Tommy Interruptions,2,E17FC3FB-4706-435D-95CB-12AC31FE8DD3 2.PNG,1672x941,Tommy dodge / phone room,mapped
+assets/tommy_ren_confession_station.jpg,Tommy Interruptions,10,91C3441B-3B6F-4428-B064-BCE3FE061E71.PNG,1672x941,Tommy confession hand-out,mapped
+assets/tommy_confession_cozy_room.jpg,Tommy Interruptions,3,A5BF11DA-2196-4164-B260-72997AEC77C4.PNG,1672x941,Tommy confession cozy room,mapped
+assets/tommy_doorway_gift.jpg,Tommy Interruptions,12,51DBC3AF-7775-4690-A93C-902E12CC647B.PNG,1672x941,Tommy doorway gift,mapped
+assets/tommy_airi_korean_lunch.jpg,Tommy Interruptions,13,FCA4CDE4-EF52-4E7C-BE18-FB378673163A.PNG,1672x941,Tommy/Airi Korean lunch,mapped
+assets/tommy_arcade_bull_bridal_ren_interruption.jpg,Tommy Interruptions,7,2A8575CC-8076-4D8A-9792-7B21CF8C4828.PNG,1672x941,Tommy bridal arcade Ren interruption,mapped
+assets/tommy_arcade_cheek_kiss_ren_interruption.jpg,Tommy Interruptions,7,2A8575CC-8076-4D8A-9792-7B21CF8C4828.PNG,1672x941,Tommy arcade cheek kiss Ren interruption,mapped
+assets/airi_tommy_room_wide.jpg,Tommy Interruptions,4,airi_tommy_room_wide.jpg,1536x864,Airi/Tommy room wide,mapped
