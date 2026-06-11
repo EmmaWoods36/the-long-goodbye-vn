@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- V5.7.10 Full JP: bilingual shell with Japanese DATA_JA, corrected JP route names, Marcus expanded asset patch, and JP menu 隠しルート asset. -->
+<!-- V5.7.13 Full JP: Marcus flow polish, optimized asset patch, and Ren good-terms bittersweet ending. -->
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
@@ -47,17 +47,9 @@ h1,h2,h3{margin:0 0 10px;color:#ffd7ec}p{line-height:1.55}.small{font-family:Ari
 input::placeholder{color:rgba(255,234,246,.55)}
 input{width:min(460px,100%);padding:14px 16px;border-radius:999px;border:1px solid rgba(255,176,215,.6);background:rgba(255,255,255,.12);color:#ffeaf6;font-size:18px;margin:10px 0}
 
-.lang-toggle{z-index:9999;background:rgba(15,7,22,.82);border:1px solid rgba(255,155,205,.35);border-radius:999px;padding:6px;display:flex;gap:6px;backdrop-filter:blur(10px)}
+.lang-toggle{position:fixed;right:18px;top:16px;z-index:80;background:rgba(15,7,22,.82);border:1px solid rgba(255,155,205,.35);border-radius:999px;padding:6px;display:flex;gap:6px;backdrop-filter:blur(10px)}
 .lang-toggle button{margin:0;padding:8px 12px;font-family:Arial,sans-serif;font-size:13px;background:rgba(255,255,255,.08)}
 .lang-toggle button.active{background:linear-gradient(135deg,#ff78b6,#ad4d90);box-shadow:0 0 18px rgba(255,120,182,.32)}
-.global-lang-toggle{position:fixed;right:18px;bottom:18px;top:auto}
-body.screen-menu .global-lang-toggle,body.screen-game .global-lang-toggle{display:none}
-.menu-wrap .menu-lang-toggle{position:absolute;left:31.5%;top:66%;transform:translate(-50%,-50%)}
-.game-controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
-.game-controls button{margin:5px}
-.game-controls .game-lang-toggle{position:static;display:inline-flex;vertical-align:middle;margin:5px}
-.game-controls .game-lang-toggle button{padding:10px 14px}
-@media(max-width:720px){.menu-wrap .menu-lang-toggle{left:31.5%;top:65.5%;transform:translate(-50%,-50%) scale(.78);transform-origin:center}.global-lang-toggle{right:10px;bottom:10px}.game-controls{gap:4px}.game-controls .game-lang-toggle{margin-top:5px}}
 .jp-note{font-family:Arial,sans-serif;font-size:13px;color:#ffd2e8;margin-top:8px;opacity:.9}
 body.lang-ja{font-family:'Hiragino Mincho ProN','Yu Mincho','YuMincho','Noto Serif JP',Georgia,'Times New Roman',serif}
 body.lang-ja button,body.lang-ja .small,body.lang-ja .stat{font-family:'Hiragino Sans','Yu Gothic','Meiryo',Arial,sans-serif}
@@ -70,12 +62,6 @@ body.lang-ja button,body.lang-ja .small,body.lang-ja .stat{font-family:'Hiragino
 </style>
 </head>
 <body>
-
-<div class='lang-toggle global-lang-toggle' aria-label='Language Toggle'>
-  <button id='langEnBtn' class='lang-en-btn' onclick="setLanguage('en')">EN</button>
-  <button id='langJaBtn' class='lang-ja-btn' onclick="setLanguage('ja')">和</button>
-</div>
-
 
 <section id='menu' class='screen active'>
   <div id='menuWrap' class='menu-wrap'>
@@ -92,11 +78,17 @@ body.lang-ja button,body.lang-ja .small,body.lang-ja .stat{font-family:'Hiragino
     <button class='hotspot' title='Hiroshi Route' onclick="startRoute('hiroshi')" style='left:58.0%;top:47.4%;width:12.7%;height:27.5%;'></button>
     <button class='hotspot' title='Tommy Route' onclick="startRoute('tommy')" style='left:71.6%;top:47.4%;width:12.7%;height:27.5%;'></button>
     <button class='hotspot' title='Secret Kenji Route' onclick="kenjiMenuClick()" style='left:85.2%;top:47.4%;width:12.7%;height:27.5%;'></button>
-    <button class='hotspot' title='True Ending' onclick="unlockTrueEnding();showEndings();" style='left:57.6%;top:89.0%;width:13.2%;height:6.2%;'></button>
+    <button class='hotspot' title='True Ending' onclick="unlockEnding('True Ending: Choose Yourself','Airi stops treating love as proof she is worth choosing. She chooses peace, writes the story, and walks into the next era as herself.');showEndings();" style='left:57.6%;top:89.0%;width:13.2%;height:6.2%;'></button>
     <button class='hotspot' title='Continue Last Save' onclick="show('saves');renderSaves()" style='left:72.3%;top:89.0%;width:12.7%;height:6.2%;'></button>
     <button class='hotspot' title='Prologue Recap' onclick="show('about')" style='left:86.0%;top:89.0%;width:12.5%;height:6.2%;'></button>
   </div>
-  <div class='hint' id='buildHint'>V5.7.10 Full Japanese Story Build — EN/和 toggle with translated route gameplay.</div>
+  <div class='hint' id='buildHint'>V5.7.11 Full Japanese Story Build — Marcus flow polish, EN/和 toggle, and translated route gameplay.</div>
+
+  <div class='lang-toggle' aria-label='Language Toggle'>
+    <button id='langEnBtn' onclick="setLanguage('en')">EN</button>
+    <button id='langJaBtn' onclick="setLanguage('ja')">和</button>
+  </div>
+  
 </section>
 
 <section id='nameSetup' class='screen'><div class='panel'><h1 id='nameTitle'>New Game</h1><p id='nameIntro'>Enter the name you want the boys and friends to call the main character. Canon/default name is <b>Airi</b>.</p><input id='playerNameInput' maxlength='24' placeholder='Airi'><div><button id='nameConfirmBtn' onclick="setPlayerNameAndGo()">Confirm Name</button><button id='nameCanonBtn' class='secondary' onclick="document.getElementById('playerNameInput').value='Airi';setPlayerNameAndGo()">Use Canon Name: Airi</button><button id='nameBackBtn' class='secondary' onclick="show('menu')">Back</button></div><p id='nameNote' class='small'>This replaces visible “Airi” dialogue text with your chosen name.</p></div></section>
@@ -104,12 +96,12 @@ body.lang-ja button,body.lang-ja .small,body.lang-ja .stat{font-family:'Hiragino
 <section id='saves' class='screen'><div class='panel'><h1>Save / Load</h1><p>20 save slots. Saves are stored in this browser with localStorage.</p><div class='slot-grid' id='saveGrid'></div><button class='secondary' onclick="show('menu')">Back</button></div></section>
 <section id='endings' class='screen'><div class='panel'><h1>Unlocked Endings</h1><div class='unlock-grid' id='endingGrid'></div><button class='secondary' onclick="show('menu')">Back</button></div></section>
 <section id='cgs' class='screen'><div class='panel'><h1>Unlocked CGs</h1><p class='small'>Play scenes to unlock route CGs, character shots, interruptions, bad endings, and secret endings.</p><div class='unlock-grid' id='cgGrid'></div><button class='secondary' onclick="show('menu')">Back</button></div></section>
-<section id='about' class='screen'><div class='panel'><h1>Prologue Recap</h1><p>Airi thought love was enough. It never was. This non-canon route simulator lets you test the six routes, unlock endings, collect CGs, and watch Tommy ruin things with suspicious efficiency.</p><p>The bones are already here: Ren’s clarity, Harrison’s peace, Marcus’s heat, Hiroshi’s temporary sparkle, Kenji’s quiet home, and Tommy’s longest maybe. V5.7.8 keeps the route mechanics intact, preserves the Ren Osaka asset reuse, and adds post-interruption friend check-ins for Harrison and Marcus so the friend council balance is cleaner.</p><p class='small'>Story polish pass: friend-council check-ins after Tommy interruptions. Route logic preserved.</p><button onclick="show('routes');renderRoutes()">Choose Route</button><button class='secondary' onclick="show('menu')">Back</button></div></section>
+<section id='about' class='screen'><div class='panel'><h1>Prologue Recap</h1><p>Airi thought love was enough. It never was. This non-canon route simulator lets you test the six routes, unlock endings, collect CGs, and watch Tommy ruin things with suspicious efficiency.</p><p>The bones are already here: Ren’s clarity, Harrison’s peace, Marcus’s heat, Hiroshi’s temporary sparkle, Kenji’s quiet home, and Tommy’s longest maybe. V5.7.14 keeps the route mechanics intact, preserves the Ren Osaka asset reuse, adds Marcus bridge scenes, adds Ren’s good-terms bittersweet ending, and updates the route/menu/CG asset mapping in a controlled pass.</p><p class='small'>Finalization pass: Marcus pacing bridges, Ren good-terms bittersweet ending, friend-council check-ins, route-card/menu isolation, and controlled asset replacements.</p><button onclick="show('routes');renderRoutes()">Choose Route</button><button class='secondary' onclick="show('menu')">Back</button></div></section>
 <section id='cheatCode' class='screen'><div class='panel'><p>Ultra Hidden File</p><h1>Enter Cheat Code</h1><p id='cheatIntro'>A route that should not exist can only open after the game knows you survived the truth first.</p><input id='cheatCodeInput' maxlength='40' placeholder='Enter code' style='text-transform:uppercase;letter-spacing:.08em;'><div><button onclick="submitCheatCode()">Submit Code</button><button class='secondary' onclick="show('menu')">Back</button></div><p id='cheatFeedback' class='small' style='margin-top:14px;white-space:pre-line;'></p></div></section>
 <section id='settings' class='screen'><div class='panel'><h1 id='settingsTitle'>Settings</h1><p id='settingsIntro'>Language can be switched between English and Japanese. The Japanese story script is structured as a separate duplicate script so it can be fully translated instead of patched line-by-line.</p><div id='settingsLangMount'></div><button id='settingsBackBtn' class='secondary' onclick="show('menu')">Back to Main Menu</button></div></section>
 <section id='kenjiReveal' class='screen'><div class='panel'><h1 id='kenjiRevealTitle'>Secret Route Unlocked</h1><div class='route-grid'><div class='card'><img class='route-card-img' src='assets/kenji_character_card.jpg' alt='Kenji Sato character card'><h2 id='kenjiRevealName'>Kenji Sato</h2><p><b id='kenjiRevealTags'>Quiet • Familiar • Home</b></p><p id='kenjiRevealBody'>His picture is now viewable. The secret card will stay revealed on the main menu and route select from now on.</p><button id='kenjiRevealStartBtn' onclick="startRoute('kenji')">Start Kenji Route</button><button id='kenjiRevealBackBtn' class='secondary' onclick="show('routes');renderRoutes()">Back to Routes</button></div></div></div></section>
 
-<section id='game' class='screen'><div class='status-row'><div class='stat'><b id='stat1name'>Affection</b><span id='stat1'>0</span></div><div class='stat'><b id='stat2name'>Route Stat</b><span id='stat2'>0</span></div><div class='stat'><b id='selfName'>Self Respect</b><span id='self'>0</span></div><div class='stat'><b id='gravityName'>Tommy Gravity</b><span id='gravity'>0</span></div><div class='stat'><b id='honestyName'>Tommy Honesty</b><span id='honesty'>0</span></div></div><div class='vn-stage'><div id='bg' class='bg'><img id='stageImg' class='stage-img' alt='Scene art'><div id='cg' class='cg-label'></div></div><div class='dialogue' onclick='advanceText()'><div id='speaker' class='name'></div><div id='line' class='text'></div></div><div id='advanceRow' class='advance-row'><button id='nextBtn' onclick='advanceText()'>Next ▸</button></div><div id='choices' class='choices'></div></div><div class='panel small game-control-panel'><span id='gameHint' class='small'>Tap the dialogue box or Next to advance text.</span><br><div class='game-controls'><button id='gameSaveBtn' onclick="show('saves');renderSaves()">Save / Load</button><button id='gameRouteBtn' class='secondary' onclick="show('routes');renderRoutes()">Route Select</button><button id='gameMenuBtn' class='secondary' onclick="show('menu')">Main Menu</button><span class='lang-toggle game-lang-toggle' aria-label='Gameplay Language Toggle'><button class='lang-en-btn' onclick="setLanguage('en')">EN</button><button class='lang-ja-btn' onclick="setLanguage('ja')">和</button></span></div></div></section>
+<section id='game' class='screen'><div class='status-row'><div class='stat'><b id='stat1name'>Affection</b><span id='stat1'>0</span></div><div class='stat'><b id='stat2name'>Route Stat</b><span id='stat2'>0</span></div><div class='stat'><b id='selfName'>Self Respect</b><span id='self'>0</span></div><div class='stat'><b id='gravityName'>Tommy Gravity</b><span id='gravity'>0</span></div><div class='stat'><b id='honestyName'>Tommy Honesty</b><span id='honesty'>0</span></div></div><div class='vn-stage'><div id='bg' class='bg'><img id='stageImg' class='stage-img' alt='Scene art'><div id='cg' class='cg-label'></div></div><div class='dialogue' onclick='advanceText()'><div id='speaker' class='name'></div><div id='line' class='text'></div></div><div id='advanceRow' class='advance-row'><button id='nextBtn' onclick='advanceText()'>Next ▸</button></div><div id='choices' class='choices'></div></div><div class='panel small'><span id='gameHint' class='small'>Tap the dialogue box or Next to advance text.</span><br><button id='gameSaveBtn' onclick="show('saves');renderSaves()">Save / Load</button><button id='gameRouteBtn' class='secondary' onclick="show('routes');renderRoutes()">Route Select</button><button id='gameMenuBtn' class='secondary' onclick="show('menu')">Main Menu</button></div></section>
 <section id='ending' class='screen'><div class='panel'><p>Ending Unlocked</p><h1 id='endingTitle'></h1><div id='endingArt' class='ending-art'></div><div id='endingText' class='ending-copy'></div><button onclick="show('routes');renderRoutes()">Choose Another Route</button><button onclick="showEndings()">Unlocked Endings</button><button onclick="showCGs()">Unlocked CGs</button><button class='secondary' onclick="show('menu')">Main Menu</button></div></section>
 
 <script>
@@ -2062,6 +2054,34 @@ const DATA = {
               "honesty": 15,
               "gravity": -20
             }
+          ],
+          [
+            "Admit the memories were beautiful, but this is not forever.",
+            "ren_good_terms_goodbye",
+            {
+              "self": 18,
+              "honesty": 18,
+              "b": 10,
+              "gravity": -12,
+              "renSecure": 6
+            }
+          ]
+        ]
+      ],
+      "ren_good_terms_goodbye": [
+        "Ren Route · Beautiful, Not Forever",
+        "Narration",
+        "The kinder truth does not arrive like a fight.\n\nIt arrives after good food, shared umbrellas, train platforms, cherry blossoms, and all the little memories that prove the relationship mattered.\n\nAiri and Ren sit together long after the tea has gone cold.\n\nRen: You are here with me. But not all the way.\n\nAiri closes her eyes.\n\nNot because he is wrong.\n\nBecause he is gentle enough to say the part she was afraid to name.\n\nAiri: I wanted us to be right.\n\nRen: I know.\n\nAiri: And I loved being with you. I loved how clear you were. I loved the memories we made.\n\nRen looks down at their hands, still close on the table.\n\nRen: But beautiful does not always mean forever.\n\nThe sentence hurts because it is clean. No villain. No betrayal. No dramatic failure.\n\nJust two people finally telling the truth without trying to punish each other for it.\n\nAiri: I think we were good for each other.\n\nRen: I think so too.\n\nAiri: Just not meant for each other.\n\nRen nods, slow and sad and kind.\n\nNarration: Some endings do not happen because love was fake. Some happen because love was real, but not a home.",
+        [
+          [
+            "Let the beautiful thing end cleanly.",
+            "END_REN_BITTERSWEET",
+            {
+              "self": 20,
+              "honesty": 20,
+              "b": 8,
+              "gravity": -15
+            }
           ]
         ]
       ],
@@ -2901,38 +2921,38 @@ const DATA = {
         ]
       ],
       "harrison_camille_call": [
-              "Friend Check-In · Camille Calls It",
-              "Camille",
-              "Camille calls later, right when Airi is trying to convince herself the chocolate at the door was not a big deal.\n\nCamille: So. How are things with your boyfriend going?\n\nAiri: Harrison? He’s good. He’s really good.\n\nCamille: That sounded like a sentence with a hallway behind it.\n\nAiri laughs too nervously.\n\nAiri: There is something I have to tell you though.\n\nCamille: No. Oh no. Please do not tell me it is THAT MAN.\n\nAiri: Camille—\n\nCamille: No. No, no, no. Please block him already. Please. For the love of God. This man is a literal villain. Why are we still entertaining him?\n\nAiri: He is not a villain.\n\nCamille: He shows up with chocolate the second you get a boyfriend. That is comic-book villain timing.\n\nAiri: He was nearby.\n\nCamille: Girl. Have you talked to your therapist about this?\n\nAiri: All the time.\n\nCamille: Then I know your therapist is tired.\n\nAiri covers her face even though Camille cannot see her.\n\nCamille: Do not ruin a good thing for this man. Please. I am begging you as your friend and as someone who does not want to hear this same episode for another season.\n\nAiri: You do not know him like I do.\n\nThe thought arrives before Airi can stop it.\n\nNarration: And that was how I knew I was in trouble. Because every woman in a bad pattern thinks she has secret evidence no one else can understand.",
-              [
-                      [
-                              "Admit Camille has a point.",
-                              "harrison_white_party",
-                              {
-                                      "self": 10,
-                                      "honesty": 6,
-                                      "gravity": -4
-                              }
-                      ],
-                      [
-                              "Defend Tommy, but hear yourself doing it.",
-                              "harrison_white_party",
-                              {
-                                      "gravity": 8,
-                                      "self": -2
-                              }
-                      ],
-                      [
-                              "Promise you are choosing Harrison clearly.",
-                              "harrison_white_party",
-                              {
-                                      "a": 8,
-                                      "b": 8,
-                                      "self": 8,
-                                      "gravity": -6
-                              }
-                      ]
-              ]
+        "Friend Check-In · Camille Calls It",
+        "Camille",
+        "Camille calls later, right when Airi is trying to convince herself the chocolate at the door was not a big deal.\n\nCamille: So. How are things with your boyfriend going?\n\nAiri: Harrison? He’s good. He’s really good.\n\nCamille: That sounded like a sentence with a hallway behind it.\n\nAiri laughs too nervously.\n\nAiri: There is something I have to tell you though.\n\nCamille: No. Oh no. Please do not tell me it is THAT MAN.\n\nAiri: Camille—\n\nCamille: No. No, no, no. Please block him already. Please. For the love of God. This man is a literal villain. Why are we still entertaining him?\n\nAiri: He is not a villain.\n\nCamille: He shows up with chocolate the second you get a boyfriend. That is comic-book villain timing.\n\nAiri: He was nearby.\n\nCamille: Girl. Have you talked to your therapist about this?\n\nAiri: All the time.\n\nCamille: Then I know your therapist is tired.\n\nAiri covers her face even though Camille cannot see her.\n\nCamille: Do not ruin a good thing for this man. Please. I am begging you as your friend and as someone who does not want to hear this same episode for another season.\n\nAiri: You do not know him like I do.\n\nThe thought arrives before Airi can stop it.\n\nNarration: And that was how I knew I was in trouble. Because every woman in a bad pattern thinks she has secret evidence no one else can understand.",
+        [
+          [
+            "Admit Camille has a point.",
+            "harrison_white_party",
+            {
+              "self": 10,
+              "honesty": 6,
+              "gravity": -4
+            }
+          ],
+          [
+            "Defend Tommy, but hear yourself doing it.",
+            "harrison_white_party",
+            {
+              "gravity": 8,
+              "self": -2
+            }
+          ],
+          [
+            "Promise you are choosing Harrison clearly.",
+            "harrison_white_party",
+            {
+              "a": 8,
+              "b": 8,
+              "self": 8,
+              "gravity": -6
+            }
+          ]
+        ]
       ],
       "harrison_white_party": [
         "Harrison Route · White Party",
@@ -3243,7 +3263,7 @@ const DATA = {
         [
           [
             "Let the night turn into a dinner invite.",
-            "marcus_dinner_date",
+            "marcus_soft_launch",
             {
               "a": 8,
               "self": 3
@@ -3251,7 +3271,7 @@ const DATA = {
           ],
           [
             "Ask if he is always this bold.",
-            "marcus_dinner_date",
+            "marcus_soft_launch",
             {
               "a": 7,
               "b": 5,
@@ -3267,7 +3287,7 @@ const DATA = {
         [
           [
             "Let him take you to dinner.",
-            "marcus_dinner_date",
+            "marcus_soft_launch",
             {
               "a": 7,
               "b": 6
@@ -3275,7 +3295,7 @@ const DATA = {
           ],
           [
             "Tell him he still owes you a prize.",
-            "marcus_dinner_date",
+            "marcus_soft_launch",
             {
               "a": 8,
               "self": 4
@@ -3290,7 +3310,7 @@ const DATA = {
         [
           [
             "Accept the dinner date.",
-            "marcus_dinner_date",
+            "marcus_soft_launch",
             {
               "a": 6,
               "b": 10,
@@ -3299,7 +3319,7 @@ const DATA = {
           ],
           [
             "Tell him you will remember that answer.",
-            "marcus_dinner_date",
+            "marcus_soft_launch",
             {
               "a": 5,
               "b": 12,
@@ -3346,14 +3366,14 @@ const DATA = {
         [
           [
             "Stay for the after-dinner walk.",
-            "marcus_tension",
+            "marcus_after_dinner_walk",
             {
               "a": 8
             }
           ],
           [
             "Ask what he wants this to become.",
-            "marcus_tension",
+            "marcus_after_dinner_walk",
             {
               "b": 6,
               "self": 6
@@ -3368,7 +3388,7 @@ const DATA = {
         [
           [
             "Press gently.",
-            "marcus_tension",
+            "marcus_after_dinner_walk",
             {
               "b": 10,
               "self": 8
@@ -3376,7 +3396,7 @@ const DATA = {
           ],
           [
             "Save the concern for later.",
-            "marcus_tension",
+            "marcus_after_dinner_walk",
             {
               "a": 4,
               "b": 4
@@ -3391,7 +3411,7 @@ const DATA = {
         [
           [
             "Ask for clarity now.",
-            "marcus_tension",
+            "marcus_after_dinner_walk",
             {
               "b": 12,
               "self": 12
@@ -3399,7 +3419,7 @@ const DATA = {
           ],
           [
             "Let the date stay pretty for one more hour.",
-            "marcus_tension",
+            "marcus_after_dinner_walk",
             {
               "a": 5,
               "self": -2
@@ -3410,7 +3430,7 @@ const DATA = {
       "marcus_tension": [
         "Marcus Route · Fight / Tension",
         "Narration",
-        "The problem with fire is that it knows how to warm a room and burn it down.\n\nMarcus messed up.\n\nNot in a way that made the whole relationship fake.\n\nIn a way that made me realize chemistry could not do the work of accountability.\n\nMarcus: I didn’t mean it like that.\n\nAiri: That doesn’t mean it didn’t hurt.\n\nMarcus: You make everything sound like a trial.\n\nAiri: No. I make things specific because vague apologies are how people avoid changing.\n\nHe looked away.\n\nThere it was.\n\nThe first crack that could either become growth or become a pattern.\n\nNarration: I did not need Marcus to be rich, perfect, or impressive. I needed him to stop using charm as a curtain every time the room got messy.",
+        "The problem with fire is that it knows how to warm a room and burn it down.\n\nMarcus has not made the whole relationship fake.\n\nThat would almost be easier.\n\nThe mess is smaller and more familiar than that: a polished truth, a practical detail with a missing middle, a little “I handled it” that really means “I hoped you would not ask again.”\n\nChemistry makes the room warm.\n\nAccountability is what keeps it from catching fire.\n\nMarcus: I didn’t mean it like that.\n\nAiri: That doesn’t mean it didn’t hurt.\n\nMarcus: You make everything sound like a trial.\n\nAiri: No. I make things specific because vague apologies are how people avoid changing.\n\nHe looks away.\n\nThere it is.\n\nThe first crack that can either become growth or become a pattern.\n\nNarration: I did not need Marcus to be rich, perfect, or impressive. I needed him to stop using charm as a curtain every time the room got messy.",
         [
           [
             "Call him out clearly.",
@@ -3441,7 +3461,7 @@ const DATA = {
       "marcus_pre_lunch_reflection": [
         "Airi Reflection · Phone On The Table",
         "Narration",
-        "Airi’s phone lights up beside her plate before the room has cooled down.\n\nTommy does not need to be present to change the temperature.\n\nTommy: Do you want to get Korean food?",
+        "Airi’s phone lights up beside her plate before the room has cooled down.\n\nNot during a peaceful moment.\n\nNot when she has a clean answer ready.\n\nRight when she is tired, angry, and tempted to leave the room emotionally before the conversation can finish.\n\nTommy does not need to be present to change the temperature.\n\nTommy: Do you want to get Korean food?\n\nAiri stares at the message.\n\nOld muscle memory calls it comfort.\n\nThe wiser part of her calls it an escape hatch.",
         [
           [
             "Ignore Tommy and finish the hard conversation.",
@@ -3582,43 +3602,43 @@ const DATA = {
         ]
       ],
       "marcus_jade_call": [
-              "Friend Check-In · Jade Says Be Serious",
-              "Jade",
-              "Later, in a hotel room that smells like travel lotion and takeout, Jade watches Airi smile at her phone.\n\nAiri: Hey, baby.\n\nMarcus says something on the other end that makes her laugh before she can play it cool.\n\nWhen the call ends, Jade raises one eyebrow from the other bed.\n\nJade: Okay. Sounds like things are going really well with you two.\n\nAiri: They are. He’s sweet. It is going really well.\n\nJade: Good. I like hearing that. Also, those pictures you posted the other day were cute. Was that with him?\n\nAiri’s face does something unhelpful.\n\nAiri: Oh. Um. Not exactly.\n\nJade sits up.\n\nJade: Motherfucker. God damn it, Airi. Please tell me you were not with Tommy.\n\nAiri: I mean, we’re friends. Friends can hang out no matter what, right? At least that is what he told me.\n\nJade: Girl, be so fucking for real. Be so fucking for real.\n\nAiri: He is my friend and I care about him.\n\nJade: He is not your fucking friend, okay? Y’all clearly like each other and have some weird shit going on, but if you keep him in your life like this, you are never going to find your husband.\n\nAiri goes quiet.\n\nJade: You are literally with Marcus. Girl, what the fuck are you doing? Does Marcus know?\n\nAiri: I do not want to complicate things.\n\nJade: It is already complicated. You just have not sent the complication its calendar invite.\n\nAiri laughs despite herself, then hates that the laugh does not make Jade wrong.\n\nJade: Block his ass. Or at least stop letting him act like a boyfriend while other men are trying to actually be one.\n\nNarration: Jade was not gentle about it. Jade was rarely gentle about anything. But sometimes bluntness was just love without the decorative packaging.",
-              [
-                      [
-                              "Admit Jade is right about the secrecy.",
-                              "marcus_final_convo",
-                              {
-                                      "self": 12,
-                                      "honesty": 10,
-                                      "b": 6
-                              }
-                      ],
-                      [
-                              "Insist Tommy is still your friend.",
-                              "marcus_final_convo",
-                              {
-                                      "gravity": 10,
-                                      "self": -3
-                              }
-                      ],
-                      [
-                              "Decide Marcus deserves the truth before this gets worse.",
-                              "marcus_final_convo",
-                              {
-                                      "self": 16,
-                                      "honesty": 12,
-                                      "b": 8,
-                                      "gravity": -4
-                              }
-                      ]
-              ]
+        "Friend Check-In · Jade Says Be Serious",
+        "Jade",
+        "Later, in a hotel room that smells like travel lotion and takeout, Jade watches Airi smile at her phone.\n\nAiri: Hey, baby.\n\nMarcus says something on the other end that makes her laugh before she can play it cool.\n\nWhen the call ends, Jade raises one eyebrow from the other bed.\n\nJade: Okay. Sounds like things are going really well with you two.\n\nAiri: They are. He’s sweet. It is going really well.\n\nJade: Good. I like hearing that. Also, those pictures you posted the other day were cute. Was that with him?\n\nAiri’s face does something unhelpful.\n\nAiri: Oh. Um. Not exactly.\n\nJade sits up.\n\nJade: Motherfucker. God damn it, Airi. Please tell me you were not with Tommy.\n\nAiri: I mean, we’re friends. Friends can hang out no matter what, right? At least that is what he told me.\n\nJade: Girl, be so fucking for real. Be so fucking for real.\n\nAiri: He is my friend and I care about him.\n\nJade: He is not your fucking friend, okay? Y’all clearly like each other and have some weird shit going on, but if you keep him in your life like this, you are never going to find your husband.\n\nAiri goes quiet.\n\nJade: You are literally with Marcus. Girl, what the fuck are you doing? Does Marcus know?\n\nAiri: I do not want to complicate things.\n\nJade: It is already complicated. You just have not sent the complication its calendar invite.\n\nAiri laughs despite herself, then hates that the laugh does not make Jade wrong.\n\nJade: Block his ass. Or at least stop letting him act like a boyfriend while other men are trying to actually be one.\n\nNarration: Jade was not gentle about it. Jade was rarely gentle about anything. But sometimes bluntness was just love without the decorative packaging.",
+        [
+          [
+            "Admit Jade is right about the secrecy.",
+            "marcus_final_convo",
+            {
+              "self": 12,
+              "honesty": 10,
+              "b": 6
+            }
+          ],
+          [
+            "Insist Tommy is still your friend.",
+            "marcus_final_convo",
+            {
+              "gravity": 10,
+              "self": -3
+            }
+          ],
+          [
+            "Decide Marcus deserves the truth before this gets worse.",
+            "marcus_final_convo",
+            {
+              "self": 16,
+              "honesty": 12,
+              "b": 8,
+              "gravity": -4
+            }
+          ]
+        ]
       ],
       "marcus_final_convo": [
         "Marcus Route · Final Conversation",
         "Marcus",
-        "When I got back, Tommy was not the only problem in the room.\n\nMarcus was still smoothing over details that should have been clear.\n\nStill hoping chemistry could make maturity optional.\n\nStill acting like wanting me was the same thing as showing up correctly.\n\nAiri: I need the truth.\n\nHe opened his mouth.\n\nAiri: Not charm. Not vibes. Not a version of the truth that makes you look best.\n\nMarcus looked away first.\n\nThat told me he understood exactly what I was asking.\n\nNarration: The old version of me might have confused intensity with investment. This version wanted receipts, consistency, and a man who could stand in the truth without performing around it.",
+        "By the time Airi faces Marcus again, Tommy is not the only problem trying to take up space.\n\nWhether she went to lunch or put the phone down, the real question is still standing in front of her:\n\nCan Marcus tell the truth after charm stops working?\n\nHe is still smoothing over details that should have been clear.\n\nStill hoping chemistry can make maturity optional.\n\nStill acting like wanting her is the same thing as showing up correctly.\n\nAiri: I need the truth.\n\nHe opens his mouth.\n\nAiri: Not charm. Not vibes. Not a version of the truth that makes you look best.\n\nMarcus looks away first.\n\nThat tells her he understands exactly what she is asking.\n\nNarration: The old version of me might have confused intensity with investment. This version wanted receipts, consistency, and a man who could stand in the truth without performing around it.",
         [
           [
             "Confront him calmly and make him answer.",
@@ -3652,7 +3672,7 @@ const DATA = {
         [
           [
             "Give him one chance with clear conditions.",
-            "END_MARCUS",
+            "marcus_conditions",
             {
               "b": 20,
               "self": 16
@@ -3677,6 +3697,94 @@ const DATA = {
             "marcus_intro",
             {
               "self": 0
+            }
+          ]
+        ]
+      ],
+      "marcus_soft_launch": [
+        "Marcus Route · Soft Launch Heat",
+        "Narration",
+        "The girlfriend joke does not turn into a clean label that night.\n\nIt turns into something messier: more texts, more game nights, Marcus sending outfit pictures, Airi sending side-eyes, a mall photo that makes the comments chaotic.\n\nHe is not a maybe in the way Tommy is a maybe.\n\nMarcus wants her where she can see it.\n\nThat is exciting.\n\nIt is also the easiest part of him.\n\nNarration: Wanting loudly was not the same thing as showing up steadily. Airi liked the heat. She just needed to know whether there was anything solid underneath it.",
+        [
+          [
+            "Let the heat become a real dinner date.",
+            "marcus_dinner_date",
+            {
+              "a": 8,
+              "b": 4
+            }
+          ],
+          [
+            "Ask for something more intentional than flirting.",
+            "marcus_dinner_date",
+            {
+              "b": 8,
+              "self": 8,
+              "honesty": 4
+            }
+          ],
+          [
+            "Enjoy it, but keep your eyes open.",
+            "marcus_dinner_date",
+            {
+              "self": 10,
+              "b": 6
+            }
+          ]
+        ]
+      ],
+      "marcus_after_dinner_walk": [
+        "Marcus Route · The Pretty Night Cracks",
+        "Narration",
+        "After dinner, they walk beneath city lights bright enough to make every problem look cinematic.\n\nAiri almost lets the night stay perfect.\n\nThen one detail from Marcus’s story comes back to her.\n\nIt is not the kind of lie that explodes a relationship.\n\nIt is the kind that asks a more annoying question:\n\nIf he would polish a small truth to keep her impressed, what would he do when something actually mattered?\n\nAiri asks gently.\n\nMarcus smiles first.\n\nReflex. Armor. Curtain.\n\nAiri waits until the smile has nowhere to go.\n\nNarration: That was where the date stopped being aesthetic and started being real.",
+        [
+          [
+            "Name the pattern before it becomes normal.",
+            "marcus_tension",
+            {
+              "b": 12,
+              "self": 12
+            }
+          ],
+          [
+            "Give him room to answer without rescuing him.",
+            "marcus_tension",
+            {
+              "b": 10,
+              "self": 10,
+              "honesty": 6
+            }
+          ],
+          [
+            "Let the pretty night crack instead of lying to yourself.",
+            "marcus_tension",
+            {
+              "self": 8,
+              "b": 6
+            }
+          ]
+        ]
+      ],
+      "marcus_conditions": [
+        "Marcus Route · Conditions, Not Fantasy",
+        "Narration",
+        "One chance does not mean pretending the fight was romantic.\n\nIt means terms.\n\nNo disappearing into swagger when the truth gets ugly.\n\nNo half-truths dressed up as confidence.\n\nNo making Airi become the project manager of his maturity.\n\nMarcus listens.\n\nReally listens.\n\nThen he says something less impressive than a grand vow and more useful than one.\n\nMarcus: I can do that.\n\nAiri waits.\n\nMarcus: And when I mess up, I can say it before you have to investigate me.\n\nAiri does not melt.\n\nShe measures.\n\nNarration: That was how she knew she had changed. She did not need the fire to disappear. She needed it to stop burning down the room.",
+        [
+          [
+            "Accept growth, not perfection.",
+            "END_MARCUS",
+            {
+              "b": 12,
+              "self": 10,
+              "honesty": 6
+            }
+          ],
+          [
+            "Choose the slower version of yes.",
+            "END_MARCUS",
+            {
+              "b": 10,
+              "self": 12
             }
           ]
         ]
@@ -4429,7 +4537,7 @@ const DATA = {
       "tommy_intro": [
         "Tommy Route · Forever Maybe",
         "Narration",
-        "Tommy’s route is not a reward route.\n\nIt is the unresolved route.\n\nHe defines the relationship as friendship, but every scene behaves like a loaded confession that never quite reaches the air.\n\nNo rival forcing his hand.\n\nNo clean excuse.\n\nJust Airi trying to stay cordial after he broke her heart, and Tommy acting like friendship is a safe word for something much messier.\n\nNarration: This is the route where intimacy is not the prize. It is the trap.",
+        "Tommy’s route is not a reward route.\n\nIt is the problem-child route.\n\nHe defines the relationship as friendship, but every scene behaves like a loaded confession that never quite reaches the air.\n\nNo rival forcing his hand.\n\nNo clean excuse.\n\nJust Airi trying to stay cordial after he broke her heart, and Tommy acting like friendship is a safe word for something much messier.\n\nNarration: This is the route where intimacy is not the prize. It is the trap.",
         [
           [
             "Reconnect carefully.",
@@ -5784,21 +5892,21 @@ const JP_TRANSLATION_PATCH = {
     "marcus_tension": {
       "title": "マーカスルート・喧嘩／緊張",
       "speaker": "ナレーション",
-      "text": "火の問題は、部屋を暖める方法も、燃やし尽くす方法も知っていることだ。\n\nマーカスはやらかした。\n\n関係そのものが全部嘘になるようなやらかし方ではなかった。\n\nただ、化学反応は責任感の仕事まではしてくれないのだと、私に思い知らせるやらかし方だった。\n\nマーカス：そういうつもりじゃなかった。\n\nアイリ：そういうつもりじゃなくても、傷つかなかったことにはならない。\n\nマーカス：君は何でも裁判みたいに言うよな。\n\nアイリ：違う。人は曖昧な謝罪で変わることを避けるから、私は具体的にしてるの。\n\n彼は目をそらした。\n\nそこにあった。\n\n成長になるのか、パターンになるのか。その最初のひび。\n\nナレーション：私は、マーカスに金持ちで完璧で印象的でいてほしかったわけじゃない。ただ、部屋がぐちゃぐちゃになった途端に魅力をカーテン代わりにするのをやめてほしかった。",
+      "text": "火の問題は、部屋を暖める方法も、燃やし尽くす方法も知っていることだ。\n\nマーカスが、関係そのものを全部嘘にしたわけではない。\n\nそのほうが、むしろ簡単だったかもしれない。\n\n問題はもっと小さくて、もっと見覚えのあるものだった。磨かれた真実。真ん中が抜けた現実的な説明。「俺がちゃんとやった」という言葉の中に隠れた、「もう聞かないでほしかった」という意味。\n\n化学反応は部屋を温める。\n\n責任感は、その部屋に火がつくのを止める。\n\nマーカス：そういうつもりじゃなかった。\n\nアイリ：そういうつもりじゃなくても、傷つかなかったことにはならない。\n\nマーカス：君は何でも裁判みたいに言う。\n\nアイリ：違う。私は具体的にしてるの。曖昧な謝罪って、人が変わるのを避ける方法だから。\n\n彼は目をそらした。\n\nそこにあった。\n\n成長にも、パターンにもなり得る最初のひび。\n\nナレーション：私は、マーカスにお金持ちで、完璧で、すごい人でいてほしかったわけじゃない。部屋が messy になったとき、魅力をカーテンみたいに使うのをやめてほしかった。",
       "choices": [
-        "はっきり指摘する",
-        "平和を保つために飲み込む",
-        "爆発して立ち去る"
+        "はっきり指摘する。",
+        "平和を保つために飲み込む。",
+        "爆発して出ていく。"
       ]
     },
     "marcus_pre_lunch_reflection": {
       "title": "アイリの内省・テーブルの上のスマホ",
       "speaker": "ナレーション",
-      "text": "部屋の熱が冷めきる前に、アイリの皿の横でスマホが光った。\n\nトミーは、その場にいなくても温度を変えられる。\n\nトミー：韓国料理、食べに行かない？",
+      "text": "部屋の熱が冷めきる前に、アイリの皿の横でスマホが光った。\n\n穏やかな瞬間ではない。\n\nきれいな答えを用意できているときでもない。\n\n疲れて、怒って、会話が終わる前に心だけ先に部屋を出ていきたくなっている、その瞬間だった。\n\nトミーは、その場にいなくても温度を変えられる。\n\nトミー：韓国料理、食べに行かない？\n\nアイリはそのメッセージを見つめた。\n\n古い筋肉記憶は、それを慰めと呼ぶ。\n\n賢くなった部分は、それを逃げ道と呼ぶ。",
       "choices": [
-        "トミーを無視して、難しい会話を終わらせる",
-        "返事をする前に、マーカスにトミーから連絡が来たと伝える",
-        "トミーに返事をして、韓国ランチへ行く"
+        "トミーを無視して、難しい会話を終える。",
+        "返事をする前に、トミーから連絡が来たとマーカスに言う。",
+        "トミーに返事をして、韓国ランチに行く。"
       ]
     },
     "marcus_korean_lunch_setup": {
@@ -5852,11 +5960,11 @@ const JP_TRANSLATION_PATCH = {
     "marcus_final_convo": {
       "title": "マーカスルート・最後の会話",
       "speaker": "マーカス",
-      "text": "戻ったとき、部屋の問題はトミーだけではなかった。\n\nマーカスは、本来なら明確であるべきことを、まだなめらかに取り繕っていた。\n\nまだ、化学反応があれば成熟は任意になると期待していた。\n\nまだ、私を欲しがることと、正しく向き合うことを同じだと思っているみたいだった。\n\nアイリ：真実が必要なの。\n\n彼は口を開いた。\n\nアイリ：魅力じゃなくて。雰囲気じゃなくて。あなたがいちばんよく見える形に加工された真実じゃなくて。\n\nマーカスは先に目をそらした。\n\nそれで、彼が私の求めているものを正確に理解しているのだとわかった。\n\nナレーション：昔の私は、強烈さを投資されている証拠だと勘違いしたかもしれない。今の私は、証拠と、一貫性と、真実の中に立ったまま演技でごまかさない男がほしかった。",
+      "text": "アイリがもう一度マーカスと向き合ったとき、場所を取ろうとしている問題はトミーだけではなかった。\n\nランチに行ったとしても、スマホを伏せたとしても、本当の問いはまだ目の前に立っていた。\n\nマーカスは、魅力が通用しなくなったあとも、真実の中に立っていられるのか。\n\n彼はまだ、本来なら明確であるべきことをなめらかに取り繕っていた。\n\nまだ、化学反応があれば成熟は任意になると期待していた。\n\nまだ、彼女を欲しがることと、正しく向き合うことを同じだと思っているみたいだった。\n\nアイリ：真実が必要なの。\n\n彼は口を開いた。\n\nアイリ：魅力じゃなくて。雰囲気じゃなくて。あなたがいちばんよく見える形に加工された真実じゃなくて。\n\nマーカスは先に目をそらした。\n\nそれで、彼女には分かった。彼は、自分が何を求められているのかちゃんと理解している。\n\nナレーション：昔の私なら、激しさを投資と勘違いしていたかもしれない。今の私は、証拠、一貫性、そして真実の中で演技せず立てる男を求めていた。",
       "choices": [
-        "落ち着いて問い詰め、答えさせる",
-        "化学反応の方が楽だから流す",
-        "ここで別れる"
+        "落ち着いて向き合い、答えさせる。",
+        "化学反応のほうが楽だから、流す。",
+        "ここで別れる。"
       ]
     },
     "marcus_final_accountability": {
@@ -5864,8 +5972,8 @@ const JP_TRANSLATION_PATCH = {
       "speaker": "マーカス",
       "text": "マーカスが魔法みたいに完璧になったわけではなかった。\n\nそれでは簡単すぎる。\n\nでも今回は、彼は魅力へ逃げなかった。\n\nマーカス：俺は、ちゃんとやれてるように見せたくて嘘をついた。\n\nアイリ：それで？\n\nマーカス：それに、ぐちゃぐちゃな部分を見られたら君が離れると思ったから。\n\nアイリ：私が同意するために知る必要のあることを隠して、私を留まらせる権利はあなたにはない。\n\n彼はゆっくりとうなずいた。\n\nマーカス：わかってる。\n\nそれだけで十分ではなかった。\n\nでも、それがその部屋にあった最初の正直なものだった。\n\nそこから先、このルートは成長にもなり得たし、愛が仕事になる前に綺麗に終わることもできた。",
       "choices": [
-        "明確な条件付きで、一度だけチャンスをあげる",
-        "別れて、それぞれ別々に成長する"
+        "明確な条件つきで、一度だけチャンスをあげる。",
+        "別れて、それぞれ成長する。"
       ]
     },
     "marcus_route_opening": {
@@ -5874,6 +5982,35 @@ const JP_TRANSLATION_PATCH = {
       "text": "マーカスは熱みたいに入ってくる。\n\n自信家で。口説き上手で。危険なくらい面白い。\n\n彼はすぐにアイリを「求められている」と感じさせる。それは、魅力が責任感へ変わらなければいけない瞬間までは、とても刺激的だ。\n\nこのルートは、マーカスが彼女を欲しがっているかどうかの話ではない。\n\n彼は欲しがっている。\n\n問題は、その「欲しい」が、真実、安定、そして揺らぎ始めた現実への実行力になれるかどうかだ。",
       "choices": [
         "マーカスルートを始める"
+      ]
+    },
+    "marcus_soft_launch": {
+      "title": "マーカスルート・ソフトローンチの熱",
+      "speaker": "ナレーション",
+      "text": "その夜の「彼女」ジョークは、きれいなラベルにはならなかった。\n\n代わりに、もっと厄介なものになった。増えていくメッセージ、ゲームの夜、マーカスが送ってくるコーデ写真、アイリが返す呆れ顔の反応、コメント欄が騒がしくなるモールでの写真。\n\n彼は、トミーみたいな「たぶん」ではなかった。\n\nマーカスは、見える形で彼女を欲しがった。\n\nそれは刺激的だった。\n\n同時に、それは彼にとって一番簡単な部分でもあった。\n\nナレーション：大きな音で求められることは、安定して向き合われることと同じではない。アイリはその熱が好きだった。ただ、その下にちゃんとした土台があるのか知りたかった。",
+      "choices": [
+        "その熱を本物のディナーデートにする。",
+        " フラート 以上の意図を求める。",
+        "楽しむ。でも目は開けておく。"
+      ]
+    },
+    "marcus_after_dinner_walk": {
+      "title": "マーカスルート・綺麗な夜にひびが入る",
+      "speaker": "ナレーション",
+      "text": "ディナーの後、二人は街の灯りの下を歩いた。どんな問題でも映画みたいに見せてしまうくらい、明るい灯りだった。\n\nアイリは、もう少しでその夜を完璧なままにしておくところだった。\n\nそのとき、マーカスの話の中の一つの細部が戻ってきた。\n\n関係を爆発させるような嘘ではない。\n\nもっと面倒な問いを投げてくる種類のものだった。\n\n彼が、彼女に良く見られるために小さな真実を磨くのなら、本当に大事なことが起きたとき彼はどうするのだろう。\n\nアイリは穏やかに尋ねた。\n\nマーカスはまず笑った。\n\n反射。鎧。カーテン。\n\nアイリは、その笑顔の逃げ場がなくなるまで待った。\n\nナレーション：そこで、そのデートはただ綺麗な場面ではなくなった。本物になり始めた。",
+      "choices": [
+        "それが普通になる前に、パターンとして名指す。",
+        "彼を救わずに、答える余地を渡す。",
+        "自分に嘘をつくより、綺麗な夜にひびを入れる。"
+      ]
+    },
+    "marcus_conditions": {
+      "title": "マーカスルート・幻想ではなく条件",
+      "speaker": "ナレーション",
+      "text": "一度だけチャンスをあげることは、その喧嘩をロマンチックだったことにするという意味ではなかった。\n\n条件を置くという意味だった。\n\n真実が醜くなったときに、swaggerへ逃げないこと。\n\n自信に着飾った半分の真実を出さないこと。\n\nアイリを、彼の成熟のプロジェクトマネージャーにしないこと。\n\nマーカスは聞いた。\n\n本当に聞いた。\n\nそして、派手な誓いよりも地味で、でもずっと役に立つ言葉を言った。\n\nマーカス：できる。\n\nアイリは待った。\n\nマーカス：それに、俺がやらかしたときは、君が調査しなくてもいいように、先に言う。\n\nアイリはとろけなかった。\n\n測った。\n\nナレーション：それで、自分が変わったのだと分かった。火を消してほしいわけではなかった。ただ、その火で部屋を燃やさないでほしかった。",
+      "choices": [
+        "完璧さではなく、成長を受け入れる。",
+        "ゆっくりした形の「はい」を選ぶ。"
       ]
     }
   },
@@ -6292,7 +6429,7 @@ const JP_TRANSLATION_PATCH = {
     "tommy_intro": {
       "title": "トミールート・永遠の「たぶん」",
       "speaker": "ナレーション",
-      "text": "トミーのルートは、ご褒美ルートではない。\n\n未解決のルートだ。\n\n彼はこの関係を「友情」と定義する。でも、どの場面も、空気に届く直前で止まってしまう、重すぎる告白みたいに振る舞う。\n\n彼の背中を押すライバルはいない。\n\nきれいな言い訳もない。\n\nただ、彼に失恋したあとも礼儀正しくいようとするアイリと、友情という言葉を、もっと厄介な何かの安全装置みたいに使うトミーがいるだけ。\n\nナレーション：これは、親密さがご褒美ではないルートだ。罠だ。",
+      "text": "トミーのルートは、ご褒美ルートではない。\n\n問題児ルートだ。\n\n彼はこの関係を「友情」と定義する。でも、どの場面も、空気に届く直前で止まってしまう、重すぎる告白みたいに振る舞う。\n\n彼の背中を押すライバルはいない。\n\nきれいな言い訳もない。\n\nただ、彼に失恋したあとも礼儀正しくいようとするアイリと、友情という言葉を、もっと厄介な何かの安全装置みたいに使うトミーがいるだけ。\n\nナレーション：これは、親密さがご褒美ではないルートだ。罠だ。",
       "choices": [
         "慎重に再びつながる。",
         "完全に平気なふりをする。",
@@ -7444,6 +7581,19 @@ function applyStoryTranslationPatch(target, patch) {
   });
 }
 applyStoryTranslationPatch(DATA_JA, JP_TRANSLATION_PATCH);
+if (DATA_JA.ren && DATA_JA.ren.scenes) {
+  if (DATA_JA.ren.scenes.ren_truth_full && DATA_JA.ren.scenes.ren_truth_full[3] && DATA_JA.ren.scenes.ren_truth_full[3][1]) {
+    DATA_JA.ren.scenes.ren_truth_full[3][1][0] = '思い出は美しい。でも永遠ではないと認める。';
+  }
+  DATA_JA.ren.scenes.ren_good_terms_goodbye = [
+    '蓮ルート・美しかった、でも永遠ではない',
+    'ナレーション',
+    '優しい真実は、喧嘩の形では訪れなかった。\n\nおいしいご飯、相合傘、駅のホーム、桜、そしてこの関係に意味があったと証明してくれる小さな思い出のあとに、ゆっくり訪れた。\n\nアイリと蓮は、冷めたお茶を前にして、長いあいだ向かい合って座っていた。\n\n蓮：君はここにいる。でも、全部ではない。\n\nアイリは目を閉じた。\n\n彼が間違っているからではない。\n\n彼が、彼女の怖くて名づけられなかった部分を優しく言葉にしたから。\n\nアイリ：私たち、正しい二人でいたかった。\n\n蓮：うん。分かってる。\n\nアイリ：一緒にいるのは好きだった。あなたがまっすぐでいてくれたことも、二人で作った思い出も、本当に大切だった。\n\n蓮は、テーブルの上でまだ近くにある二人の手を見下ろした。\n\n蓮：でも、美しいことが、必ずしも永遠って意味ではないんだと思う。\n\nその言葉は、きれいだからこそ痛かった。悪者もいない。裏切りもない。劇的な失敗もない。\n\nただ、二人がお互いを罰しようとせずに、ようやく本当のことを言っているだけだった。\n\nアイリ：私たち、お互いにとって良い存在だったと思う。\n\n蓮：僕もそう思う。\n\nアイリ：でも、運命の相手ではなかった。\n\n蓮は、悲しくて、優しい顔で、ゆっくりうなずいた。\n\nナレーション：愛が嘘だったから終わる関係ばかりではない。愛は本物だった。ただ、帰る場所ではなかっただけ。',
+    [
+      ['美しいものを、きれいに終わらせる。','END_REN_BITTERSWEET',{self:20,honesty:20,b:8,gravity:-15}]
+    ]
+  ];
+}
 
 const routeNamesJA = {
   ren: '立花 蓮',
@@ -7492,7 +7642,7 @@ function setLanguage(lang){store('lang',lang==='ja'?'ja':'en');applyLanguageUI()
 function setTextById(id,value,html=false){const el=document.getElementById(id);if(!el)return;if(html)el.innerHTML=value;else el.textContent=value;}
 function applyLanguageUI(){
   const L=currentLang();document.documentElement.lang=L==='ja'?'ja':'en';document.title=L==='ja'?'長いお別れ':'The Long Goodbye';document.body.classList.toggle('lang-ja',L==='ja');
-  document.querySelectorAll('.lang-en-btn').forEach(en=>en.classList.toggle('active',L==='en'));document.querySelectorAll('.lang-ja-btn').forEach(ja=>ja.classList.toggle('active',L==='ja'));
+  const en=document.getElementById('langEnBtn'), ja=document.getElementById('langJaBtn');if(en)en.classList.toggle('active',L==='en');if(ja)ja.classList.toggle('active',L==='ja');
   setTextById('routesTitle',ui('routesTitle'));setTextById('routesIntro',ui('routesIntro'));setTextById('routesBackBtn',ui('routesBackBtn'));
   setTextById('nameTitle',ui('nameTitle'));setTextById('nameIntro',ui('nameIntro'),true);setTextById('nameConfirmBtn',ui('nameConfirmBtn'));setTextById('nameCanonBtn',ui('nameCanonBtn'));setTextById('nameBackBtn',ui('nameBackBtn'));setTextById('nameNote',ui('nameNote'));
   setTextById('settingsTitle',ui('settingsTitle'));setTextById('settingsIntro',ui('settingsIntro'));setTextById('settingsBackBtn',ui('settingsBackBtn'));
@@ -7631,12 +7781,6 @@ const CG_ART = {
   "route_kenji_card": "assets/route_kenji_card__webp.jpg",
   "route_ren_card": "assets/route_ren_card__webp.jpg",
   "route_tommy_card": "assets/route_tommy_card__webp.jpg",
-  "route_intro_ren_begin": "assets/route_intro_ren_begin.jpg",
-  "route_intro_harrison_begin": "assets/route_intro_harrison_begin.jpg",
-  "route_intro_marcus_begin": "assets/route_intro_marcus_begin.jpg",
-  "route_intro_hiroshi_begin": "assets/route_intro_hiroshi_begin.jpg",
-  "route_intro_tommy_begin": "assets/route_intro_tommy_begin.jpg",
-  "route_intro_kenji_begin": "assets/route_intro_kenji_begin.jpg",
   "friend_camille_phone": "assets/friend_camille_phone.jpg",
   "friend_jade_phone": "assets/friend_jade_phone.jpg",
   "friend_tessa_phone": "assets/friend_tessa_phone.jpg",
@@ -7655,8 +7799,6 @@ const CG_ART = {
   "hiroshi_osaka_city_stroll": "assets/hiroshi_osaka_city_stroll.jpg",
   "hiroshi_aquarium": "assets/hiroshi_aquarium.jpg",
   "tommy_prince_text_gloomy": "assets/tommy_prince_text_gloomy.jpg",
-  "tommy_sad_phone_closeup": "assets/tommy_sad_phone_closeup.jpg",
-  "tommy_castle_boat_osaka": "assets/tommy_castle_boat_osaka.jpg",
   "hiroshi_hand_kiss_temporary": "assets/hiroshi_hand_kiss_temporary.jpg",
   "hiroshi_waterfront_date": "assets/hiroshi_waterfront_date.jpg",
   "hiroshi_karaoke_lounge": "assets/hiroshi_karaoke_lounge.jpg",
@@ -7681,8 +7823,6 @@ const CG_ART = {
   "secret_our_little_boy": "assets/secret_our_little_boy.jpg",
   "airi_phone_reflection": "assets/airi_phone_reflection.jpg",
   "airi_phone_call_soft": "assets/airi_phone_call_soft.jpg",
-  "airi_phone_down_house": "assets/airi_phone_down_house.jpg",
-  "airi_phone_buzzing_house": "assets/airi_phone_buzzing_house.jpg",
   "empty_japanese_station": "assets/empty_japanese_station.jpg",
   "empty_osaka_alley": "assets/empty_osaka_alley.jpg",
   "riverside_transition_sunset": "assets/riverside_transition_sunset.jpg",
@@ -7738,18 +7878,18 @@ const CG_ART = {
   "tommy_hep5_arcade_buttons_couple": "assets/new_uploads__tommy_hep5_arcade_buttons_couple.jpg",
   "tommy_planetarium_bg": "assets/new_uploads__tommy_planetarium_bg.jpg",
   "ren_motorcycle_after_tommy_station": "assets/new_uploads__ren_motorcycle_after_tommy_station.jpg",
-  "harrison_good_ending_kitchen_morning": "assets/new_uploads__harrison_good_ending_kitchen_morning.jpg",
+  "harrison_good_ending_kitchen_morning": "assets/harrison_good_ending_kitchen_morning.jpg",
   "harrison_bittersweet_airport_goodbye": "assets/harrison_bittersweet_airport_goodbye.jpg",
   "harrison_bad_empty_space_between_us": "assets/harrison_bad_empty_space_between_us.jpg",
   "tommy_arcade_cheek_kiss_ren_interruption": "assets/new_uploads__tommy_arcade_cheek_kiss_ren_interruption.jpg",
   "harrison_cafe_conversation_latest": "assets/new_uploads__harrison_cafe_conversation_latest.jpg",
-  "kenji_final_walk_good_friends": "assets/new_uploads__kenji_final_walk_good_friends.jpg",
+  "kenji_final_walk_good_friends": "assets/kenji_final_walk_good_friends.jpg",
   "tommy_hep5_arcade_solo_latest": "assets/new_uploads__tommy_hep5_arcade_solo_latest.jpg",
   "ren_cherry_blossom_kiss_new": "assets/new_uploads__ren_cherry_blossom_kiss_new.jpg",
   "tommy_festival_solo_stalls": "assets/new_uploads__tommy_festival_solo_stalls.jpg",
   "tommy_arcade_solo_awkward_confession": "assets/new_uploads__tommy_arcade_solo_awkward_confession.jpg",
-  "ren_sukiyaki_dinner_latest": "assets/new_uploads__ren_sukiyaki_dinner_latest.jpg",
-  "ren_waiting_rainy_street_after_tommy": "assets/new_uploads__ren_waiting_rainy_street_after_tommy.jpg",
+  "ren_sukiyaki_dinner_latest": "assets/ren_sukiyaki_dinner_latest.jpg",
+  "ren_waiting_rainy_street_after_tommy": "assets/ren_waiting_rainy_street_after_tommy.jpg",
   "tommy_arcade_solo_hep5_neon": "assets/new_uploads__tommy_arcade_solo_hep5_neon.jpg",
   "tommy_family_sukiyaki_pov": "assets/new_uploads__tommy_family_sukiyaki_pov.jpg",
   "tommy_planetarium_handhold_close_latest": "assets/new_uploads__tommy_planetarium_handhold_close_latest.jpg",
@@ -7761,16 +7901,16 @@ const CG_ART = {
   "tommy_festival_yukata_solo_dark": "assets/new_uploads__tommy_festival_yukata_solo_dark.jpg",
   "tommy_hep5_game_fun": "assets/new_uploads__tommy_hep5_game_fun.jpg",
   "kenji_tommy_shadow_cherry": "assets/new_uploads__kenji_tommy_shadow_cherry.jpg",
-  "ren_apartment_exterior_night": "assets/new_uploads__ren_apartment_exterior_night.jpg",
+  "ren_apartment_exterior_night": "assets/ren_apartment_exterior_night.jpg",
   "tommy_festival_handhold_close_latest": "assets/new_uploads__tommy_festival_handhold_close_latest.jpg",
   "tommy_festival_secret_kiss": "assets/new_uploads__tommy_festival_secret_kiss.jpg",
   "kenji_last_scene_talking_cherry": "assets/new_uploads__kenji_last_scene_talking_cherry.jpg",
   "harrison_museum_date_latest": "assets/new_uploads__harrison_museum_date_latest.jpg",
   "kenji_cherry_riverside_walk_couple": "assets/new_uploads__kenji_cherry_riverside_walk_couple.jpg",
-  "airi_train_phone_rain_night": "assets/new_uploads__airi_train_phone_rain_night.jpg",
+  "airi_train_phone_rain_night": "assets/airi_train_phone_rain_night.jpg",
   "tommy_ise_jingu_path_sunset_latest": "assets/new_uploads__tommy_ise_jingu_path_sunset_latest.jpg",
   "ren_ferris_wheel_closeup_latest": "assets/new_uploads__ren_ferris_wheel_closeup_latest.jpg",
-  "airi_train_phone_day": "assets/new_uploads__airi_train_phone_day.jpg",
+  "airi_train_phone_day": "assets/airi_train_phone_day.jpg",
   "harrison_good_ending_couch_kiss": "assets/new_uploads__harrison_good_ending_couch_kiss.jpg",
   "harrison_job_offer_airi_laptop": "assets/new_uploads__harrison_job_offer_airi_laptop.jpg",
   "marcus_first_date_mall_gift": "assets/new_uploads__marcus_first_date_mall_gift.jpg",
@@ -8633,36 +8773,6 @@ const ASSET_META = {
     "route": "Route Select",
     "file": "route_tommy_card__webp.jpg"
   },
-  "route_intro_ren_begin": {
-    "title": "Route Intro Ren Begin",
-    "route": "Ren Route",
-    "file": "route_intro_ren_begin.jpg"
-  },
-  "route_intro_harrison_begin": {
-    "title": "Route Intro Harrison Begin",
-    "route": "Harrison Route",
-    "file": "route_intro_harrison_begin.jpg"
-  },
-  "route_intro_marcus_begin": {
-    "title": "Route Intro Marcus Begin",
-    "route": "Marcus Route",
-    "file": "route_intro_marcus_begin.jpg"
-  },
-  "route_intro_hiroshi_begin": {
-    "title": "Route Intro Hiroshi Begin",
-    "route": "Hiroshi Route",
-    "file": "route_intro_hiroshi_begin.jpg"
-  },
-  "route_intro_tommy_begin": {
-    "title": "Route Intro Tommy Begin",
-    "route": "Tommy Route",
-    "file": "route_intro_tommy_begin.jpg"
-  },
-  "route_intro_kenji_begin": {
-    "title": "Route Intro Kenji Begin",
-    "route": "Kenji Route",
-    "file": "route_intro_kenji_begin.jpg"
-  },
   "airi_texting_ren_room": {
     "title": "Airi Reflection · Texting Ren in her room",
     "route": "Ren Route",
@@ -8901,7 +9011,7 @@ const ASSET_META = {
   "harrison_good_ending_kitchen_morning": {
     "title": "Harrison Good Ending Kitchen Morning",
     "route": "Harrison Route",
-    "file": "new_uploads__harrison_good_ending_kitchen_morning.jpg"
+    "file": "harrison_good_ending_kitchen_morning.jpg"
   },
   "harrison_bittersweet_airport_goodbye": {
     "title": "Harrison Bittersweet Airport Goodbye",
@@ -8926,7 +9036,7 @@ const ASSET_META = {
   "kenji_final_walk_good_friends": {
     "title": "Kenji Final Walk Good Friends",
     "route": "Kenji Secret Route",
-    "file": "new_uploads__kenji_final_walk_good_friends.jpg"
+    "file": "kenji_final_walk_good_friends.jpg"
   },
   "tommy_hep5_arcade_solo_latest": {
     "title": "Tommy Hep5 Arcade Solo Latest",
@@ -8951,12 +9061,12 @@ const ASSET_META = {
   "ren_sukiyaki_dinner_latest": {
     "title": "Ren Sukiyaki Dinner Latest",
     "route": "Ren Route",
-    "file": "new_uploads__ren_sukiyaki_dinner_latest.jpg"
+    "file": "ren_sukiyaki_dinner_latest.jpg"
   },
   "ren_waiting_rainy_street_after_tommy": {
     "title": "Ren Waiting Rainy Street After Tommy",
     "route": "Ren Route",
-    "file": "new_uploads__ren_waiting_rainy_street_after_tommy.jpg"
+    "file": "ren_waiting_rainy_street_after_tommy.jpg"
   },
   "tommy_arcade_solo_hep5_neon": {
     "title": "Tommy Arcade Solo Hep5 Neon",
@@ -9016,7 +9126,7 @@ const ASSET_META = {
   "ren_apartment_exterior_night": {
     "title": "Ren Apartment Exterior Night",
     "route": "Ren Route",
-    "file": "new_uploads__ren_apartment_exterior_night.jpg"
+    "file": "ren_apartment_exterior_night.jpg"
   },
   "tommy_festival_handhold_close_latest": {
     "title": "Tommy Festival Handhold Close Latest",
@@ -9046,7 +9156,7 @@ const ASSET_META = {
   "airi_train_phone_rain_night": {
     "title": "Airi Train Phone Rain Night",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__airi_train_phone_rain_night.jpg"
+    "file": "airi_train_phone_rain_night.jpg"
   },
   "tommy_ise_jingu_path_sunset_latest": {
     "title": "Tommy Ise Jingu Path Sunset Latest",
@@ -9061,7 +9171,7 @@ const ASSET_META = {
   "airi_train_phone_day": {
     "title": "Airi Train Phone Day",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__airi_train_phone_day.jpg"
+    "file": "airi_train_phone_day.jpg"
   },
   "harrison_good_ending_couch_kiss": {
     "title": "Harrison Good Ending Couch Kiss",
@@ -9170,18 +9280,6 @@ const SCENE_ASSETS = {
   "ren_truth": [
     "ren_serious_after_tommy_fight"
   ],
-  "ren_truth_deflect": [
-    "ren_serious_after_tommy_fight"
-  ],
-  "ren_truth_full": [
-    "ren_serious_after_tommy_fight"
-  ],
-  "ren_truth_lie": [
-    "ren_serious_after_tommy_fight"
-  ],
-  "ren_truth_unsure": [
-    "ren_serious_after_tommy_fight"
-  ],
   "harrison_intro": [
     "harrison_park_first_date_latest"
   ],
@@ -9244,19 +9342,19 @@ const SCENE_ASSETS = {
     "hiroshi_train_reflection"
   ],
   "hiroshi_phone_transition": [
-    "tommy_sad_phone_closeup"
+    "hiroshi_train_reflection"
   ],
   "hiroshi_prince": [
-    "tommy_sad_phone_closeup"
+    "hiroshi_dotonbori_night"
   ],
   "hiroshi_prince_send": [
-    "tommy_sad_phone_closeup"
+    "hiroshi_karaoke_lounge"
   ],
   "hiroshi_prince_why": [
-    "tommy_sad_phone_closeup"
+    "hiroshi_osaka_alley_rain"
   ],
   "hiroshi_prince_ignore": [
-    "airi_phone_down_house"
+    "hiroshi_train_reflection"
   ],
   "hiroshi_dad": [
     "hiroshi_dad_couch"
@@ -9301,10 +9399,10 @@ const SCENE_ASSETS = {
     "tommy_texting_marcus_route"
   ],
   "kenji_tommy_no_answer": [
-    "airi_phone_down_house"
+    "airi_phone_reflection"
   ],
   "kenji_tommy_boundary": [
-    "airi_phone_down_house"
+    "airi_phone_reflection"
   ],
   "kenji_tommy_warm": [
     "airi_phone_reflection"
@@ -9446,16 +9544,16 @@ const SCENE_ASSETS = {
     "tommy_osaka_castle_lilac"
   ],
   "tommy_castle_boat": [
-    "tommy_castle_boat_osaka"
+    "romantic_evening_by_the_riverside"
   ],
   "tommy_boat_life": [
-    "tommy_castle_boat_osaka"
+    "romantic_evening_by_the_riverside"
   ],
   "tommy_boat_tease": [
-    "tommy_castle_boat_osaka"
+    "golden_hour_stroll_by_the_river"
   ],
   "tommy_boat_soft": [
-    "tommy_castle_boat_osaka"
+    "serene_sunset_riverside_reflection"
   ],
   "tommy_hep_arcade": [
     "karaoke_vibes_in_a_cozy_lounge"
@@ -9496,7 +9594,7 @@ const SCENE_ASSETS = {
     "romantic_sunset_by_the_beach"
   ],
   "tommy_family_text": [
-    "airi_phone_buzzing_house"
+    "airi_phone_reflection"
   ],
   "tommy_family_arcade": [
     "tommy_hep5_game_fun",
@@ -9507,8 +9605,6 @@ const SCENE_ASSETS = {
     "tommy_bridal_style_arcade"
   ],
   "tommy_parents_sukiyaki": [
-    "tommy_family_sukiyaki_pov",
-    "tommy_family_sukiyaki_wide_latest",
     "tommy_family_dinner_pov_latest"
   ],
   "tommy_piano_living_room": [
@@ -9664,22 +9760,22 @@ const SCENE_ASSETS = {
     "tommy_festival_secret_kiss"
   ],
   "ren_route_opening": [
-    "route_intro_ren_begin"
+    "route_ren_card"
   ],
   "harrison_route_opening": [
-    "route_intro_harrison_begin"
+    "route_harrison_card"
   ],
   "marcus_route_opening": [
-    "route_intro_marcus_begin"
+    "route_marcus_card"
   ],
   "hiroshi_route_opening": [
-    "route_intro_hiroshi_begin"
+    "route_hiroshi_card"
   ],
   "tommy_route_opening": [
-    "route_intro_tommy_begin"
+    "route_tommy_card"
   ],
   "kenji_route_opening": [
-    "route_intro_kenji_begin"
+    "route_kenji_card"
   ],
   "ren_family_text_after_gf": [
     "airi_phone_reflection"
@@ -9694,7 +9790,7 @@ const SCENE_ASSETS = {
     "tommy_arcade_bull_bridal_ren_interruption"
   ],
   "ren_tommy_family_day": [
-    "tommy_family_sukiyaki_pov"
+    "tommy_family_dinner_pov_latest"
   ],
   "ren_after_family_gift": [
     "ren_sukiyaki_dinner"
@@ -9708,6 +9804,15 @@ const SCENE_ASSETS = {
   "ren_osaka_karaoke_day": [
     "tommy_karaoke_lilac_latest",
     "tommy_hep5_karaoke_lilac"
+  ],
+  "marcus_soft_launch": [
+    "cozy_game_night_in_city_apartment"
+  ],
+  "marcus_after_dinner_walk": [
+    "romantic_night_out_in_the_city"
+  ],
+  "marcus_conditions": [
+    "marcus_bittersweet_growth"
   ]
 };
 const SCENE_LINE_ASSETS = {
@@ -9744,9 +9849,7 @@ const SCENE_LINE_ASSETS = {
     "8": "tommy_bridal_style_arcade"
   },
   "tommy_parents_sukiyaki": {
-    "0": "tommy_family_sukiyaki_pov",
-    "3": "tommy_family_sukiyaki_wide_latest",
-    "6": "tommy_family_dinner_pov_latest"
+    "0": "tommy_family_dinner_pov_latest"
   },
   "tommy_planetarium": {
     "0": "tommy_planetarium_bg",
@@ -9767,6 +9870,9 @@ const SCENE_LINE_ASSETS = {
   "tommy_festival_rejection": {
     "0": "tommy_festival_solo_stalls",
     "17": "tommy_festival_yukata_solo_dark"
+  },
+  "ren_tommy_family_day": {
+    "0": "tommy_family_dinner_pov_latest"
   }
 };
 const END_ASSETS = {
@@ -9787,6 +9893,9 @@ const END_ASSETS = {
   ],
   "Ren Good Ending: Chosen Every Day": [
     "ren_sukiyaki_dinner"
+  ],
+  "Ren Bittersweet Ending: Beautiful, Not Forever": [
+    "rainy_evening_at_the_train_station"
   ],
   "Ren Bittersweet Ending: Almost Over Him": [
     "rainy_evening_at_the_train_station"
@@ -11177,7 +11286,7 @@ function escapeHtml(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','
 function assetTitle(k){return (ASSET_META[k]&&ASSET_META[k].title)||String(k||'').replace(/_/g,' ');}
 function routeDisplayName(r){return currentLang()==='ja'?(routeNamesJA[r]||routeNames[r]||r):(routeNames[r]||r);}
 function routeTagDisplay(r){return currentLang()==='ja'?(routeTagsJA[r]||routeTags[r]||''):(routeTags[r]||'');}
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.body.classList.forEach(c=>{if(c.startsWith('screen-'))document.body.classList.remove(c)});document.body.classList.add('screen-'+id);applyLanguageUI();if(id==='routes')renderRoutes();if(id==='saves')renderSaves();}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');applyLanguageUI();if(id==='routes')renderRoutes();if(id==='saves')renderSaves();}
 function showNameSetup(){show('nameSetup');setTimeout(()=>document.getElementById('playerNameInput').focus(),50);}
 function setPlayerNameAndGo(){const v=(document.getElementById('playerNameInput').value||'Airi').trim()||'Airi';store('playerName',v);show('routes');renderRoutes();}
 function kenjiUnlocked(){return read('kenjiUnlocked',false);}
@@ -11222,10 +11331,10 @@ function sceneLineAssetKey(){
   const map=SCENE_LINE_ASSETS[scene]||{};
   if(map[String(lineIndex)]) return map[String(lineIndex)];
   const keys=SCENE_ASSETS[scene]||[];
-  if(keys[0]) return keys[0];
+  if(lineIndex===0 && keys[0]) return keys[0];
   return null;
 }
-function routeStartArtKey(){const D=activeData();const keys=scene?(SCENE_ASSETS[scene]||[]):[];if(keys[0])return '';return route&&scene&&D[route]&&scene===D[route].start&&ROUTE_COVER[route]&&CG_ART[ROUTE_COVER[route]] ? ROUTE_COVER[route] : '';}
+function routeStartArtKey(){const D=activeData();return route&&scene&&D[route]&&scene===D[route].start&&ROUTE_COVER[route]&&CG_ART[ROUTE_COVER[route]] ? ROUTE_COVER[route] : '';}
 function setStageArt(key){
   const img=document.getElementById('stageImg');const cg=document.getElementById('cg');if(cg){cg.textContent='';cg.style.display='none';}
   if(key&&CG_ART[key]){img.src=CG_ART[key];img.style.display='block';img.alt=assetTitle(key);}
@@ -11269,7 +11378,7 @@ function render(){
   document.getElementById('bg').className='bg';
   document.getElementById('choices').innerHTML='';document.getElementById('advanceRow').style.display='flex';
   lineParts=splitVNText(s[2]);lineIndex=0;
-  setStageArt((SCENE_ASSETS[scene]||[])[0] || cover || '');
+  setStageArt(cover || (SCENE_ASSETS[scene]||[])[0] || '');
   startType(lineParts[0]);
 }
 function startRoute(r){
@@ -11292,11 +11401,12 @@ function checkTommy(){
   else return routeEnd('END_'+route.toUpperCase());
   render();
 }
-function chooseTommy(){const p=localizedEndingPair('Tommy Variant: Back to You','Airi chooses Tommy in a route that was never supposed to be his. It feels powerful for one second, then terrifying, because choosing Tommy has never been the same thing as being chosen clearly.');end(p[0],p[1]);}
-function chooseSelf(){const p=localizedEndingPair('Mini True Ending: No One This Time','Airi steps out of the triangle before it becomes another room she cannot breathe in. She chooses herself, and the story keeps going.');end(p[0],p[1]);}
+function chooseTommy(){end('Tommy Variant: Back to You','Airi chooses Tommy in a route that was never supposed to be his. It feels powerful for one second, then terrifying, because choosing Tommy has never been the same thing as being chosen clearly.');}
+function chooseSelf(){end('Mini True Ending: No One This Time','Airi steps out of the triangle before it becomes another room she cannot breathe in. She chooses herself, and the story keeps going.');}
 
 const ENDING_COPY = {
   END_REN:['Ren Good Ending: Chosen Every Day','Ren chooses Airi clearly, and Airi chooses the love that does not require begging.'],
+  END_REN_BITTERSWEET:['Ren Bittersweet Ending: Beautiful, Not Forever','Ren and Airi part on good terms. They enjoyed each other, made beautiful memories, and still tell the truth: they were good for each other, but not meant for each other.'],
   END_HARRISON:['Harrison Bad Ending: Safe Was Not Enough','Airi keeps looking for adrenaline where peace was offering her a place to rest.'],
   END_HARRISON_GOOD:['Harrison Good Ending: Home Felt Like a Choice','Harrison becomes proof that peace can still be romantic.'],
   END_HARRISON_JOB:['Harrison Bittersweet Ending: Loved Her Enough to Let Her Go','The opportunity changes the shape of love, but not the respect inside it.'],
@@ -11311,252 +11421,10 @@ const ENDING_COPY = {
   END_TOMMY_FRIENDSHIP:['Tommy Friends Ending: Too Important To Risk','Tommy keeps the safest word and loses the truth inside it.'],
   END_TOMMY_ULTRA_HIDDEN:['Tommy Ultra Hidden Ending: The Impossible File','After every ending, after every maybe, after every version of goodbye, the hidden file opens.']
 };
-
-const ENDING_COPY_JA = {
-  "END_REN": [
-    "蓮グッドエンド：毎日選ばれる",
-    "蓮はアイリをまっすぐ選び、アイリもまた、乞わなくていい愛を選ぶ。"
-  ],
-  "END_HARRISON": [
-    "ハリソンバッドエンド：安心だけでは足りなかった",
-    "アイリは、休める場所として差し出された平穏の中に、まだ刺激を探してしまう。"
-  ],
-  "END_HARRISON_GOOD": [
-    "ハリソングッドエンド：居場所は選択だった",
-    "ハリソンは、平穏もちゃんとロマンチックになれることを証明してくれる。"
-  ],
-  "END_HARRISON_JOB": [
-    "ハリソンビタースイートエンド：手放すほど愛してくれた",
-    "チャンスは愛の形を変えた。でも、その中にあった敬意までは変えなかった。"
-  ],
-  "END_MARCUS": [
-    "マーカスグッドエンド：彼はちゃんと向き合った",
-    "マーカスは、アイリを欲しがるだけでは足りないと学ぶ。誠実に向き合わなければならない。"
-  ],
-  "END_MARCUS_BREAK": [
-    "マーカスビタースイートエンド：二人とも成長した",
-    "アイリは、相性が仕事になる前に離れる。二人とも、別々の場所で成長していく。"
-  ],
-  "END_MARCUS_HOLDING": [
-    "マーカスバッドエンド：彼を支えるだけになった",
-    "愛は労働に変わり、アイリはその違いに遅れて気づく。"
-  ],
-  "END_HIROSHI": [
-    "ひろしグッドエンド：美しい一時的なもの",
-    "すべての恋が永遠になる必要はない。終わるからこそ美しい恋もある。"
-  ],
-  "END_KENJI": [
-    "健司グッドエンド：帰る場所はここにもあった",
-    "健司はアイリに自分を中心に回れとは言わない。ただ、そばにいる。"
-  ],
-  "END_TOMMY_TRUE": [
-    "トミー真エンド：長いお別れ",
-    "アイリは、『ほとんど』がいつか十分になるのを待つのをやめる。"
-  ],
-  "END_TOMMY_LOOP": [
-    "トミーバッドエンド：終わらないループ",
-    "メイビーは生き残り、痛みも生き残る。"
-  ],
-  "END_TOMMY_FRIENDS": [
-    "トミー友達エンド：『友達』という言葉",
-    "『友達』という言葉が、すべての『ほとんど』では届かなかった場所にようやく落ちる。"
-  ],
-  "END_TOMMY_FRIENDSHIP": [
-    "トミー友達エンド：失うには大切すぎた",
-    "トミーは一番安全な言葉を選び、その中に真実を失う。"
-  ],
-  "END_TOMMY_ULTRA_HIDDEN": [
-    "トミー超隠しエンド：存在しないはずのファイル",
-    "すべてのエンドのあと、すべてのメイビーのあと、すべての別れのあと、隠しファイルが開く。"
-  ]
-};
-const ENDING_JA_BY_EN = {
-  "Secret Ending: Dream Wedding": [
-    "秘密エンド：夢の結婚式",
-    "夢のような結婚式は、選ばれた可能性のひとつとして解放された。"
-  ],
-  "Secret Ending: House in Hyogo": [
-    "秘密エンド：兵庫の家",
-    "兵庫の家で、別の未来が静かに息づいている。"
-  ],
-  "Secret Ending: Our Little Boy": [
-    "秘密エンド：私たちの小さな男の子",
-    "もしも、の先にある小さな家族の記憶。"
-  ],
-  "Tommy Variant: Back to You": [
-    "トミー分岐エンド：あなたのもとへ戻る",
-    "アイリは、本来トミーのものではなかったルートでトミーを選ぶ。一瞬だけ強くなれた気がする。でも次の瞬間には怖くなる。トミーを選ぶことは、彼に明確に選ばれることと同じではなかったから。"
-  ],
-  "Mini True Ending: No One This Time": [
-    "ミニ真エンド：今回は誰も選ばない",
-    "アイリは、その三角関係がまた息のできない部屋になる前に抜け出す。彼女は自分自身を選び、物語は続いていく。"
-  ],
-  "True Ending: Choose Yourself": [
-    "真エンド：自分自身を選ぶ",
-    "アイリは、愛されることを自分の価値の証明にするのをやめる。平穏を選び、物語を書き、次の時代へ自分自身として歩いていく。"
-  ],
-  "Ren Good Ending: Chosen Every Day": [
-    "蓮グッドエンド：毎日選ばれる",
-    "蓮はアイリをまっすぐ選び、アイリもまた、乞わなくていい愛を選ぶ。"
-  ],
-  "Ren Bittersweet Ending: Almost Over Him": [
-    "蓮ビタースイートエンド：もう少しで彼を越えられた",
-    "アイリは明確な愛へ向かう。それでも、古い痛みは最後の雨のようにしばらく残る。"
-  ],
-  "Ren Bad Ending: The Door She Left Open": [
-    "蓮バッドエンド：閉じなかった扉",
-    "閉じなかった扉から、トミーの曖昧さが関係の中へ入り込み続ける。"
-  ],
-  "Harrison Good Ending: Home Felt Like a Choice": [
-    "ハリソングッドエンド：居場所は選択だった",
-    "ハリソンは、平穏もちゃんとロマンチックになれることを証明してくれる。"
-  ],
-  "Harrison Bittersweet Ending: Loved Her Enough to Let Her Go": [
-    "ハリソンビタースイートエンド：手放すほど愛してくれた",
-    "チャンスは愛の形を変えた。でも、その中にあった敬意までは変えなかった。"
-  ],
-  "Harrison Bittersweet Ending: The Right Man, Wrong Life": [
-    "ハリソンビタースイートエンド：正しい人、違う人生",
-    "彼は正しい人だった。けれど、二人の人生は同じ場所へ続いていなかった。"
-  ],
-  "Harrison Bad Ending: Safe Was Not Enough": [
-    "ハリソンバッドエンド：安心だけでは足りなかった",
-    "アイリは、休める場所として差し出された平穏の中に、まだ刺激を探してしまう。"
-  ],
-  "Marcus Good Ending: He Got His Shit Together": [
-    "マーカスグッドエンド：彼はちゃんと向き合った",
-    "マーカスは、アイリを欲しがるだけでは足りないと学ぶ。誠実に向き合わなければならない。"
-  ],
-  "Marcus Bittersweet Ending: They Both Grew": [
-    "マーカスビタースイートエンド：二人とも成長した",
-    "アイリは、相性が仕事になる前に離れる。二人とも、別々の場所で成長していく。"
-  ],
-  "Marcus Bittersweet Ending: Almost Enough Fire": [
-    "マーカスビタースイートエンド：炎はあと少し足りなかった",
-    "熱は本物だった。けれど、恋を家にするには、炎だけでは少し足りなかった。"
-  ],
-  "Marcus Bad Ending: Chemistry Is Not a Home": [
-    "マーカスバッドエンド：相性だけでは家にならない",
-    "惹かれ合うことはできた。でも、そこに安心して帰れる場所は作れなかった。"
-  ],
-  "Marcus Bad Ending: Holding Him Down": [
-    "マーカスバッドエンド：彼を支えるだけになった",
-    "愛は労働に変わり、アイリはその違いに遅れて気づく。"
-  ],
-  "Hiroshi Good Ending: A Beautiful Temporary Thing": [
-    "ひろしグッドエンド：美しい一時的なもの",
-    "すべての恋が永遠になる必要はない。終わるからこそ美しい恋もある。"
-  ],
-  "Hiroshi Neutral Ending: Your Prince?": [
-    "ひろしニュートラルエンド：君の王子様？",
-    "ひろしは一時的な輝きだった。トミーの嫉妬は、その輝きに古い影を落とした。"
-  ],
-  "Hiroshi Bad Ending: Stayed Too Long": [
-    "ひろしバッドエンド：長く居すぎた",
-    "終わるべき章に長く留まりすぎて、アイリは欲しがられることと居場所を混同してしまう。"
-  ],
-  "Kenji Good Ending: Home Was Here Too": [
-    "健司グッドエンド：帰る場所はここにもあった",
-    "健司はアイリに自分を中心に回れとは言わない。ただ、そばにいる。"
-  ],
-  "Kenji Bittersweet Ending: Too Precious to Risk": [
-    "健司ビタースイートエンド：大切すぎて賭けられない",
-    "大切すぎるから、今は恋に変えられない。けれど、その優しさは失われない。"
-  ],
-  "Kenji Bad Ending: Backup Plan": [
-    "健司バッドエンド：代わりの選択肢",
-    "健司を本当の選択ではなく、誰かの代わりにしようとした瞬間、優しさは重荷になる。"
-  ],
-  "Tommy True Ending: The Long Goodbye": [
-    "トミー真エンド：長いお別れ",
-    "アイリは、『ほとんど』がいつか十分になるのを待つのをやめる。"
-  ],
-  "Tommy Bad Ending: Endless Loop": [
-    "トミーバッドエンド：終わらないループ",
-    "メイビーは生き残り、痛みも生き残る。"
-  ],
-  "Tommy Heartbreak Ending: Almost Is Not Enough": [
-    "トミー失恋エンド：『ほとんど』では足りない",
-    "優しさは本物だった。でも拒絶も本物だった。アイリは、その両方を認めるしかない。"
-  ],
-  "Tommy Ending: Forever Maybe": [
-    "トミーエンド：永遠のメイビー",
-    "答えは最後まで形にならない。だからこそ、痛みだけが形を持ち続ける。"
-  ],
-  "Tommy Friends Ending: The Word Friend": [
-    "トミー友達エンド：『友達』という言葉",
-    "『友達』という言葉が、すべての『ほとんど』では届かなかった場所にようやく落ちる。"
-  ],
-  "Tommy Friends Ending: Too Important To Risk": [
-    "トミー友達エンド：失うには大切すぎた",
-    "トミーは一番安全な言葉を選び、その中に真実を失う。"
-  ],
-  "Tommy Ultra Hidden Ending: The Impossible File": [
-    "トミー超隠しエンド：存在しないはずのファイル",
-    "すべてのエンドのあと、すべてのメイビーのあと、すべての別れのあと、隠しファイルが開く。"
-  ],
-  "Kenji Good Ending: The Friend Who Stayed": [
-    "健司グッドエンド：そばにいてくれた友達",
-    "健司は答えを急がせず、アイリの隣に残る。"
-  ],
-  "Kenji Bittersweet Ending: Still Beside You": [
-    "健司ビタースイートエンド：それでも隣にいる",
-    "恋にならなくても、彼は隣を歩く。その静けさもまた、愛の形だった。"
-  ]
-};
-const END_ASSETS_JA_ALIAS = {
-  "秘密エンド：夢の結婚式": "Secret Ending: Dream Wedding",
-  "秘密エンド：兵庫の家": "Secret Ending: House in Hyogo",
-  "秘密エンド：私たちの小さな男の子": "Secret Ending: Our Little Boy",
-  "トミー分岐エンド：あなたのもとへ戻る": "Tommy Variant: Back to You",
-  "ミニ真エンド：今回は誰も選ばない": "Mini True Ending: No One This Time",
-  "蓮グッドエンド：毎日選ばれる": "Ren Good Ending: Chosen Every Day",
-  "蓮ビタースイートエンド：もう少しで彼を越えられた": "Ren Bittersweet Ending: Almost Over Him",
-  "蓮バッドエンド：閉じなかった扉": "Ren Bad Ending: The Door She Left Open",
-  "ハリソングッドエンド：居場所は選択だった": "Harrison Good Ending: Home Felt Like a Choice",
-  "ハリソンビタースイートエンド：手放すほど愛してくれた": "Harrison Bittersweet Ending: Loved Her Enough to Let Her Go",
-  "ハリソンビタースイートエンド：正しい人、違う人生": "Harrison Bittersweet Ending: The Right Man, Wrong Life",
-  "ハリソンバッドエンド：安心だけでは足りなかった": "Harrison Bad Ending: Safe Was Not Enough",
-  "マーカスグッドエンド：彼はちゃんと向き合った": "Marcus Good Ending: He Got His Shit Together",
-  "マーカスビタースイートエンド：二人とも成長した": "Marcus Bittersweet Ending: They Both Grew",
-  "マーカスビタースイートエンド：炎はあと少し足りなかった": "Marcus Bittersweet Ending: Almost Enough Fire",
-  "マーカスバッドエンド：相性だけでは家にならない": "Marcus Bad Ending: Chemistry Is Not a Home",
-  "マーカスバッドエンド：彼を支えるだけになった": "Marcus Bad Ending: Holding Him Down",
-  "ひろしグッドエンド：美しい一時的なもの": "Hiroshi Good Ending: A Beautiful Temporary Thing",
-  "ひろしニュートラルエンド：君の王子様？": "Hiroshi Neutral Ending: Your Prince?",
-  "ひろしバッドエンド：長く居すぎた": "Hiroshi Bad Ending: Stayed Too Long",
-  "健司グッドエンド：帰る場所はここにもあった": "Kenji Good Ending: Home Was Here Too",
-  "健司ビタースイートエンド：大切すぎて賭けられない": "Kenji Bittersweet Ending: Too Precious to Risk",
-  "健司バッドエンド：代わりの選択肢": "Kenji Bad Ending: Backup Plan",
-  "トミー真エンド：長いお別れ": "Tommy True Ending: The Long Goodbye",
-  "トミーバッドエンド：終わらないループ": "Tommy Bad Ending: Endless Loop",
-  "トミー失恋エンド：『ほとんど』では足りない": "Tommy Heartbreak Ending: Almost Is Not Enough",
-  "トミーエンド：永遠のメイビー": "Tommy Ending: Forever Maybe",
-  "トミー友達エンド：『友達』という言葉": "Tommy Friends Ending: The Word Friend",
-  "トミー友達エンド：失うには大切すぎた": "Tommy Friends Ending: Too Important To Risk",
-  "トミー超隠しエンド：存在しないはずのファイル": "Tommy Ultra Hidden Ending: The Impossible File",
-  "健司グッドエンド：そばにいてくれた友達": "Kenji Good Ending: The Friend Who Stayed",
-  "健司ビタースイートエンド：それでも隣にいる": "Kenji Bittersweet Ending: Still Beside You",
-  "真エンド：自分自身を選ぶ": "True Ending: Choose Yourself"
-};
-Object.entries(END_ASSETS_JA_ALIAS).forEach(([jpTitle,enTitle])=>{END_ASSETS[jpTitle]=END_ASSETS[enTitle]||[];});
-function localizedEndingPair(enTitle,enText){
-  if(currentLang&&currentLang()==='ja'&&ENDING_JA_BY_EN[enTitle]) return ENDING_JA_BY_EN[enTitle];
-  return [enTitle,enText];
-}
-function endingDisplayTitle(title){return (currentLang&&currentLang()==='ja'&&ENDING_JA_BY_EN[title])?ENDING_JA_BY_EN[title][0]:title;}
-function endingDisplayText(title,text){return (currentLang&&currentLang()==='ja'&&ENDING_JA_BY_EN[title])?ENDING_JA_BY_EN[title][1]:(text||'');}
-function unlockTrueEnding(){
-  const p=localizedEndingPair('True Ending: Choose Yourself','Airi stops treating love as proof she is worth choosing. She chooses peace, writes the story, and walks into the next era as herself.');
-  const assets=endingAssetsFor(p[0]);
-  assets.forEach(k=>unlockCG(assetTitle(k)));
-  unlockEnding(p[0],p[1],assets);
-}
-
-function routeEnd(code){const e=(currentLang&&currentLang()==='ja'&&ENDING_COPY_JA[code])?ENDING_COPY_JA[code]:(ENDING_COPY[code]||['Ending: '+code,'This ending is unlocked.']);end(e[0],e[1]);}
+function routeEnd(code){const e=ENDING_COPY[code]||['Ending: '+code,'This ending is unlocked.'];end(e[0],e[1]);}
 
 function endingAssetsFor(title){return (END_ASSETS[title]||[]).filter(k=>CG_ART[k]);}
-function renderEndingArt(keys){const wrap=document.getElementById('endingArt');wrap.innerHTML='';(keys||[]).filter(k=>CG_ART[k]).forEach((k,i)=>{const frame=document.createElement('div');frame.className='ending-frame';frame.innerHTML='<img src="'+CG_ART[k]+'" alt="'+escapeHtml(assetTitle(k))+'"><div class="caption">'+(i+1)+'. '+escapeHtml(assetTitle(k))+'</div>';wrap.appendChild(frame);});}
+function renderEndingArt(keys){const wrap=document.getElementById('endingArt');wrap.innerHTML='';(keys||[]).forEach((k,i)=>{const frame=document.createElement('div');frame.className='ending-frame';frame.innerHTML='<img src="'+CG_ART[k]+'" alt="'+escapeHtml(assetTitle(k))+'"><div class="caption">'+(i+1)+'. '+escapeHtml(assetTitle(k))+'</div>';wrap.appendChild(frame);});}
 function renderEndingCopy(txt){return displayText(txt).split(/\n\s*\n/).map(p=>'<p>'+escapeHtml(p)+'</p>').join('');}
 function end(t,txt){const title=displayText(t);const body=displayText(txt);const assets=endingAssetsFor(t);assets.forEach(k=>unlockCG(assetTitle(k)));unlockEnding(title,body,assets);document.getElementById('endingTitle').textContent=title;renderEndingArt(assets);document.getElementById('endingText').innerHTML=renderEndingCopy(body);show('ending');}
 
@@ -11564,29 +11432,17 @@ function unlockCG(title){let arr=read('cgs',[]);if(!arr.includes(title)){arr.pus
 function unlockEnding(title,text,assets){let arr=read('endings',[]);if(!arr.find(e=>e.title===title)){arr.push({title,text,assets,date:new Date().toLocaleString()});store('endings',arr);}}
 function renderRoutes(){
   const g=document.getElementById('routeGrid');g.innerHTML='';
-  Object.keys(routeNames).forEach(r=>{const locked=(r==='kenji'&&!kenjiUnlocked());const d=document.createElement('div');d.className='card';const title=locked?ui('secretLocked'):routeDisplayName(r);const imgKey=locked?(L==='ja'?'secret_route_locked_card_jp':'secret_route_locked_card'):ROUTE_COVER[r];const cover=(imgKey&&CG_ART[imgKey])?'<img class="route-card-img" src="'+CG_ART[imgKey]+'" alt="'+escapeHtml(title)+'">':'';const btn=locked?'<button onclick="revealKenji()">'+ui('reveal')+'</button>':'<button onclick="startRoute(\''+r+'\')">'+ui('play')+'</button>';d.innerHTML=cover+'<h3>'+escapeHtml(title)+'</h3><p>'+escapeHtml(routeTagDisplay(r))+'</p>'+btn;g.appendChild(d);});
+  Object.keys(routeNames).forEach(r=>{const locked=(r==='kenji'&&!kenjiUnlocked());const d=document.createElement('div');d.className='card';const title=locked?ui('secretLocked'):routeDisplayName(r);const imgKey=locked?(currentLang()==='ja'&&CG_ART['secret_route_locked_card_jp']?'secret_route_locked_card_jp':'secret_route_locked_card'):ROUTE_COVER[r];const cover=(imgKey&&CG_ART[imgKey])?'<img class="route-card-img" src="'+CG_ART[imgKey]+'" alt="'+escapeHtml(title)+'">':'';const btn=locked?'<button onclick="revealKenji()">'+ui('reveal')+'</button>':'<button onclick="startRoute(\''+r+'\')">'+ui('play')+'</button>';d.innerHTML=cover+'<h3>'+escapeHtml(title)+'</h3><p>'+escapeHtml(routeTagDisplay(r))+'</p>'+btn;g.appendChild(d);});
 }
 function renderSaves(){let saves=read('saves',Array(20).fill(null));let g=document.getElementById('saveGrid');g.innerHTML='';for(let i=0;i<20;i++){let s=saves[i];let d=document.createElement('div');d.className='slot '+(!s?'empty':'');d.innerHTML=s?'<b>Slot '+(i+1)+'</b><p>'+escapeHtml(routeDisplayName(s.route))+'<br>Player: '+escapeHtml(s.playerName||'Airi')+'<br>'+escapeHtml(s.scene)+'<br>'+escapeHtml(s.date)+'</p>':'<b>Slot '+(i+1)+'</b><p>Empty</p>';d.innerHTML+='<button onclick="saveSlot('+i+')">Save</button>'+(s?'<button onclick="loadSlot('+i+')">Load</button><button class="secondary" onclick="clearSlot('+i+')">Clear</button>':'');g.appendChild(d);}}
 function saveSlot(i){if(!route||!scene){alert('Start a route before saving.');return}let saves=read('saves',Array(20).fill(null));saves[i]={route,scene,stats:{...stats},playerName:playerName(),date:new Date().toLocaleString()};store('saves',saves);renderSaves();}
 function loadSlot(i){let s=read('saves',Array(20).fill(null))[i];if(!s)return;route=s.route;scene=s.scene;stats=s.stats||{a:0,b:0,self:0,gravity:0,honesty:0,tommyRisk:0};if(s.playerName)store('playerName',s.playerName);show('game');render();}
 function clearSlot(i){let saves=read('saves',Array(20).fill(null));saves[i]=null;store('saves',saves);renderSaves();}
-function showEndings(){let arr=read('endings',[]);let g=document.getElementById('endingGrid');g.innerHTML=arr.length?'':'<p>No endings unlocked yet.</p>';arr.forEach(x=>{let displayTitle=endingDisplayTitle(x.title);let displayBody=endingDisplayText(x.title,x.text);let keys=(x.assets&&x.assets.length?x.assets:(END_ASSETS[x.title]||END_ASSETS[displayTitle]||[])).filter(k=>CG_ART[k]);let thumb=keys.length?'<img class="cg-thumb" src="'+CG_ART[keys[0]]+'" alt="'+escapeHtml(displayTitle)+'">':'';let d=document.createElement('div');d.className='card';d.innerHTML=thumb+'<h3>'+escapeHtml(displayTitle)+'</h3><p>'+escapeHtml(displayBody||'')+'</p>';g.appendChild(d);});show('endings');}
+function showEndings(){let arr=read('endings',[]);let g=document.getElementById('endingGrid');g.innerHTML=arr.length?'':'<p>No endings unlocked yet.</p>';arr.forEach(x=>{let keys=(x.assets&&x.assets.length?x.assets:(END_ASSETS[x.title]||[])).filter(k=>CG_ART[k]);let thumb=keys.length?'<img class="cg-thumb" src="'+CG_ART[keys[0]]+'" alt="'+escapeHtml(x.title)+'">':'';let d=document.createElement('div');d.className='card';d.innerHTML=thumb+'<h3>'+escapeHtml(x.title)+'</h3><p>'+escapeHtml(x.text||'')+'</p>';g.appendChild(d);});show('endings');}
 function showCGs(){let unlocked=read('cgs',[]);let g=document.getElementById('cgGrid');g.innerHTML='';GALLERY_ORDER.forEach(item=>{const k=item.key;const title=assetTitle(k);const isUnlocked=unlocked.includes(title)||unlocked.includes(item.title)||ROUTE_COVER && Object.values(ROUTE_COVER).includes(k);let d=document.createElement('div');d.className='card';d.innerHTML=isUnlocked?'<img class="cg-thumb" src="'+CG_ART[k]+'" alt="'+escapeHtml(title)+'"><h3>'+escapeHtml(title)+'</h3><p class="small">'+escapeHtml(ASSET_META[k]?.route||'')+'</p>':'<div class="cg-thumb locked">LOCKED</div><h3>'+escapeHtml(title)+'</h3><p class="small">Play the matching scene or ending to unlock this image.</p>';g.appendChild(d);});if(!g.children.length)g.innerHTML='<p>No CGs available.</p>';show('cgs');}
 function showCheatCodeScreen(){show('cheatCode');document.getElementById('cheatCodeInput').value='';document.getElementById('cheatFeedback').textContent='Enter the earned code. Hint: no more ____.';}
 function submitCheatCode(){const entered=(document.getElementById('cheatCodeInput').value||'').trim().toUpperCase().replace(/\s+/g,' ');const f=document.getElementById('cheatFeedback');if(entered!==CHEAT_CODE){f.textContent='That code does not open this file.';return;}if(!(activeData().tommy&&activeData().tommy.scenes.tommy_cheat_festival_confession)){f.textContent='Code accepted, but the hidden scene is not in this script build yet.';return;}route='tommy';scene='tommy_cheat_festival_confession';stats={a:0,b:0,self:99,gravity:99,honesty:99,tommyRisk:99};show('game');render();}
 document.addEventListener('DOMContentLoaded',()=>{applyLanguageUI();renderRoutes();});
-
-(function(){
-  window.addEventListener('error', function(e){
-    const t=e.target;
-    if(t && t.tagName==='IMG'){
-      console.warn('[TLG asset missing]', t.getAttribute('src'), t.alt || '');
-    }
-  }, true);
-})();
-
 </script>
 </body>
 </html>
-
-}
