@@ -47,9 +47,17 @@ h1,h2,h3{margin:0 0 10px;color:#ffd7ec}p{line-height:1.55}.small{font-family:Ari
 input::placeholder{color:rgba(255,234,246,.55)}
 input{width:min(460px,100%);padding:14px 16px;border-radius:999px;border:1px solid rgba(255,176,215,.6);background:rgba(255,255,255,.12);color:#ffeaf6;font-size:18px;margin:10px 0}
 
-.lang-toggle{position:fixed;right:18px;top:16px;z-index:9999;background:rgba(15,7,22,.82);border:1px solid rgba(255,155,205,.35);border-radius:999px;padding:6px;display:flex;gap:6px;backdrop-filter:blur(10px)}
+.lang-toggle{z-index:9999;background:rgba(15,7,22,.82);border:1px solid rgba(255,155,205,.35);border-radius:999px;padding:6px;display:flex;gap:6px;backdrop-filter:blur(10px)}
 .lang-toggle button{margin:0;padding:8px 12px;font-family:Arial,sans-serif;font-size:13px;background:rgba(255,255,255,.08)}
 .lang-toggle button.active{background:linear-gradient(135deg,#ff78b6,#ad4d90);box-shadow:0 0 18px rgba(255,120,182,.32)}
+.global-lang-toggle{position:fixed;right:18px;bottom:18px;top:auto}
+body.screen-menu .global-lang-toggle,body.screen-game .global-lang-toggle{display:none}
+.menu-wrap .menu-lang-toggle{position:absolute;left:31.5%;top:66%;transform:translate(-50%,-50%)}
+.game-controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.game-controls button{margin:5px}
+.game-controls .game-lang-toggle{position:static;display:inline-flex;vertical-align:middle;margin:5px}
+.game-controls .game-lang-toggle button{padding:10px 14px}
+@media(max-width:720px){.menu-wrap .menu-lang-toggle{left:31.5%;top:65.5%;transform:translate(-50%,-50%) scale(.78);transform-origin:center}.global-lang-toggle{right:10px;bottom:10px}.game-controls{gap:4px}.game-controls .game-lang-toggle{margin-top:5px}}
 .jp-note{font-family:Arial,sans-serif;font-size:13px;color:#ffd2e8;margin-top:8px;opacity:.9}
 body.lang-ja{font-family:'Hiragino Mincho ProN','Yu Mincho','YuMincho','Noto Serif JP',Georgia,'Times New Roman',serif}
 body.lang-ja button,body.lang-ja .small,body.lang-ja .stat{font-family:'Hiragino Sans','Yu Gothic','Meiryo',Arial,sans-serif}
@@ -64,8 +72,8 @@ body.lang-ja button,body.lang-ja .small,body.lang-ja .stat{font-family:'Hiragino
 <body>
 
 <div class='lang-toggle global-lang-toggle' aria-label='Language Toggle'>
-  <button id='langEnBtn' onclick="setLanguage('en')">EN</button>
-  <button id='langJaBtn' onclick="setLanguage('ja')">和</button>
+  <button id='langEnBtn' class='lang-en-btn' onclick="setLanguage('en')">EN</button>
+  <button id='langJaBtn' class='lang-ja-btn' onclick="setLanguage('ja')">和</button>
 </div>
 
 
@@ -101,7 +109,7 @@ body.lang-ja button,body.lang-ja .small,body.lang-ja .stat{font-family:'Hiragino
 <section id='settings' class='screen'><div class='panel'><h1 id='settingsTitle'>Settings</h1><p id='settingsIntro'>Language can be switched between English and Japanese. The Japanese story script is structured as a separate duplicate script so it can be fully translated instead of patched line-by-line.</p><div id='settingsLangMount'></div><button id='settingsBackBtn' class='secondary' onclick="show('menu')">Back to Main Menu</button></div></section>
 <section id='kenjiReveal' class='screen'><div class='panel'><h1 id='kenjiRevealTitle'>Secret Route Unlocked</h1><div class='route-grid'><div class='card'><img class='route-card-img' src='assets/kenji_character_card.jpg' alt='Kenji Sato character card'><h2 id='kenjiRevealName'>Kenji Sato</h2><p><b id='kenjiRevealTags'>Quiet • Familiar • Home</b></p><p id='kenjiRevealBody'>His picture is now viewable. The secret card will stay revealed on the main menu and route select from now on.</p><button id='kenjiRevealStartBtn' onclick="startRoute('kenji')">Start Kenji Route</button><button id='kenjiRevealBackBtn' class='secondary' onclick="show('routes');renderRoutes()">Back to Routes</button></div></div></div></section>
 
-<section id='game' class='screen'><div class='status-row'><div class='stat'><b id='stat1name'>Affection</b><span id='stat1'>0</span></div><div class='stat'><b id='stat2name'>Route Stat</b><span id='stat2'>0</span></div><div class='stat'><b id='selfName'>Self Respect</b><span id='self'>0</span></div><div class='stat'><b id='gravityName'>Tommy Gravity</b><span id='gravity'>0</span></div><div class='stat'><b id='honestyName'>Tommy Honesty</b><span id='honesty'>0</span></div></div><div class='vn-stage'><div id='bg' class='bg'><img id='stageImg' class='stage-img' alt='Scene art'><div id='cg' class='cg-label'></div></div><div class='dialogue' onclick='advanceText()'><div id='speaker' class='name'></div><div id='line' class='text'></div></div><div id='advanceRow' class='advance-row'><button id='nextBtn' onclick='advanceText()'>Next ▸</button></div><div id='choices' class='choices'></div></div><div class='panel small'><span id='gameHint' class='small'>Tap the dialogue box or Next to advance text.</span><br><button id='gameSaveBtn' onclick="show('saves');renderSaves()">Save / Load</button><button id='gameRouteBtn' class='secondary' onclick="show('routes');renderRoutes()">Route Select</button><button id='gameMenuBtn' class='secondary' onclick="show('menu')">Main Menu</button></div></section>
+<section id='game' class='screen'><div class='status-row'><div class='stat'><b id='stat1name'>Affection</b><span id='stat1'>0</span></div><div class='stat'><b id='stat2name'>Route Stat</b><span id='stat2'>0</span></div><div class='stat'><b id='selfName'>Self Respect</b><span id='self'>0</span></div><div class='stat'><b id='gravityName'>Tommy Gravity</b><span id='gravity'>0</span></div><div class='stat'><b id='honestyName'>Tommy Honesty</b><span id='honesty'>0</span></div></div><div class='vn-stage'><div id='bg' class='bg'><img id='stageImg' class='stage-img' alt='Scene art'><div id='cg' class='cg-label'></div></div><div class='dialogue' onclick='advanceText()'><div id='speaker' class='name'></div><div id='line' class='text'></div></div><div id='advanceRow' class='advance-row'><button id='nextBtn' onclick='advanceText()'>Next ▸</button></div><div id='choices' class='choices'></div></div><div class='panel small game-control-panel'><span id='gameHint' class='small'>Tap the dialogue box or Next to advance text.</span><br><div class='game-controls'><button id='gameSaveBtn' onclick="show('saves');renderSaves()">Save / Load</button><button id='gameRouteBtn' class='secondary' onclick="show('routes');renderRoutes()">Route Select</button><button id='gameMenuBtn' class='secondary' onclick="show('menu')">Main Menu</button><span class='lang-toggle game-lang-toggle' aria-label='Gameplay Language Toggle'><button class='lang-en-btn' onclick="setLanguage('en')">EN</button><button class='lang-ja-btn' onclick="setLanguage('ja')">和</button></span></div></div></section>
 <section id='ending' class='screen'><div class='panel'><p>Ending Unlocked</p><h1 id='endingTitle'></h1><div id='endingArt' class='ending-art'></div><div id='endingText' class='ending-copy'></div><button onclick="show('routes');renderRoutes()">Choose Another Route</button><button onclick="showEndings()">Unlocked Endings</button><button onclick="showCGs()">Unlocked CGs</button><button class='secondary' onclick="show('menu')">Main Menu</button></div></section>
 
 <script>
@@ -4421,7 +4429,7 @@ const DATA = {
       "tommy_intro": [
         "Tommy Route · Forever Maybe",
         "Narration",
-        "Tommy’s route is not a reward route.\n\nIt is the problem-child route.\n\nHe defines the relationship as friendship, but every scene behaves like a loaded confession that never quite reaches the air.\n\nNo rival forcing his hand.\n\nNo clean excuse.\n\nJust Airi trying to stay cordial after he broke her heart, and Tommy acting like friendship is a safe word for something much messier.\n\nNarration: This is the route where intimacy is not the prize. It is the trap.",
+        "Tommy’s route is not a reward route.\n\nIt is the unresolved route.\n\nHe defines the relationship as friendship, but every scene behaves like a loaded confession that never quite reaches the air.\n\nNo rival forcing his hand.\n\nNo clean excuse.\n\nJust Airi trying to stay cordial after he broke her heart, and Tommy acting like friendship is a safe word for something much messier.\n\nNarration: This is the route where intimacy is not the prize. It is the trap.",
         [
           [
             "Reconnect carefully.",
@@ -6284,7 +6292,7 @@ const JP_TRANSLATION_PATCH = {
     "tommy_intro": {
       "title": "トミールート・永遠の「たぶん」",
       "speaker": "ナレーション",
-      "text": "トミーのルートは、ご褒美ルートではない。\n\n問題児ルートだ。\n\n彼はこの関係を「友情」と定義する。でも、どの場面も、空気に届く直前で止まってしまう、重すぎる告白みたいに振る舞う。\n\n彼の背中を押すライバルはいない。\n\nきれいな言い訳もない。\n\nただ、彼に失恋したあとも礼儀正しくいようとするアイリと、友情という言葉を、もっと厄介な何かの安全装置みたいに使うトミーがいるだけ。\n\nナレーション：これは、親密さがご褒美ではないルートだ。罠だ。",
+      "text": "トミーのルートは、ご褒美ルートではない。\n\n未解決のルートだ。\n\n彼はこの関係を「友情」と定義する。でも、どの場面も、空気に届く直前で止まってしまう、重すぎる告白みたいに振る舞う。\n\n彼の背中を押すライバルはいない。\n\nきれいな言い訳もない。\n\nただ、彼に失恋したあとも礼儀正しくいようとするアイリと、友情という言葉を、もっと厄介な何かの安全装置みたいに使うトミーがいるだけ。\n\nナレーション：これは、親密さがご褒美ではないルートだ。罠だ。",
       "choices": [
         "慎重に再びつながる。",
         "完全に平気なふりをする。",
@@ -7484,7 +7492,7 @@ function setLanguage(lang){store('lang',lang==='ja'?'ja':'en');applyLanguageUI()
 function setTextById(id,value,html=false){const el=document.getElementById(id);if(!el)return;if(html)el.innerHTML=value;else el.textContent=value;}
 function applyLanguageUI(){
   const L=currentLang();document.documentElement.lang=L==='ja'?'ja':'en';document.title=L==='ja'?'長いお別れ':'The Long Goodbye';document.body.classList.toggle('lang-ja',L==='ja');
-  const en=document.getElementById('langEnBtn'), ja=document.getElementById('langJaBtn');if(en)en.classList.toggle('active',L==='en');if(ja)ja.classList.toggle('active',L==='ja');
+  document.querySelectorAll('.lang-en-btn').forEach(en=>en.classList.toggle('active',L==='en'));document.querySelectorAll('.lang-ja-btn').forEach(ja=>ja.classList.toggle('active',L==='ja'));
   setTextById('routesTitle',ui('routesTitle'));setTextById('routesIntro',ui('routesIntro'));setTextById('routesBackBtn',ui('routesBackBtn'));
   setTextById('nameTitle',ui('nameTitle'));setTextById('nameIntro',ui('nameIntro'),true);setTextById('nameConfirmBtn',ui('nameConfirmBtn'));setTextById('nameCanonBtn',ui('nameCanonBtn'));setTextById('nameBackBtn',ui('nameBackBtn'));setTextById('nameNote',ui('nameNote'));
   setTextById('settingsTitle',ui('settingsTitle'));setTextById('settingsIntro',ui('settingsIntro'));setTextById('settingsBackBtn',ui('settingsBackBtn'));
@@ -7606,6 +7614,7 @@ const CG_ART = {
   "house_in_hyogo_home": "assets/house_in_hyogo_home.jpg",
   "the_long_goodbye_main_menu": "assets/the_long_goodbye_main_menu.jpg",
   "secret_route_locked_card": "assets/secret_route_locked_card.jpg",
+  "secret_route_locked_card_jp": "assets/secret_route_locked_card_jp.jpg",
   "hiroshi_character_card": "assets/hiroshi_character_card.jpg",
   "kenji_character_card": "assets/kenji_character_card.jpg",
   "menu_locked_secret": "assets/menu_locked_secret.jpg",
@@ -7622,6 +7631,12 @@ const CG_ART = {
   "route_kenji_card": "assets/route_kenji_card__webp.jpg",
   "route_ren_card": "assets/route_ren_card__webp.jpg",
   "route_tommy_card": "assets/route_tommy_card__webp.jpg",
+  "route_intro_ren_begin": "assets/route_intro_ren_begin.jpg",
+  "route_intro_harrison_begin": "assets/route_intro_harrison_begin.jpg",
+  "route_intro_marcus_begin": "assets/route_intro_marcus_begin.jpg",
+  "route_intro_hiroshi_begin": "assets/route_intro_hiroshi_begin.jpg",
+  "route_intro_tommy_begin": "assets/route_intro_tommy_begin.jpg",
+  "route_intro_kenji_begin": "assets/route_intro_kenji_begin.jpg",
   "friend_camille_phone": "assets/friend_camille_phone.jpg",
   "friend_jade_phone": "assets/friend_jade_phone.jpg",
   "friend_tessa_phone": "assets/friend_tessa_phone.jpg",
@@ -7640,6 +7655,8 @@ const CG_ART = {
   "hiroshi_osaka_city_stroll": "assets/hiroshi_osaka_city_stroll.jpg",
   "hiroshi_aquarium": "assets/hiroshi_aquarium.jpg",
   "tommy_prince_text_gloomy": "assets/tommy_prince_text_gloomy.jpg",
+  "tommy_sad_phone_closeup": "assets/tommy_sad_phone_closeup.jpg",
+  "tommy_castle_boat_osaka": "assets/tommy_castle_boat_osaka.jpg",
   "hiroshi_hand_kiss_temporary": "assets/hiroshi_hand_kiss_temporary.jpg",
   "hiroshi_waterfront_date": "assets/hiroshi_waterfront_date.jpg",
   "hiroshi_karaoke_lounge": "assets/hiroshi_karaoke_lounge.jpg",
@@ -7664,6 +7681,8 @@ const CG_ART = {
   "secret_our_little_boy": "assets/secret_our_little_boy.jpg",
   "airi_phone_reflection": "assets/airi_phone_reflection.jpg",
   "airi_phone_call_soft": "assets/airi_phone_call_soft.jpg",
+  "airi_phone_down_house": "assets/airi_phone_down_house.jpg",
+  "airi_phone_buzzing_house": "assets/airi_phone_buzzing_house.jpg",
   "empty_japanese_station": "assets/empty_japanese_station.jpg",
   "empty_osaka_alley": "assets/empty_osaka_alley.jpg",
   "riverside_transition_sunset": "assets/riverside_transition_sunset.jpg",
@@ -8614,6 +8633,36 @@ const ASSET_META = {
     "route": "Route Select",
     "file": "route_tommy_card__webp.jpg"
   },
+  "route_intro_ren_begin": {
+    "title": "Route Intro Ren Begin",
+    "route": "Ren Route",
+    "file": "route_intro_ren_begin.jpg"
+  },
+  "route_intro_harrison_begin": {
+    "title": "Route Intro Harrison Begin",
+    "route": "Harrison Route",
+    "file": "route_intro_harrison_begin.jpg"
+  },
+  "route_intro_marcus_begin": {
+    "title": "Route Intro Marcus Begin",
+    "route": "Marcus Route",
+    "file": "route_intro_marcus_begin.jpg"
+  },
+  "route_intro_hiroshi_begin": {
+    "title": "Route Intro Hiroshi Begin",
+    "route": "Hiroshi Route",
+    "file": "route_intro_hiroshi_begin.jpg"
+  },
+  "route_intro_tommy_begin": {
+    "title": "Route Intro Tommy Begin",
+    "route": "Tommy Route",
+    "file": "route_intro_tommy_begin.jpg"
+  },
+  "route_intro_kenji_begin": {
+    "title": "Route Intro Kenji Begin",
+    "route": "Kenji Route",
+    "file": "route_intro_kenji_begin.jpg"
+  },
   "airi_texting_ren_room": {
     "title": "Airi Reflection · Texting Ren in her room",
     "route": "Ren Route",
@@ -9195,19 +9244,19 @@ const SCENE_ASSETS = {
     "hiroshi_train_reflection"
   ],
   "hiroshi_phone_transition": [
-    "hiroshi_train_reflection"
+    "tommy_sad_phone_closeup"
   ],
   "hiroshi_prince": [
-    "hiroshi_dotonbori_night"
+    "tommy_sad_phone_closeup"
   ],
   "hiroshi_prince_send": [
-    "hiroshi_karaoke_lounge"
+    "tommy_sad_phone_closeup"
   ],
   "hiroshi_prince_why": [
-    "hiroshi_osaka_alley_rain"
+    "tommy_sad_phone_closeup"
   ],
   "hiroshi_prince_ignore": [
-    "hiroshi_train_reflection"
+    "airi_phone_down_house"
   ],
   "hiroshi_dad": [
     "hiroshi_dad_couch"
@@ -9252,10 +9301,10 @@ const SCENE_ASSETS = {
     "tommy_texting_marcus_route"
   ],
   "kenji_tommy_no_answer": [
-    "airi_phone_reflection"
+    "airi_phone_down_house"
   ],
   "kenji_tommy_boundary": [
-    "airi_phone_reflection"
+    "airi_phone_down_house"
   ],
   "kenji_tommy_warm": [
     "airi_phone_reflection"
@@ -9397,16 +9446,16 @@ const SCENE_ASSETS = {
     "tommy_osaka_castle_lilac"
   ],
   "tommy_castle_boat": [
-    "romantic_evening_by_the_riverside"
+    "tommy_castle_boat_osaka"
   ],
   "tommy_boat_life": [
-    "romantic_evening_by_the_riverside"
+    "tommy_castle_boat_osaka"
   ],
   "tommy_boat_tease": [
-    "golden_hour_stroll_by_the_river"
+    "tommy_castle_boat_osaka"
   ],
   "tommy_boat_soft": [
-    "serene_sunset_riverside_reflection"
+    "tommy_castle_boat_osaka"
   ],
   "tommy_hep_arcade": [
     "karaoke_vibes_in_a_cozy_lounge"
@@ -9447,7 +9496,7 @@ const SCENE_ASSETS = {
     "romantic_sunset_by_the_beach"
   ],
   "tommy_family_text": [
-    "airi_phone_reflection"
+    "airi_phone_buzzing_house"
   ],
   "tommy_family_arcade": [
     "tommy_hep5_game_fun",
@@ -9615,22 +9664,22 @@ const SCENE_ASSETS = {
     "tommy_festival_secret_kiss"
   ],
   "ren_route_opening": [
-    "route_ren_card"
+    "route_intro_ren_begin"
   ],
   "harrison_route_opening": [
-    "route_harrison_card"
+    "route_intro_harrison_begin"
   ],
   "marcus_route_opening": [
-    "route_marcus_card"
+    "route_intro_marcus_begin"
   ],
   "hiroshi_route_opening": [
-    "route_hiroshi_card"
+    "route_intro_hiroshi_begin"
   ],
   "tommy_route_opening": [
-    "route_tommy_card"
+    "route_intro_tommy_begin"
   ],
   "kenji_route_opening": [
-    "route_kenji_card"
+    "route_intro_kenji_begin"
   ],
   "ren_family_text_after_gf": [
     "airi_phone_reflection"
@@ -11128,7 +11177,7 @@ function escapeHtml(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','
 function assetTitle(k){return (ASSET_META[k]&&ASSET_META[k].title)||String(k||'').replace(/_/g,' ');}
 function routeDisplayName(r){return currentLang()==='ja'?(routeNamesJA[r]||routeNames[r]||r):(routeNames[r]||r);}
 function routeTagDisplay(r){return currentLang()==='ja'?(routeTagsJA[r]||routeTags[r]||''):(routeTags[r]||'');}
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');applyLanguageUI();if(id==='routes')renderRoutes();if(id==='saves')renderSaves();}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.body.classList.forEach(c=>{if(c.startsWith('screen-'))document.body.classList.remove(c)});document.body.classList.add('screen-'+id);applyLanguageUI();if(id==='routes')renderRoutes();if(id==='saves')renderSaves();}
 function showNameSetup(){show('nameSetup');setTimeout(()=>document.getElementById('playerNameInput').focus(),50);}
 function setPlayerNameAndGo(){const v=(document.getElementById('playerNameInput').value||'Airi').trim()||'Airi';store('playerName',v);show('routes');renderRoutes();}
 function kenjiUnlocked(){return read('kenjiUnlocked',false);}
@@ -11173,10 +11222,10 @@ function sceneLineAssetKey(){
   const map=SCENE_LINE_ASSETS[scene]||{};
   if(map[String(lineIndex)]) return map[String(lineIndex)];
   const keys=SCENE_ASSETS[scene]||[];
-  if(lineIndex===0 && keys[0]) return keys[0];
+  if(keys[0]) return keys[0];
   return null;
 }
-function routeStartArtKey(){const D=activeData();return route&&scene&&D[route]&&scene===D[route].start&&ROUTE_COVER[route]&&CG_ART[ROUTE_COVER[route]] ? ROUTE_COVER[route] : '';}
+function routeStartArtKey(){const D=activeData();const keys=scene?(SCENE_ASSETS[scene]||[]):[];if(keys[0])return '';return route&&scene&&D[route]&&scene===D[route].start&&ROUTE_COVER[route]&&CG_ART[ROUTE_COVER[route]] ? ROUTE_COVER[route] : '';}
 function setStageArt(key){
   const img=document.getElementById('stageImg');const cg=document.getElementById('cg');if(cg){cg.textContent='';cg.style.display='none';}
   if(key&&CG_ART[key]){img.src=CG_ART[key];img.style.display='block';img.alt=assetTitle(key);}
@@ -11220,7 +11269,7 @@ function render(){
   document.getElementById('bg').className='bg';
   document.getElementById('choices').innerHTML='';document.getElementById('advanceRow').style.display='flex';
   lineParts=splitVNText(s[2]);lineIndex=0;
-  setStageArt(cover || (SCENE_ASSETS[scene]||[])[0] || '');
+  setStageArt((SCENE_ASSETS[scene]||[])[0] || cover || '');
   startType(lineParts[0]);
 }
 function startRoute(r){
@@ -11507,7 +11556,7 @@ function unlockTrueEnding(){
 function routeEnd(code){const e=(currentLang&&currentLang()==='ja'&&ENDING_COPY_JA[code])?ENDING_COPY_JA[code]:(ENDING_COPY[code]||['Ending: '+code,'This ending is unlocked.']);end(e[0],e[1]);}
 
 function endingAssetsFor(title){return (END_ASSETS[title]||[]).filter(k=>CG_ART[k]);}
-function renderEndingArt(keys){const wrap=document.getElementById('endingArt');wrap.innerHTML='';(keys||[]).forEach((k,i)=>{const frame=document.createElement('div');frame.className='ending-frame';frame.innerHTML='<img src="'+CG_ART[k]+'" alt="'+escapeHtml(assetTitle(k))+'"><div class="caption">'+(i+1)+'. '+escapeHtml(assetTitle(k))+'</div>';wrap.appendChild(frame);});}
+function renderEndingArt(keys){const wrap=document.getElementById('endingArt');wrap.innerHTML='';(keys||[]).filter(k=>CG_ART[k]).forEach((k,i)=>{const frame=document.createElement('div');frame.className='ending-frame';frame.innerHTML='<img src="'+CG_ART[k]+'" alt="'+escapeHtml(assetTitle(k))+'"><div class="caption">'+(i+1)+'. '+escapeHtml(assetTitle(k))+'</div>';wrap.appendChild(frame);});}
 function renderEndingCopy(txt){return displayText(txt).split(/\n\s*\n/).map(p=>'<p>'+escapeHtml(p)+'</p>').join('');}
 function end(t,txt){const title=displayText(t);const body=displayText(txt);const assets=endingAssetsFor(t);assets.forEach(k=>unlockCG(assetTitle(k)));unlockEnding(title,body,assets);document.getElementById('endingTitle').textContent=title;renderEndingArt(assets);document.getElementById('endingText').innerHTML=renderEndingCopy(body);show('ending');}
 
@@ -11515,7 +11564,7 @@ function unlockCG(title){let arr=read('cgs',[]);if(!arr.includes(title)){arr.pus
 function unlockEnding(title,text,assets){let arr=read('endings',[]);if(!arr.find(e=>e.title===title)){arr.push({title,text,assets,date:new Date().toLocaleString()});store('endings',arr);}}
 function renderRoutes(){
   const g=document.getElementById('routeGrid');g.innerHTML='';
-  Object.keys(routeNames).forEach(r=>{const locked=(r==='kenji'&&!kenjiUnlocked());const d=document.createElement('div');d.className='card';const title=locked?ui('secretLocked'):routeDisplayName(r);const imgKey=locked?'secret_route_locked_card':ROUTE_COVER[r];const cover=(imgKey&&CG_ART[imgKey])?'<img class="route-card-img" src="'+CG_ART[imgKey]+'" alt="'+escapeHtml(title)+'">':'';const btn=locked?'<button onclick="revealKenji()">'+ui('reveal')+'</button>':'<button onclick="startRoute(\''+r+'\')">'+ui('play')+'</button>';d.innerHTML=cover+'<h3>'+escapeHtml(title)+'</h3><p>'+escapeHtml(routeTagDisplay(r))+'</p>'+btn;g.appendChild(d);});
+  Object.keys(routeNames).forEach(r=>{const locked=(r==='kenji'&&!kenjiUnlocked());const d=document.createElement('div');d.className='card';const title=locked?ui('secretLocked'):routeDisplayName(r);const imgKey=locked?(L==='ja'?'secret_route_locked_card_jp':'secret_route_locked_card'):ROUTE_COVER[r];const cover=(imgKey&&CG_ART[imgKey])?'<img class="route-card-img" src="'+CG_ART[imgKey]+'" alt="'+escapeHtml(title)+'">':'';const btn=locked?'<button onclick="revealKenji()">'+ui('reveal')+'</button>':'<button onclick="startRoute(\''+r+'\')">'+ui('play')+'</button>';d.innerHTML=cover+'<h3>'+escapeHtml(title)+'</h3><p>'+escapeHtml(routeTagDisplay(r))+'</p>'+btn;g.appendChild(d);});
 }
 function renderSaves(){let saves=read('saves',Array(20).fill(null));let g=document.getElementById('saveGrid');g.innerHTML='';for(let i=0;i<20;i++){let s=saves[i];let d=document.createElement('div');d.className='slot '+(!s?'empty':'');d.innerHTML=s?'<b>Slot '+(i+1)+'</b><p>'+escapeHtml(routeDisplayName(s.route))+'<br>Player: '+escapeHtml(s.playerName||'Airi')+'<br>'+escapeHtml(s.scene)+'<br>'+escapeHtml(s.date)+'</p>':'<b>Slot '+(i+1)+'</b><p>Empty</p>';d.innerHTML+='<button onclick="saveSlot('+i+')">Save</button>'+(s?'<button onclick="loadSlot('+i+')">Load</button><button class="secondary" onclick="clearSlot('+i+')">Clear</button>':'');g.appendChild(d);}}
 function saveSlot(i){if(!route||!scene){alert('Start a route before saving.');return}let saves=read('saves',Array(20).fill(null));saves[i]={route,scene,stats:{...stats},playerName:playerName(),date:new Date().toLocaleString()};store('saves',saves);renderSaves();}
@@ -11539,3 +11588,5 @@ document.addEventListener('DOMContentLoaded',()=>{applyLanguageUI();renderRoutes
 </script>
 </body>
 </html>
+
+}
