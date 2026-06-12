@@ -50,6 +50,7 @@ input{width:min(460px,100%);padding:14px 16px;border-radius:999px;border:1px sol
 .lang-toggle{position:fixed;right:18px;bottom:16px;z-index:80;background:rgba(15,7,22,.82);border:1px solid rgba(255,155,205,.35);border-radius:999px;padding:6px;display:flex;gap:6px;backdrop-filter:blur(10px)}
 #menu .lang-toggle{left:50%;right:auto;top:auto;bottom:18px;transform:translateX(-50%)}
 #game .lang-toggle{position:static;display:inline-flex;margin-top:10px;z-index:auto;transform:none;background:rgba(255,255,255,.08);border-color:rgba(255,176,215,.35)}
+.page-lang-toggle{position:fixed!important;right:18px!important;bottom:16px!important;left:auto!important;top:auto!important;transform:none!important;z-index:90!important}
 .lang-toggle button{margin:0;padding:8px 12px;font-family:Arial,sans-serif;font-size:13px;background:rgba(255,255,255,.08)}
 .lang-toggle button.active{background:linear-gradient(135deg,#ff78b6,#ad4d90);box-shadow:0 0 18px rgba(255,120,182,.32)}
 .jp-note{font-family:Arial,sans-serif;font-size:13px;color:#ffd2e8;margin-top:8px;opacity:.9}
@@ -57,6 +58,7 @@ body.lang-ja{font-family:'Hiragino Mincho ProN','Yu Mincho','YuMincho','Noto Ser
 body.lang-ja button,body.lang-ja .small,body.lang-ja .stat{font-family:'Hiragino Sans','Yu Gothic','Meiryo',Arial,sans-serif}
 
 @media(max-width:720px){
+  #routes .page-lang-toggle,#saves .page-lang-toggle{right:10px!important;bottom:10px!important}
 
   #menu .lang-toggle{bottom:12px}
   #game .lang-toggle{width:auto;justify-content:flex-start}
@@ -99,8 +101,8 @@ body.lang-ja button,body.lang-ja .small,body.lang-ja .stat{font-family:'Hiragino
 </section>
 
 <section id='nameSetup' class='screen'><div class='panel'><h1 id='nameTitle'>New Game</h1><p id='nameIntro'>Enter the name you want the boys and friends to call the main character. Canon/default name is <b>Airi</b>.</p><input id='playerNameInput' maxlength='24' placeholder='Airi'><div><button id='nameConfirmBtn' onclick="setPlayerNameAndGo()">Confirm Name</button><button id='nameCanonBtn' class='secondary' onclick="document.getElementById('playerNameInput').value='Airi';setPlayerNameAndGo()">Use Canon Name: Airi</button><button id='nameBackBtn' class='secondary' onclick="show('menu')">Back</button></div><p id='nameNote' class='small'>This replaces visible “Airi” dialogue text with your chosen name.</p></div></section>
-<section id='routes' class='screen'><div class='panel'><h1 id='routesTitle'>Choose Your Route</h1><p id='routesIntro'>Pick a route. Each route starts with a short character opening before the choices begin.</p><div class='route-grid' id='routeGrid'></div><div id='routeCheatPrompt' class='card' style='display:none;margin-top:18px;'></div><button id='routesBackBtn' class='secondary' onclick="show('menu')">Back to Main Menu</button></div></section>
-<section id='saves' class='screen'><div class='panel'><h1 id='savesTitle'>Save / Load</h1><p id='savesIntro'>20 save slots. Saves are stored in this browser with localStorage.</p><div class='slot-grid' id='saveGrid'></div><button id='savesBackBtn' class='secondary' onclick="show('menu')">Back</button></div></section>
+<section id='routes' class='screen'><div class='panel'><h1 id='routesTitle'>Choose Your Route</h1><p id='routesIntro'>Pick a route. Each route starts with a short character opening before the choices begin.</p><div class='route-grid' id='routeGrid'></div><div id='routeCheatPrompt' class='card' style='display:none;margin-top:18px;'></div><button id='routesBackBtn' class='secondary' onclick="show('menu')">Back to Main Menu</button></div><div class='lang-toggle page-lang-toggle' aria-label='Language Toggle'><button id='routesLangEnBtn' onclick="setLanguage('en')">EN</button><button id='routesLangJaBtn' onclick="setLanguage('ja')">和</button></div></section>
+<section id='saves' class='screen'><div class='panel'><h1 id='savesTitle'>Save / Load</h1><p id='savesIntro'>20 save slots. Saves are stored in this browser with localStorage.</p><div class='slot-grid' id='saveGrid'></div><button id='savesBackBtn' class='secondary' onclick="show('menu')">Back</button></div><div class='lang-toggle page-lang-toggle' aria-label='Language Toggle'><button id='savesLangEnBtn' onclick="setLanguage('en')">EN</button><button id='savesLangJaBtn' onclick="setLanguage('ja')">和</button></div></section>
 <section id='endings' class='screen'><div class='panel'><h1 id='endingsScreenTitle'>Unlocked Endings</h1><div class='unlock-grid' id='endingGrid'></div><button id='endingsBackBtn' class='secondary' onclick="show('menu')">Back</button></div></section>
 <section id='cgs' class='screen'><div class='panel'><h1 id='cgsScreenTitle'>Unlocked CGs</h1><p id='cgsIntro' class='small'>Play scenes to unlock route CGs, character shots, interruptions, bad endings, and secret endings.</p><div class='unlock-grid' id='cgGrid'></div><button id='cgsBackBtn' class='secondary' onclick="show('menu')">Back</button></div></section>
 <section id='about' class='screen'><div class='panel'><h1>Prologue Recap</h1><p>Airi thought love was enough. It never was. This non-canon route simulator lets you test the six routes, unlock endings, collect CGs, and watch Tommy ruin things with suspicious efficiency.</p><p>The bones are already here: Ren’s clarity, Harrison’s peace, Marcus’s heat, Hiroshi’s temporary sparkle, Kenji’s quiet home, and Tommy’s longest maybe. V5.7.14 keeps the route mechanics intact, preserves the Ren Osaka asset reuse, adds Marcus bridge scenes, adds Ren’s good-terms bittersweet ending, and updates the route/menu/CG asset mapping in a controlled pass.</p><p class='small'>Finalization pass: Marcus pacing bridges, Ren good-terms bittersweet ending, friend-council check-ins, route-card/menu isolation, and controlled asset replacements.</p><button onclick="show('routes');renderRoutes()">Choose Route</button><button class='secondary' onclick="show('menu')">Back</button></div></section>
@@ -11199,7 +11201,7 @@ function setLanguage(lang){store('lang',lang==='ja'?'ja':'en');applyLanguageUI()
 function setTextById(id,value,html=false){const el=document.getElementById(id);if(!el)return;if(html)el.innerHTML=value;else el.textContent=value;}
 function applyLanguageUI(){
   const L=currentLang();document.documentElement.lang=L==='ja'?'ja':'en';document.title=L==='ja'?'長いお別れ':'The Long Goodbye';document.body.classList.toggle('lang-ja',L==='ja');
-  ['langEnBtn','gameLangEnBtn'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.toggle('active',L==='en');});['langJaBtn','gameLangJaBtn'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.toggle('active',L==='ja');});
+  ['langEnBtn','gameLangEnBtn','routesLangEnBtn','savesLangEnBtn'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.toggle('active',L==='en');});['langJaBtn','gameLangJaBtn','routesLangJaBtn','savesLangJaBtn'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.toggle('active',L==='ja');});
   setTextById('routesTitle',ui('routesTitle'));setTextById('routesIntro',ui('routesIntro'));setTextById('routesBackBtn',ui('routesBackBtn'));setTextById('savesTitle',ui('saveLoadTitle'));setTextById('savesIntro',ui('saveLoadIntro'));setTextById('savesBackBtn',ui('savesBackBtn'));setTextById('endingsScreenTitle',ui('endingsScreenTitle'));setTextById('endingsBackBtn',ui('endingsBackBtn'));setTextById('cgsScreenTitle',ui('cgsScreenTitle'));setTextById('cgsIntro',ui('cgsIntro'));setTextById('cgsBackBtn',ui('cgsBackBtn'));setTextById('endingUnlockedLabel',ui('endingUnlockedLabel'));setTextById('endingChooseRouteBtn',ui('endingChooseRouteBtn'));setTextById('endingUnlockedEndingsBtn',ui('endingUnlockedEndingsBtn'));setTextById('endingUnlockedCgsBtn',ui('endingUnlockedCgsBtn'));setTextById('endingMainMenuBtn',ui('endingMainMenuBtn'));
   setTextById('nameTitle',ui('nameTitle'));setTextById('nameIntro',ui('nameIntro'),true);setTextById('nameConfirmBtn',ui('nameConfirmBtn'));setTextById('nameCanonBtn',ui('nameCanonBtn'));setTextById('nameBackBtn',ui('nameBackBtn'));setTextById('nameNote',ui('nameNote'));
   setTextById('settingsTitle',ui('settingsTitle'));setTextById('settingsIntro',ui('settingsIntro'));setTextById('settingsBackBtn',ui('settingsBackBtn'));
@@ -11211,7 +11213,7 @@ function updateMenuArt(){
   const wrap=document.getElementById('menuWrap');if(!wrap)return;const L=currentLang();const unlocked=kenjiUnlocked&&kenjiUnlocked();
   let file='assets/menu_locked_secret.jpg';
   if(unlocked) file='assets/menu_unlocked_kenji.jpg';
-  if(L==='ja') file=unlocked?'assets/menu_unlocked_kenji_jp.jpg':'assets/menu_locked_secret_jp.jpg';
+  if(L==='ja') file=unlocked?'assets/menu_locked_secret_jp.jpg':'assets/menu_unlocked_kenji_jp.jpg'; // JP menu art filenames are reversed in the uploaded asset set: locked state uses menu_unlocked_kenji_jp.jpg; unlocked state uses menu_locked_secret_jp.jpg.
   wrap.style.backgroundImage="url('"+file+"')";
 }
 
