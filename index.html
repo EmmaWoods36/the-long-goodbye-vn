@@ -71,7 +71,9 @@ body.lang-ja button,body.lang-ja .small,body.lang-ja .stat{font-family:'Hiragino
 
 
 /* Emma Woods Studio automatic splash screen */
-#splash{min-height:100vh;background:#f5eadc;display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;opacity:1;transition:opacity .65s ease}
+#splash{min-height:100vh;background:#f5eadc;align-items:center;justify-content:center;padding:0;overflow:hidden;opacity:1;transition:opacity .65s ease}
+#splash.screen.active{display:flex}
+#splash.screen:not(.active){display:none!important;min-height:0!important;height:0!important;overflow:hidden!important}
 #splash.splash-fade{opacity:0;pointer-events:none}
 #splash .splash-wrap{position:relative;width:100vw;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#f5eadc}
 #splash img{width:100vw;height:100vh;object-fit:contain;object-position:center center;display:block;background:#f5eadc}
@@ -14877,7 +14879,7 @@ function escapeHtml(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','
 function assetTitle(k){return (ASSET_META[k]&&ASSET_META[k].title)||String(k||'').replace(/_/g,' ');}
 function routeDisplayName(r){return currentLang()==='ja'?(routeNamesJA[r]||routeNames[r]||r):(routeNames[r]||r);}
 function routeTagDisplay(r){return currentLang()==='ja'?(routeTagsJA[r]||routeTags[r]||''):(routeTags[r]||'');}
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');applyLanguageUI();if(id==='routes')renderRoutes();if(id==='saves')renderSaves();}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));const target=document.getElementById(id);target.classList.add('active');applyLanguageUI();if(id==='routes')renderRoutes();if(id==='saves')renderSaves();document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo({top:0,left:0,behavior:'auto'});}
 function showNameSetup(){show('nameSetup');setTimeout(()=>document.getElementById('playerNameInput').focus(),50);}
 function setPlayerNameAndGo(){const v=(document.getElementById('playerNameInput').value||'Airi').trim()||'Airi';store('playerName',v);show('routes');renderRoutes();}
 function kenjiUnlocked(){return read('kenjiUnlocked',false);}
@@ -15066,7 +15068,10 @@ function startSplashTimer(){
   if(!splash || !splash.classList.contains('active')) return;
   setTimeout(()=>{
     splash.classList.add('splash-fade');
-    setTimeout(()=>show('menu'),700);
+    setTimeout(()=>{
+      show('menu');
+      splash.classList.remove('splash-fade');
+    },700);
   },3000);
 }
 document.addEventListener('DOMContentLoaded',()=>{applyLanguageUI();renderRoutes();startSplashTimer();});
