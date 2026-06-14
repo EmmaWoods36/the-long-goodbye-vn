@@ -68,11 +68,28 @@ body.lang-ja button,body.lang-ja .small,body.lang-ja .stat{font-family:'Hiragino
 
 
 .hint{display:none!important;visibility:hidden!important;opacity:0!important}
+
+
+/* Emma Woods Studio automatic splash screen */
+#splash{min-height:100vh;background:#f5eadc;display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;opacity:1;transition:opacity .65s ease}
+#splash.splash-fade{opacity:0;pointer-events:none}
+#splash .splash-wrap{position:relative;width:100vw;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#f5eadc}
+#splash img{width:100vw;height:100vh;object-fit:contain;object-position:center center;display:block;background:#f5eadc}
+@media(max-width:720px){
+  #splash img{width:100vw;height:auto;max-height:100vh;object-fit:contain}
+}
+
 </style>
 </head>
 <body>
+<section id='splash' class='screen active'>
+  <div class='splash-wrap'>
+    <img src='assets/emma_woods_studio_splash.jpg' alt='Emma Woods Studio splash screen'>
+  </div>
+</section>
 
-<section id='menu' class='screen active'>
+
+<section id='menu' class='screen'>
   <div id='menuWrap' class='menu-wrap'>
     <button class='hotspot' title='New Game' onclick="showNameSetup()" style='left:2.4%;top:35.5%;width:20.3%;height:7.2%;'></button>
     <button class='hotspot' title='Load Game' onclick="show('saves');renderSaves()" style='left:2.4%;top:44.0%;width:20.3%;height:6.2%;'></button>
@@ -15043,7 +15060,16 @@ function showEndings(){let arr=read('endings',[]);let g=document.getElementById(
 function showCGs(){let unlocked=read('cgs',[]);let g=document.getElementById('cgGrid');g.innerHTML='';GALLERY_ORDER.forEach(item=>{const k=item.key;const title=assetTitle(k);const isUnlocked=unlocked.includes(title)||unlocked.includes(item.title)||ROUTE_COVER && Object.values(ROUTE_COVER).includes(k);let d=document.createElement('div');d.className='card';d.innerHTML=isUnlocked?'<img class="cg-thumb" src="'+CG_ART[k]+'" alt="'+escapeHtml(title)+'"><h3>'+escapeHtml(title)+'</h3><p class="small">'+escapeHtml(ASSET_META[k]?.route||'')+'</p>':'<div class="cg-thumb locked">'+ui('lockedCg')+'</div><h3>'+escapeHtml(title)+'</h3><p class="small">'+ui('lockedCgNote')+'</p>';g.appendChild(d);});if(!g.children.length)g.innerHTML='<p>'+ui('noCgs')+'</p>';show('cgs');}
 function showCheatCodeScreen(){show('cheatCode');document.getElementById('cheatCodeInput').value='';document.getElementById('cheatFeedback').textContent='Enter the earned code. Hint: no more ____.';}
 function submitCheatCode(){const entered=(document.getElementById('cheatCodeInput').value||'').trim().toUpperCase().replace(/\s+/g,' ');const f=document.getElementById('cheatFeedback');if(entered!==CHEAT_CODE){f.textContent='That code does not open this file.';return;}if(!(activeData().tommy&&activeData().tommy.scenes.tommy_cheat_festival_confession)){f.textContent='Code accepted, but the hidden scene is not in this script build yet.';return;}route='tommy';scene='tommy_cheat_festival_confession';stats={a:0,b:0,self:99,gravity:99,honesty:99,tommyRisk:99};show('game');render();}
-document.addEventListener('DOMContentLoaded',()=>{applyLanguageUI();renderRoutes();});
+
+function startSplashTimer(){
+  const splash=document.getElementById('splash');
+  if(!splash || !splash.classList.contains('active')) return;
+  setTimeout(()=>{
+    splash.classList.add('splash-fade');
+    setTimeout(()=>show('menu'),700);
+  },3000);
+}
+document.addEventListener('DOMContentLoaded',()=>{applyLanguageUI();renderRoutes();startSplashTimer();});
 </script>
 </body>
 </html>
