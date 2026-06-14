@@ -13,7 +13,7 @@ html,body{margin:0;min-height:100%;background:var(--bg);color:var(--light);font-
 button{cursor:pointer;border:1px solid rgba(255,176,215,.6);border-radius:999px;padding:12px 18px;background:linear-gradient(135deg,#ff78b6,#ad4d90);color:#fff;font-weight:700;margin:5px}
 button.secondary{background:rgba(255,255,255,.08)}
 .screen{display:none}.screen.active{display:block}
-.menu-wrap{width:min(100vw,1600px);margin:0 auto;position:relative;aspect-ratio:1672/941;background-image:url('assets/menu_locked_secret.jpg');background-size:contain;background-repeat:no-repeat;background-position:center top}
+.menu-wrap{width:100vw!important;height:100vh!important;height:100dvh!important;min-height:100vh!important;max-width:none!important;margin:0!important;position:relative!important;aspect-ratio:auto!important;background-image:url('assets/menu_locked_secret.jpg');background-size:cover!important;background-repeat:no-repeat!important;background-position:center center!important;overflow:hidden!important}
 .hotspot{position:absolute;border:1px solid rgba(255,155,205,0);border-radius:14px;background:rgba(255,155,205,0);cursor:pointer;transition:.15s ease}
 .hotspot:hover{border-color:rgba(255,155,205,.9);background:rgba(255,155,205,.13);box-shadow:0 0 24px rgba(255,155,205,.42)}
 .hint{position:fixed;left:18px;bottom:16px;z-index:50;background:rgba(15,7,22,.78);border:1px solid rgba(255,155,205,.35);border-radius:999px;padding:10px 14px;font-family:Arial,sans-serif;font-size:14px;color:#ffd7ec;backdrop-filter:blur(10px)}
@@ -70,16 +70,53 @@ body.lang-ja button,body.lang-ja .small,body.lang-ja .stat{font-family:'Hiragino
 .hint{display:none!important;visibility:hidden!important;opacity:0!important}
 
 
+
 /* Emma Woods Studio automatic splash screen */
-#splash{min-height:100vh;background:#f5eadc;align-items:center;justify-content:center;padding:0;overflow:hidden;opacity:1;transition:opacity .65s ease}
+#splash{
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100vh;
+  height:100dvh;
+  min-height:100vh;
+  background:#f5eadc;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  overflow:hidden;
+  opacity:1;
+  transition:opacity .65s ease;
+  z-index:9999;
+}
 #splash.screen.active{display:flex}
 #splash.screen:not(.active){display:none!important;min-height:0!important;height:0!important;overflow:hidden!important}
 #splash.splash-fade{opacity:0;pointer-events:none}
-#splash .splash-wrap{position:relative;width:100vw;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#f5eadc}
-#splash img{width:100vw;height:100vh;object-fit:contain;object-position:center center;display:block;background:#f5eadc}
-@media(max-width:720px){
-  #splash img{width:100vw;height:auto;max-height:100vh;object-fit:contain}
+#splash .splash-wrap{
+  width:100vw;
+  height:100vh;
+  height:100dvh;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f5eadc;
 }
+#splash img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center center;
+  display:block;
+  background:#f5eadc;
+}
+
+
+/* Full-page splash and main menu sizing */
+html,body{width:100%;min-height:100%;overflow-x:hidden}
+#menu.screen.active{display:block;width:100vw;height:100vh;height:100dvh;min-height:100vh;overflow:hidden;margin:0;padding:0}
+#splash.screen.active{display:flex!important;position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;min-height:100vh!important;z-index:9999!important;background:#f5eadc!important;overflow:hidden!important}
+#splash .splash-wrap{width:100vw!important;height:100vh!important;height:100dvh!important;min-height:100vh!important}
+#splash img{width:100vw!important;height:100vh!important;height:100dvh!important;object-fit:cover!important;object-position:center center!important}
 
 </style>
 </head>
@@ -14879,7 +14916,39 @@ function escapeHtml(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','
 function assetTitle(k){return (ASSET_META[k]&&ASSET_META[k].title)||String(k||'').replace(/_/g,' ');}
 function routeDisplayName(r){return currentLang()==='ja'?(routeNamesJA[r]||routeNames[r]||r):(routeNames[r]||r);}
 function routeTagDisplay(r){return currentLang()==='ja'?(routeTagsJA[r]||routeTags[r]||''):(routeTags[r]||'');}
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));const target=document.getElementById(id);target.classList.add('active');applyLanguageUI();if(id==='routes')renderRoutes();if(id==='saves')renderSaves();document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo({top:0,left:0,behavior:'auto'});}
+
+function forceFullPageVisuals(){
+  const menu=document.getElementById('menuWrap');
+  if(menu){
+    menu.style.width='100vw';
+    menu.style.height='100vh';
+    menu.style.minHeight='100vh';
+    menu.style.maxWidth='none';
+    menu.style.aspectRatio='auto';
+    menu.style.backgroundSize='cover';
+    menu.style.backgroundPosition='center center';
+    menu.style.margin='0';
+  }
+  const splash=document.getElementById('splash');
+  if(splash && splash.classList.contains('active')){
+    splash.style.position='fixed';
+    splash.style.inset='0';
+    splash.style.width='100vw';
+    splash.style.height='100vh';
+  }
+}
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const target=document.getElementById(id);
+  if(target) target.classList.add('active');
+  applyLanguageUI();
+  if(id==='routes')renderRoutes();
+  if(id==='saves')renderSaves();
+  document.documentElement.scrollTop=0;
+  document.body.scrollTop=0;
+  window.scrollTo({top:0,left:0,behavior:'auto'});
+  forceFullPageVisuals();
+}
 function showNameSetup(){show('nameSetup');setTimeout(()=>document.getElementById('playerNameInput').focus(),50);}
 function setPlayerNameAndGo(){const v=(document.getElementById('playerNameInput').value||'Airi').trim()||'Airi';store('playerName',v);show('routes');renderRoutes();}
 function kenjiUnlocked(){return read('kenjiUnlocked',false);}
@@ -15070,11 +15139,12 @@ function startSplashTimer(){
     splash.classList.add('splash-fade');
     setTimeout(()=>{
       show('menu');
+      forceFullPageVisuals();
       splash.classList.remove('splash-fade');
     },700);
   },3000);
 }
-document.addEventListener('DOMContentLoaded',()=>{applyLanguageUI();renderRoutes();startSplashTimer();});
+document.addEventListener('DOMContentLoaded',()=>{applyLanguageUI();renderRoutes();startSplashTimer();forceFullPageVisuals();});
 </script>
 </body>
 </html>
