@@ -209,6 +209,190 @@ html,body{width:100%;min-height:100%;overflow-x:hidden;overflow-y:auto}
   }
 }
 
+
+/* V5.7.38 title tagline visibility fix */
+#menu.screen.active{
+  display:block!important;
+  width:100vw!important;
+  min-height:100vh!important;
+  height:auto!important;
+  overflow:auto!important;
+  margin:0!important;
+  padding:0!important;
+  background:#130a18!important;
+}
+#menuWrap.menu-wrap{
+  width:min(96.8vw, 1648px)!important;
+  height:min(95.8vh, 918px)!important;
+  height:min(95.8dvh, 918px)!important;
+  min-height:0!important;
+  max-width:none!important;
+  margin:0.7vh auto 3.5vh auto!important;
+  aspect-ratio:auto!important;
+  background-size:cover!important;
+  background-position:center center!important;
+  background-repeat:no-repeat!important;
+  overflow:hidden!important;
+  border-radius:0!important;
+}
+#menu .lang-toggle{
+  position:fixed!important;
+  right:18px!important;
+  bottom:14px!important;
+  left:auto!important;
+  top:auto!important;
+  transform:none!important;
+  width:116px!important;
+  min-width:116px!important;
+  max-width:116px!important;
+  height:42px!important;
+  min-height:42px!important;
+  max-height:42px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:6px!important;
+  padding:4px!important;
+  border-radius:999px!important;
+  box-sizing:border-box!important;
+  z-index:120!important;
+}
+#menu .lang-toggle button{
+  width:50px!important;
+  height:32px!important;
+  min-width:50px!important;
+  max-width:50px!important;
+  min-height:32px!important;
+  max-height:32px!important;
+  padding:0!important;
+  margin:0!important;
+  border-radius:999px!important;
+  font-size:14px!important;
+  line-height:32px!important;
+  text-align:center!important;
+  flex:0 0 50px!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:720px){
+  #menuWrap.menu-wrap{
+    width:98.4vw!important;
+    height:95.5dvh!important;
+    margin:0.5vh auto 4vh auto!important;
+  }
+  #menu .lang-toggle{
+    right:10px!important;
+    bottom:10px!important;
+    width:108px!important;
+    min-width:108px!important;
+    max-width:108px!important;
+    height:38px!important;
+    min-height:38px!important;
+    max-height:38px!important;
+  }
+  #menu .lang-toggle button{
+    width:46px!important;
+    min-width:46px!important;
+    max-width:46px!important;
+    height:30px!important;
+    min-height:30px!important;
+    max-height:30px!important;
+    line-height:30px!important;
+    flex-basis:46px!important;
+    font-size:13px!important;
+  }
+}
+
+
+/* V5.7.39 restore title toggle bottom-center */
+#menu .lang-toggle{
+  position:fixed!important;
+  left:50%!important;
+  right:auto!important;
+  bottom:14px!important;
+  top:auto!important;
+  transform:translateX(-50%)!important;
+  width:116px!important;
+  min-width:116px!important;
+  max-width:116px!important;
+  height:42px!important;
+  min-height:42px!important;
+  max-height:42px!important;
+}
+@media(max-width:720px){
+  #menu .lang-toggle{
+    left:50%!important;
+    right:auto!important;
+    bottom:10px!important;
+    transform:translateX(-50%)!important;
+  }
+}
+
+
+/* V5.7.40 title toggle anchored to main menu screen */
+#menuWrap.menu-wrap{
+  position:relative!important;
+}
+#menuWrap .menu-inner-lang-toggle{
+  position:absolute!important;
+  left:50%!important;
+  right:auto!important;
+  bottom:14px!important;
+  top:auto!important;
+  transform:translateX(-50%)!important;
+  width:116px!important;
+  min-width:116px!important;
+  max-width:116px!important;
+  height:42px!important;
+  min-height:42px!important;
+  max-height:42px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:6px!important;
+  padding:4px!important;
+  border-radius:999px!important;
+  box-sizing:border-box!important;
+  z-index:120!important;
+}
+#menuWrap .menu-inner-lang-toggle button{
+  width:50px!important;
+  height:32px!important;
+  min-width:50px!important;
+  max-width:50px!important;
+  min-height:32px!important;
+  max-height:32px!important;
+  padding:0!important;
+  margin:0!important;
+  border-radius:999px!important;
+  font-size:14px!important;
+  line-height:32px!important;
+  text-align:center!important;
+  flex:0 0 50px!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:720px){
+  #menuWrap .menu-inner-lang-toggle{
+    bottom:10px!important;
+    width:108px!important;
+    min-width:108px!important;
+    max-width:108px!important;
+    height:38px!important;
+    min-height:38px!important;
+    max-height:38px!important;
+  }
+  #menuWrap .menu-inner-lang-toggle button{
+    width:46px!important;
+    min-width:46px!important;
+    max-width:46px!important;
+    height:30px!important;
+    min-height:30px!important;
+    max-height:30px!important;
+    line-height:30px!important;
+    flex-basis:46px!important;
+    font-size:13px!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -237,12 +421,11 @@ html,body{width:100%;min-height:100%;overflow-x:hidden;overflow-y:auto}
     <button class='hotspot' title='True Ending' onclick="unlockTrueEnding();showEndings();" style='left:57.6%;top:89.0%;width:13.2%;height:6.2%;'></button>
     <button class='hotspot' title='Continue Last Save' onclick="show('saves');renderSaves()" style='left:72.3%;top:89.0%;width:12.7%;height:6.2%;'></button>
     <button class='hotspot' title='Prologue Recap' onclick="show('about')" style='left:86.0%;top:89.0%;width:12.5%;height:6.2%;'></button>
-  </div>
   
-
-  <div class='lang-toggle' aria-label='Language Toggle'>
+    <div class='lang-toggle menu-inner-lang-toggle' aria-label='Language Toggle'>
     <button id='langEnBtn' onclick="setLanguage('en')">EN</button>
     <button id='langJaBtn' onclick="setLanguage('ja')">和</button>
+  </div>
   </div>
   
 </section>
@@ -15011,14 +15194,14 @@ function routeTagDisplay(r){return currentLang()==='ja'?(routeTagsJA[r]||routeTa
 function forceFullPageVisuals(){
   const menu=document.getElementById('menuWrap');
   if(menu){
-    menu.style.width='min(98.6vw, 1680px)';
-    menu.style.height='min(98.2vh, 946px)';
+    menu.style.width='min(96.8vw, 1648px)';
+    menu.style.height='min(95.8vh, 918px)';
     menu.style.minHeight='0';
     menu.style.maxWidth='none';
     menu.style.aspectRatio='auto';
     menu.style.backgroundSize='cover';
     menu.style.backgroundPosition='center center';
-    menu.style.margin='0.9vh auto';
+    menu.style.margin='0.7vh auto 3.5vh auto';
   }
   const splash=document.getElementById('splash');
   if(splash && splash.classList.contains('active')){
