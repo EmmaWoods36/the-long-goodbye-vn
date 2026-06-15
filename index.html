@@ -393,6 +393,37 @@ html,body{width:100%;min-height:100%;overflow-x:hidden;overflow-y:auto}
   }
 }
 
+
+/* V5.7.41 main menu no-crop title image fix */
+#menuWrap.menu-wrap{
+  width:100vw!important;
+  height:100vh!important;
+  height:100dvh!important;
+  min-height:100vh!important;
+  margin:0 auto!important;
+  background-size:100% 100%!important;
+  background-position:center center!important;
+  background-repeat:no-repeat!important;
+  overflow:hidden!important;
+}
+#menu.screen.active{
+  width:100vw!important;
+  height:100vh!important;
+  height:100dvh!important;
+  min-height:100vh!important;
+  overflow:hidden!important;
+  margin:0!important;
+  padding:0!important;
+}
+#menuWrap .menu-inner-lang-toggle{
+  position:absolute!important;
+  left:50%!important;
+  right:auto!important;
+  bottom:2.4%!important;
+  top:auto!important;
+  transform:translateX(-50%)!important;
+}
+
 </style>
 </head>
 <body>
@@ -15194,14 +15225,15 @@ function routeTagDisplay(r){return currentLang()==='ja'?(routeTagsJA[r]||routeTa
 function forceFullPageVisuals(){
   const menu=document.getElementById('menuWrap');
   if(menu){
-    menu.style.width='min(96.8vw, 1648px)';
-    menu.style.height='min(95.8vh, 918px)';
-    menu.style.minHeight='0';
+    menu.style.width='100vw';
+    menu.style.height='100vh';
+    menu.style.minHeight='100vh';
     menu.style.maxWidth='none';
     menu.style.aspectRatio='auto';
-    menu.style.backgroundSize='cover';
+    menu.style.backgroundSize='100% 100%';
     menu.style.backgroundPosition='center center';
-    menu.style.margin='0.7vh auto 3.5vh auto';
+    menu.style.backgroundRepeat='no-repeat';
+    menu.style.margin='0 auto';
   }
   const splash=document.getElementById('splash');
   if(splash && splash.classList.contains('active')){
