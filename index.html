@@ -112,11 +112,102 @@ body.lang-ja button,body.lang-ja .small,body.lang-ja .stat{font-family:'Hiragino
 
 
 /* Full-page splash and main menu sizing */
-html,body{width:100%;min-height:100%;overflow-x:hidden}
+html,body{width:100%;min-height:100%;overflow-x:hidden;overflow-y:auto}
 #menu.screen.active{display:block;width:100vw;height:100vh;height:100dvh;min-height:100vh;overflow:hidden;margin:0;padding:0}
 #splash.screen.active{display:flex!important;position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;min-height:100vh!important;z-index:9999!important;background:#f5eadc!important;overflow:hidden!important}
 #splash .splash-wrap{width:100vw!important;height:100vh!important;height:100dvh!important;min-height:100vh!important}
 #splash img{width:100vw!important;height:100vh!important;height:100dvh!important;object-fit:cover!important;object-position:center center!important}
+
+
+/* V5.7.37 title screen sizing + stable language toggle */
+#menu.screen.active{
+  display:block!important;
+  width:100vw!important;
+  min-height:100vh!important;
+  height:auto!important;
+  overflow:auto!important;
+  margin:0!important;
+  padding:0!important;
+}
+#menuWrap.menu-wrap{
+  width:min(98.6vw, 1680px)!important;
+  height:min(98.2vh, 946px)!important;
+  height:min(98.2dvh, 946px)!important;
+  min-height:0!important;
+  max-width:none!important;
+  margin:0.9vh auto!important;
+  aspect-ratio:auto!important;
+  background-size:cover!important;
+  background-position:center center!important;
+  background-repeat:no-repeat!important;
+  overflow:hidden!important;
+  border-radius:0!important;
+}
+#menu .lang-toggle{
+  position:fixed!important;
+  left:50%!important;
+  bottom:14px!important;
+  top:auto!important;
+  right:auto!important;
+  transform:translateX(-50%)!important;
+  width:116px!important;
+  min-width:116px!important;
+  max-width:116px!important;
+  height:42px!important;
+  min-height:42px!important;
+  max-height:42px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:6px!important;
+  padding:4px!important;
+  border-radius:999px!important;
+  box-sizing:border-box!important;
+  z-index:120!important;
+}
+#menu .lang-toggle button{
+  width:50px!important;
+  height:32px!important;
+  min-width:50px!important;
+  max-width:50px!important;
+  min-height:32px!important;
+  max-height:32px!important;
+  padding:0!important;
+  margin:0!important;
+  border-radius:999px!important;
+  font-size:14px!important;
+  line-height:32px!important;
+  text-align:center!important;
+  flex:0 0 50px!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:720px){
+  #menuWrap.menu-wrap{
+    width:99vw!important;
+    height:98.5dvh!important;
+    margin:0.5vh auto!important;
+  }
+  #menu .lang-toggle{
+    bottom:10px!important;
+    width:108px!important;
+    min-width:108px!important;
+    max-width:108px!important;
+    height:38px!important;
+    min-height:38px!important;
+    max-height:38px!important;
+  }
+  #menu .lang-toggle button{
+    width:46px!important;
+    min-width:46px!important;
+    max-width:46px!important;
+    height:30px!important;
+    min-height:30px!important;
+    max-height:30px!important;
+    line-height:30px!important;
+    flex-basis:46px!important;
+    font-size:13px!important;
+  }
+}
 
 </style>
 </head>
@@ -14920,14 +15011,14 @@ function routeTagDisplay(r){return currentLang()==='ja'?(routeTagsJA[r]||routeTa
 function forceFullPageVisuals(){
   const menu=document.getElementById('menuWrap');
   if(menu){
-    menu.style.width='100vw';
-    menu.style.height='100vh';
-    menu.style.minHeight='100vh';
+    menu.style.width='min(98.6vw, 1680px)';
+    menu.style.height='min(98.2vh, 946px)';
+    menu.style.minHeight='0';
     menu.style.maxWidth='none';
     menu.style.aspectRatio='auto';
     menu.style.backgroundSize='cover';
     menu.style.backgroundPosition='center center';
-    menu.style.margin='0';
+    menu.style.margin='0.9vh auto';
   }
   const splash=document.getElementById('splash');
   if(splash && splash.classList.contains('active')){
