@@ -13,6 +13,8 @@ html,body{margin:0;min-height:100%;background:var(--bg);color:var(--light);font-
 button{cursor:pointer;border:1px solid rgba(255,176,215,.6);border-radius:999px;padding:12px 18px;background:linear-gradient(135deg,#ff78b6,#ad4d90);color:#fff;font-weight:700;margin:5px}
 button.secondary{background:rgba(255,255,255,.08)}
 .screen{display:none}.screen.active{display:block}
+#routes.screen.active{display:block;overflow-y:auto;max-height:100vh;max-height:100dvh;padding-bottom:80px}
+#saves.screen.active{display:block;overflow-y:auto;max-height:100vh;max-height:100dvh;padding-bottom:60px}
 .menu-wrap{width:100vw!important;height:100vh!important;height:100dvh!important;min-height:100vh!important;max-width:none!important;margin:0!important;position:relative!important;aspect-ratio:auto!important;background-image:url('assets/menu_locked_secret.jpg');background-size:cover!important;background-repeat:no-repeat!important;background-position:center center!important;overflow:hidden!important}
 .hotspot{position:absolute;border:1px solid rgba(255,155,205,0);border-radius:14px;background:rgba(255,155,205,0);cursor:pointer;transition:.15s ease}
 .hotspot:hover{border-color:rgba(255,155,205,.9);background:rgba(255,155,205,.13);box-shadow:0 0 24px rgba(255,155,205,.42)}
@@ -27,7 +29,17 @@ h1,h2,h3{margin:0 0 10px;color:#ffd7ec}p{line-height:1.55}.small{font-family:Ari
 .stat b{display:block;color:var(--pink);font-size:11px}.stat span{font-size:20px;font-weight:bold}
 .vn-stage{overflow:hidden;width:min(1000px,92vw);margin:0 auto 20px;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.08)}
 .bg{position:relative;overflow:hidden;display:block;width:100%;aspect-ratio:16/9;max-height:70vh;background:#0d0712}
-.stage-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center center;display:none;background:#0d0712}
+.bg-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:none}
+.sprite-layer{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:none}
+.sprite{position:absolute;bottom:0;height:95%;object-fit:contain;transition:opacity .3s ease,transform .3s ease;opacity:0}
+.sprite.show{opacity:1}
+.sprite.pos-left{left:2%;transform:translateX(-8%) scale(.85)}
+.sprite.pos-left.show{transform:translateX(0) scale(.85)}
+.sprite.pos-center{left:50%;transform:translateX(-50%) scale(1)}
+.sprite.pos-center.show{transform:translateX(-50%) scale(1)}
+.sprite.pos-right{right:2%;transform:translateX(8%) scale(.85)}
+.sprite.pos-right.show{transform:translateX(0) scale(.85)}
+.stage-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center center;display:none;background:#0d0712;z-index:5}
 .cg-label,#cg{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}
 .dialogue{padding:18px;background:rgba(20,10,28,.78);cursor:pointer}
 .name{font-size:26px;color:var(--pink);font-weight:bold;margin-bottom:6px}
@@ -440,7 +452,7 @@ html,body{width:100%;min-height:100%;overflow-x:hidden;overflow-y:auto}
     <button class='hotspot' title='Load Game' onclick="show('saves');renderSaves()" style='left:2.4%;top:44.0%;width:20.3%;height:6.2%;'></button>
     <button class='hotspot' title='Routes' onclick="show('routes');renderRoutes()" style='left:2.4%;top:51.5%;width:20.3%;height:6.2%;'></button>
     <button class='hotspot' title='CG Gallery' onclick="showCGs()" style='left:2.4%;top:59.0%;width:20.3%;height:6.2%;'></button>
-    <button class='hotspot' title='Music Room' onclick="alert('Music Room coming later.')" style='left:2.4%;top:66.5%;width:20.3%;height:6.2%;'></button>
+    <button class='hotspot' title='Music Room' onclick="GameAudio.init();GameAudio.showMusicRoom();" style='left:2.4%;top:66.5%;width:20.3%;height:6.2%;'></button>
     <button class='hotspot' title='Extras' onclick="showEndings()" style='left:2.4%;top:74.0%;width:20.3%;height:6.2%;'></button>
     <button class='hotspot' title='Settings' onclick="show('settings')" style='left:2.4%;top:81.6%;width:20.3%;height:6.2%;'></button>
     <button class='hotspot' title='Ren Route' onclick="startRoute('ren')" style='left:58.0%;top:18.0%;width:12.7%;height:27.5%;'></button>
@@ -465,13 +477,20 @@ html,body{width:100%;min-height:100%;overflow-x:hidden;overflow-y:auto}
 <section id='routes' class='screen'><div class='panel'><h1 id='routesTitle'>Choose Your Route</h1><p id='routesIntro'>Pick a route. Each route starts with a short character opening before the choices begin.</p><div class='route-grid' id='routeGrid'></div><div id='routeCheatPrompt' class='card' style='display:none;margin-top:18px;'></div><button id='routesBackBtn' class='secondary' onclick="show('menu')">Back to Main Menu</button></div><div class='lang-toggle page-lang-toggle' aria-label='Language Toggle'><button id='routesLangEnBtn' onclick="setLanguage('en')">EN</button><button id='routesLangJaBtn' onclick="setLanguage('ja')">和</button></div></section>
 <section id='saves' class='screen'><div class='panel'><h1 id='savesTitle'>Save / Load</h1><p id='savesIntro'>20 save slots. Saves are stored in this browser with localStorage.</p><div class='slot-grid' id='saveGrid'></div><button id='savesBackBtn' class='secondary' onclick="show('menu')">Back</button></div><div class='lang-toggle page-lang-toggle' aria-label='Language Toggle'><button id='savesLangEnBtn' onclick="setLanguage('en')">EN</button><button id='savesLangJaBtn' onclick="setLanguage('ja')">和</button></div></section>
 <section id='endings' class='screen'><div class='panel'><h1 id='endingsScreenTitle'>Unlocked Endings</h1><div class='unlock-grid' id='endingGrid'></div><button id='endingsBackBtn' class='secondary' onclick="show('menu')">Back</button></div></section>
+<section id='musicRoom' class='screen'><div class='panel'><div id='musicRoomContent'></div><button class='secondary' onclick="show('menu')" style='margin-top:1rem;'>Back to Main Menu</button></div></section>
 <section id='cgs' class='screen'><div class='panel'><h1 id='cgsScreenTitle'>Unlocked CGs</h1><p id='cgsIntro' class='small'>Play scenes to unlock route CGs, character shots, interruptions, bad endings, and secret endings.</p><div class='unlock-grid' id='cgGrid'></div><button id='cgsBackBtn' class='secondary' onclick="show('menu')">Back</button></div></section>
 <section id='about' class='screen'><div class='panel'><h1>Prologue Recap</h1><p>Airi thought love was enough. It never was. This non-canon route simulator lets you test the six routes, unlock endings, collect CGs, and watch Tommy ruin things with suspicious efficiency.</p><p>The bones are already here: Ren’s clarity, Harrison’s peace, Marcus’s heat, Hiroshi’s temporary sparkle, Kenji’s quiet home, and Tommy’s longest maybe. V5.7.14 keeps the route mechanics intact, preserves the Ren Osaka asset reuse, adds Marcus bridge scenes, adds Ren’s good-terms bittersweet ending, and updates the route/menu/CG asset mapping in a controlled pass.</p><p class='small'>Finalization pass: Marcus pacing bridges, Ren good-terms bittersweet ending, friend-council check-ins, route-card/menu isolation, and controlled asset replacements.</p><button onclick="show('routes');renderRoutes()">Choose Route</button><button class='secondary' onclick="show('menu')">Back</button></div></section>
 <section id='cheatCode' class='screen'><div class='panel'><p>Ultra Hidden File</p><h1>Enter Cheat Code</h1><p id='cheatIntro'>A route that should not exist can only open after the game knows you survived the truth first.</p><input id='cheatCodeInput' maxlength='40' placeholder='Enter code' style='text-transform:uppercase;letter-spacing:.08em;'><div><button onclick="submitCheatCode()">Submit Code</button><button class='secondary' onclick="show('menu')">Back</button></div><p id='cheatFeedback' class='small' style='margin-top:14px;white-space:pre-line;'></p></div></section>
-<section id='settings' class='screen'><div class='panel'><h1 id='settingsTitle'>Settings</h1><p id='settingsIntro'>Language can be switched between English and Japanese. The Japanese story script is structured as a separate duplicate script so it can be fully translated instead of patched line-by-line.</p><div id='settingsLangMount'></div><button id='settingsBackBtn' class='secondary' onclick="show('menu')">Back to Main Menu</button></div></section>
+<section id='settings' class='screen'><div class='panel'><h1 id='settingsTitle'>Settings</h1><p id='settingsIntro'>Language can be switched between English and Japanese. The Japanese story script is structured as a separate duplicate script so it can be fully translated instead of patched line-by-line.</p><div id='settingsLangMount'></div>
+<div id='audioSettings' style='margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.1);'>
+<h3 style='margin-bottom:1rem;'>♪ Audio Settings</h3>
+<div style='display:flex;align-items:center;justify-content:space-between;margin:0.8rem 0;'><label for='bgmVolSlider'>BGM Volume</label><div style='display:flex;align-items:center;gap:0.5rem;'><input type='range' id='bgmVolSlider' min='0' max='1' step='0.05' value='0.35' style='width:120px;'><button id='bgmMuteBtn' onclick='GameAudio.init();GameAudio.toggleBgmMute();document.getElementById("bgmMuteBtn").textContent=GameAudio.bgmMuted?"🔇":"🔊";' style='padding:0.2rem 0.5rem;'>🔊</button></div></div>
+<div style='display:flex;align-items:center;justify-content:space-between;margin:0.8rem 0;'><label for='sfxVolSlider'>SFX Volume</label><div style='display:flex;align-items:center;gap:0.5rem;'><input type='range' id='sfxVolSlider' min='0' max='1' step='0.05' value='0.5' style='width:120px;'><button id='sfxMuteBtn' onclick='GameAudio.init();GameAudio.toggleSfxMute();document.getElementById("sfxMuteBtn").textContent=GameAudio.sfxMuted?"🔇":"🔊";' style='padding:0.2rem 0.5rem;'>🔊</button></div></div>
+</div>
+<button id='settingsBackBtn' class='secondary' onclick="show('menu')">Back to Main Menu</button></div></section>
 <section id='kenjiReveal' class='screen'><div class='panel'><h1 id='kenjiRevealTitle'>Secret Route Unlocked</h1><div class='route-grid'><div class='card'><img class='route-card-img' src='assets/kenji_character_card.jpg' alt='Kenji Sato character card'><h2 id='kenjiRevealName'>Kenji Sato</h2><p><b id='kenjiRevealTags'>Quiet • Familiar • Home</b></p><p id='kenjiRevealBody'>His picture is now viewable. The secret card will stay revealed on the main menu and route select from now on.</p><button id='kenjiRevealStartBtn' onclick="startRoute('kenji')">Start Kenji Route</button><button id='kenjiRevealBackBtn' class='secondary' onclick="show('routes');renderRoutes()">Back to Routes</button></div></div></div></section>
 
-<section id='game' class='screen'><div class='status-row'><div class='stat'><b id='stat1name'>Affection</b><span id='stat1'>0</span></div><div class='stat'><b id='stat2name'>Route Stat</b><span id='stat2'>0</span></div><div class='stat'><b id='selfName'>Self Respect</b><span id='self'>0</span></div><div class='stat'><b id='gravityName'>Tommy Gravity</b><span id='gravity'>0</span></div><div class='stat'><b id='honestyName'>Tommy Honesty</b><span id='honesty'>0</span></div></div><div class='vn-stage'><div id='bg' class='bg'><img id='stageImg' class='stage-img' alt='Scene art'><div id='cg' class='cg-label'></div></div><div class='dialogue' onclick='advanceText()'><div id='speaker' class='name'></div><div id='line' class='text'></div></div><div id='advanceRow' class='advance-row'><button id='nextBtn' onclick='advanceText()'>Next ▸</button></div><div id='choices' class='choices'></div></div><div class='panel small'><span id='gameHint' class='small'>Tap the dialogue box or Next to advance text.</span><br><button id='gameSaveBtn' onclick="show('saves');renderSaves()">Save / Load</button><button id='gameRouteBtn' class='secondary' onclick="show('routes');renderRoutes()">Route Select</button><button id='gameMenuBtn' class='secondary' onclick="show('menu')">Main Menu</button><div class='lang-toggle game-lang-toggle' aria-label='Language Toggle'><button id='gameLangEnBtn' onclick="setLanguage('en')">EN</button><button id='gameLangJaBtn' onclick="setLanguage('ja')">和</button></div></div></section>
+<section id='game' class='screen'><div class='status-row'><div class='stat'><b id='stat1name'>Affection</b><span id='stat1'>0</span></div><div class='stat'><b id='stat2name'>Route Stat</b><span id='stat2'>0</span></div><div class='stat'><b id='selfName'>Self Respect</b><span id='self'>0</span></div><div class='stat'><b id='gravityName'>Tommy Gravity</b><span id='gravity'>0</span></div><div class='stat'><b id='honestyName'>Tommy Honesty</b><span id='honesty'>0</span></div></div><div class='vn-stage'><div id='bg' class='bg'><img id='bgImg' class='bg-img' alt=''><div id='spriteLayer' class='sprite-layer'></div><img id='stageImg' class='stage-img' alt='Scene art'><div id='cg' class='cg-label'></div></div><div class='dialogue' onclick='advanceText()'><div id='speaker' class='name'></div><div id='line' class='text'></div></div><div id='advanceRow' class='advance-row'><button id='nextBtn' onclick='advanceText()'>Next ▸</button></div><div id='choices' class='choices'></div></div><div class='panel small'><span id='gameHint' class='small'>Tap the dialogue box or Next to advance text.</span><br><button id='gameSaveBtn' onclick="show('saves');renderSaves()">Save / Load</button><button id='gameRouteBtn' class='secondary' onclick="show('routes');renderRoutes()">Route Select</button><button id='gameMenuBtn' class='secondary' onclick="show('menu')">Main Menu</button><div class='lang-toggle game-lang-toggle' aria-label='Language Toggle'><button id='gameLangEnBtn' onclick="setLanguage('en')">EN</button><button id='gameLangJaBtn' onclick="setLanguage('ja')">和</button></div></div></section>
 <section id='ending' class='screen'><div class='panel'><p id='endingUnlockedLabel'>Ending Unlocked</p><h1 id='endingTitle'></h1><div id='endingArt' class='ending-art'></div><div id='endingText' class='ending-copy'></div><button id='endingChooseRouteBtn' onclick="show('routes');renderRoutes()">Choose Another Route</button><button id='endingUnlockedEndingsBtn' onclick="showEndings()">Unlocked Endings</button><button id='endingUnlockedCgsBtn' onclick="showCGs()">Unlocked CGs</button><button id='endingMainMenuBtn' class='secondary' onclick="show('menu')">Main Menu</button></div></section>
 
 <script>
@@ -11782,60 +11801,60 @@ const CG_ART = {
   "tommy_osaka_castle_lilac": "assets/tommy_osaka_castle_lilac.jpg",
   "tommy_family_karaoke_pink": "assets/tommy_family_karaoke_pink.jpg",
   "tommy_bridal_style_arcade": "assets/tommy_bridal_style_arcade.jpg",
-  "tommy_hidden_after_festival_kiss": "assets/new_uploads__tommy_hidden_after_festival_kiss.jpg",
-  "tommy_ise_jingu_entrance_latest": "assets/new_uploads__tommy_ise_jingu_entrance_latest.jpg",
-  "harrison_white_roses_latest": "assets/new_uploads__harrison_white_roses_latest.jpg",
-  "ren_festival_girlfriend_latest": "assets/new_uploads__ren_festival_girlfriend_latest.jpg",
-  "tommy_arcade_cheek_kiss_hidden": "assets/new_uploads__tommy_arcade_cheek_kiss_hidden.jpg",
-  "tommy_festival_solo_yukata_awake": "assets/new_uploads__tommy_festival_solo_yukata_awake.jpg",
-  "harrison_white_party_latest": "assets/new_uploads__harrison_white_party_latest.jpg",
-  "tommy_festival_market_bg": "assets/new_uploads__tommy_festival_market_bg.jpg",
-  "harrison_park_first_date_latest": "assets/new_uploads__harrison_park_first_date_latest.jpg",
-  "tommy_karaoke_lilac_latest": "assets/new_uploads__tommy_karaoke_lilac_latest.jpg",
-  "harrison_job_offer_apartment_before_email": "assets/new_uploads__harrison_job_offer_apartment_before_email.jpg",
-  "tommy_arcade_bull_bridal_ren_interruption": "assets/new_uploads__tommy_arcade_bull_bridal_ren_interruption.jpg",
-  "tommy_ise_jingu_solo_cream_sweater": "assets/new_uploads__tommy_ise_jingu_solo_cream_sweater.jpg",
-  "tommy_hep5_arcade_buttons_couple": "assets/new_uploads__tommy_hep5_arcade_buttons_couple.jpg",
-  "tommy_planetarium_bg": "assets/new_uploads__tommy_planetarium_bg.jpg",
-  "ren_motorcycle_after_tommy_station": "assets/new_uploads__ren_motorcycle_after_tommy_station.jpg",
+  "tommy_hidden_after_festival_kiss": "assets/tommy_hidden_after_festival_kiss.jpg",
+  "tommy_ise_jingu_entrance_latest": "assets/tommy_ise_jingu_entrance_latest.jpg",
+  "harrison_white_roses_latest": "assets/harrison_white_roses_latest.jpg",
+  "ren_festival_girlfriend_latest": "assets/ren_festival_girlfriend_latest.jpg",
+  "tommy_arcade_cheek_kiss_hidden": "assets/tommy_arcade_cheek_kiss_hidden.jpg",
+  "tommy_festival_solo_yukata_awake": "assets/tommy_festival_solo_yukata_awake.jpg",
+  "harrison_white_party_latest": "assets/harrison_white_party_latest.jpg",
+  "tommy_festival_market_bg": "assets/tommy_festival_market_bg.jpg",
+  "harrison_park_first_date_latest": "assets/harrison_park_first_date_latest.jpg",
+  "tommy_karaoke_lilac_latest": "assets/tommy_karaoke_lilac_latest.jpg",
+  "harrison_job_offer_apartment_before_email": "assets/harrison_job_offer_apartment_before_email.jpg",
+  "tommy_arcade_bull_bridal_ren_interruption": "assets/tommy_arcade_bull_bridal_ren_interruption.jpg",
+  "tommy_ise_jingu_solo_cream_sweater": "assets/tommy_ise_jingu_solo_cream_sweater.jpg",
+  "tommy_hep5_arcade_buttons_couple": "assets/tommy_hep5_arcade_buttons_couple.jpg",
+  "tommy_planetarium_bg": "assets/tommy_planetarium_bg.jpg",
+  "ren_motorcycle_after_tommy_station": "assets/ren_motorcycle_after_tommy_station.jpg",
   "harrison_good_ending_kitchen_morning": "assets/harrison_good_ending_kitchen_morning.jpg",
   "harrison_bittersweet_airport_goodbye": "assets/harrison_bittersweet_airport_goodbye.jpg",
   "harrison_bad_empty_space_between_us": "assets/harrison_bad_empty_space_between_us.jpg",
-  "tommy_arcade_cheek_kiss_ren_interruption": "assets/new_uploads__tommy_arcade_cheek_kiss_ren_interruption.jpg",
-  "harrison_cafe_conversation_latest": "assets/new_uploads__harrison_cafe_conversation_latest.jpg",
+  "tommy_arcade_cheek_kiss_ren_interruption": "assets/tommy_arcade_cheek_kiss_ren_interruption.jpg",
+  "harrison_cafe_conversation_latest": "assets/harrison_cafe_conversation_latest.jpg",
   "kenji_final_walk_good_friends": "assets/kenji_final_walk_good_friends.jpg",
-  "tommy_hep5_arcade_solo_latest": "assets/new_uploads__tommy_hep5_arcade_solo_latest.jpg",
-  "ren_cherry_blossom_kiss_new": "assets/new_uploads__ren_cherry_blossom_kiss_new.jpg",
-  "tommy_festival_solo_stalls": "assets/new_uploads__tommy_festival_solo_stalls.jpg",
-  "tommy_arcade_solo_awkward_confession": "assets/new_uploads__tommy_arcade_solo_awkward_confession.jpg",
+  "tommy_hep5_arcade_solo_latest": "assets/tommy_hep5_arcade_solo_latest.jpg",
+  "ren_cherry_blossom_kiss_new": "assets/ren_cherry_blossom_kiss_new.jpg",
+  "tommy_festival_solo_stalls": "assets/tommy_festival_solo_stalls.jpg",
+  "tommy_arcade_solo_awkward_confession": "assets/tommy_arcade_solo_awkward_confession.jpg",
   "ren_sukiyaki_dinner_latest": "assets/ren_sukiyaki_dinner_latest.jpg",
   "ren_waiting_rainy_street_after_tommy": "assets/ren_waiting_rainy_street_after_tommy.jpg",
-  "tommy_arcade_solo_hep5_neon": "assets/new_uploads__tommy_arcade_solo_hep5_neon.jpg",
-  "tommy_family_sukiyaki_pov": "assets/new_uploads__tommy_family_sukiyaki_pov.jpg",
-  "tommy_planetarium_handhold_close_latest": "assets/new_uploads__tommy_planetarium_handhold_close_latest.jpg",
-  "harrison_girlfriend_ask_latest": "assets/new_uploads__harrison_girlfriend_ask_latest.jpg",
-  "tommy_family_dinner_pov_latest": "assets/new_uploads__tommy_family_dinner_pov_latest.jpg",
-  "tommy_arcade_kiss_cheek_latest": "assets/new_uploads__tommy_arcade_kiss_cheek_latest.jpg",
-  "tommy_planetarium_couple_latest": "assets/new_uploads__tommy_planetarium_couple_latest.jpg",
-  "kenji_final_kiss_cherry": "assets/new_uploads__kenji_final_kiss_cherry.jpg",
-  "tommy_festival_yukata_solo_dark": "assets/new_uploads__tommy_festival_yukata_solo_dark.jpg",
-  "tommy_hep5_game_fun": "assets/new_uploads__tommy_hep5_game_fun.jpg",
-  "kenji_tommy_shadow_cherry": "assets/new_uploads__kenji_tommy_shadow_cherry.jpg",
+  "tommy_arcade_solo_hep5_neon": "assets/tommy_arcade_solo_hep5_neon.jpg",
+  "tommy_family_sukiyaki_pov": "assets/tommy_family_sukiyaki_pov.jpg",
+  "tommy_planetarium_handhold_close_latest": "assets/tommy_planetarium_handhold_close_latest.jpg",
+  "harrison_girlfriend_ask_latest": "assets/harrison_girlfriend_ask_latest.jpg",
+  "tommy_family_dinner_pov_latest": "assets/tommy_family_dinner_pov_latest.jpg",
+  "tommy_arcade_kiss_cheek_latest": "assets/tommy_arcade_kiss_cheek_latest.jpg",
+  "tommy_planetarium_couple_latest": "assets/tommy_planetarium_couple_latest.jpg",
+  "kenji_final_kiss_cherry": "assets/kenji_final_kiss_cherry.jpg",
+  "tommy_festival_yukata_solo_dark": "assets/tommy_festival_yukata_solo_dark.jpg",
+  "tommy_hep5_game_fun": "assets/tommy_hep5_game_fun.jpg",
+  "kenji_tommy_shadow_cherry": "assets/kenji_tommy_shadow_cherry.jpg",
   "ren_apartment_exterior_night": "assets/ren_apartment_exterior_night.jpg",
-  "tommy_festival_handhold_close_latest": "assets/new_uploads__tommy_festival_handhold_close_latest.jpg",
-  "tommy_festival_secret_kiss": "assets/new_uploads__tommy_festival_secret_kiss.jpg",
-  "kenji_last_scene_talking_cherry": "assets/new_uploads__kenji_last_scene_talking_cherry.jpg",
-  "harrison_museum_date_latest": "assets/new_uploads__harrison_museum_date_latest.jpg",
-  "kenji_cherry_riverside_walk_couple": "assets/new_uploads__kenji_cherry_riverside_walk_couple.jpg",
+  "tommy_festival_handhold_close_latest": "assets/tommy_festival_handhold_close_latest.jpg",
+  "tommy_festival_secret_kiss": "assets/tommy_festival_secret_kiss.jpg",
+  "kenji_last_scene_talking_cherry": "assets/kenji_last_scene_talking_cherry.jpg",
+  "harrison_museum_date_latest": "assets/harrison_museum_date_latest.jpg",
+  "kenji_cherry_riverside_walk_couple": "assets/kenji_cherry_riverside_walk_couple.jpg",
   "airi_train_phone_rain_night": "assets/airi_train_phone_rain_night.jpg",
-  "tommy_ise_jingu_path_sunset_latest": "assets/new_uploads__tommy_ise_jingu_path_sunset_latest.jpg",
-  "ren_ferris_wheel_closeup_latest": "assets/new_uploads__ren_ferris_wheel_closeup_latest.jpg",
+  "tommy_ise_jingu_path_sunset_latest": "assets/tommy_ise_jingu_path_sunset_latest.jpg",
+  "ren_ferris_wheel_closeup_latest": "assets/ren_ferris_wheel_closeup_latest.jpg",
   "airi_train_phone_day": "assets/airi_train_phone_day.jpg",
-  "harrison_good_ending_couch_kiss": "assets/new_uploads__harrison_good_ending_couch_kiss.jpg",
-  "harrison_job_offer_airi_laptop": "assets/new_uploads__harrison_job_offer_airi_laptop.jpg",
-  "marcus_first_date_mall_gift": "assets/new_uploads__marcus_first_date_mall_gift.jpg",
-  "tommy_family_sukiyaki_wide_latest": "assets/new_uploads__tommy_family_sukiyaki_wide_latest.jpg",
-  "ren_cherry_blossom_date_new": "assets/new_uploads__ren_cherry_blossom_date_new.jpg",
+  "harrison_good_ending_couch_kiss": "assets/harrison_good_ending_couch_kiss.jpg",
+  "harrison_job_offer_airi_laptop": "assets/harrison_job_offer_airi_laptop.jpg",
+  "marcus_first_date_mall_gift": "assets/marcus_first_date_mall_gift.jpg",
+  "tommy_family_sukiyaki_wide_latest": "assets/tommy_family_sukiyaki_wide_latest.jpg",
+  "ren_cherry_blossom_date_new": "assets/ren_cherry_blossom_date_new.jpg",
   "route_start_ren": "assets/route_start_ren.jpg",
   "route_start_harrison": "assets/route_start_harrison.jpg",
   "route_start_marcus": "assets/route_start_marcus.jpg",
@@ -12857,82 +12876,82 @@ const ASSET_META = {
   "tommy_hidden_after_festival_kiss": {
     "title": "Tommy Hidden After Festival Kiss",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_hidden_after_festival_kiss.jpg"
+    "file": "tommy_hidden_after_festival_kiss.jpg"
   },
   "tommy_ise_jingu_entrance_latest": {
     "title": "Tommy Ise Jingu Entrance Latest",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_ise_jingu_entrance_latest.jpg"
+    "file": "tommy_ise_jingu_entrance_latest.jpg"
   },
   "harrison_white_roses_latest": {
     "title": "Harrison White Roses Latest",
     "route": "Harrison Route",
-    "file": "new_uploads__harrison_white_roses_latest.jpg"
+    "file": "harrison_white_roses_latest.jpg"
   },
   "ren_festival_girlfriend_latest": {
     "title": "Ren Festival Girlfriend Latest",
     "route": "Ren Route",
-    "file": "new_uploads__ren_festival_girlfriend_latest.jpg"
+    "file": "ren_festival_girlfriend_latest.jpg"
   },
   "tommy_arcade_cheek_kiss_hidden": {
     "title": "Tommy Arcade Cheek Kiss Hidden",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_arcade_cheek_kiss_hidden.jpg"
+    "file": "tommy_arcade_cheek_kiss_hidden.jpg"
   },
   "tommy_festival_solo_yukata_awake": {
     "title": "Tommy Festival Solo Yukata Awake",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_festival_solo_yukata_awake.jpg"
+    "file": "tommy_festival_solo_yukata_awake.jpg"
   },
   "harrison_white_party_latest": {
     "title": "Harrison White Party Latest",
     "route": "Harrison Route",
-    "file": "new_uploads__harrison_white_party_latest.jpg"
+    "file": "harrison_white_party_latest.jpg"
   },
   "tommy_festival_market_bg": {
     "title": "Tommy Festival Market Bg",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_festival_market_bg.jpg"
+    "file": "tommy_festival_market_bg.jpg"
   },
   "harrison_park_first_date_latest": {
     "title": "Harrison Park First Date Latest",
     "route": "Harrison Route",
-    "file": "new_uploads__harrison_park_first_date_latest.jpg"
+    "file": "harrison_park_first_date_latest.jpg"
   },
   "tommy_karaoke_lilac_latest": {
     "title": "Tommy Karaoke Lilac Latest",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_karaoke_lilac_latest.jpg"
+    "file": "tommy_karaoke_lilac_latest.jpg"
   },
   "harrison_job_offer_apartment_before_email": {
     "title": "Harrison Job Offer Apartment Before Email",
     "route": "Harrison Route",
-    "file": "new_uploads__harrison_job_offer_apartment_before_email.jpg"
+    "file": "harrison_job_offer_apartment_before_email.jpg"
   },
   "tommy_arcade_bull_bridal_ren_interruption": {
     "title": "Tommy Arcade Bull Bridal Ren Interruption",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_arcade_bull_bridal_ren_interruption.jpg"
+    "file": "tommy_arcade_bull_bridal_ren_interruption.jpg"
   },
   "tommy_ise_jingu_solo_cream_sweater": {
     "title": "Tommy Ise Jingu Solo Cream Sweater",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_ise_jingu_solo_cream_sweater.jpg"
+    "file": "tommy_ise_jingu_solo_cream_sweater.jpg"
   },
   "tommy_hep5_arcade_buttons_couple": {
     "title": "Tommy Hep5 Arcade Buttons Couple",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_hep5_arcade_buttons_couple.jpg"
+    "file": "tommy_hep5_arcade_buttons_couple.jpg"
   },
   "tommy_planetarium_bg": {
     "title": "Tommy Planetarium Bg",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_planetarium_bg.jpg"
+    "file": "tommy_planetarium_bg.jpg"
   },
   "ren_motorcycle_after_tommy_station": {
     "title": "Ren Motorcycle After Tommy Station",
     "route": "Ren Route",
-    "file": "new_uploads__ren_motorcycle_after_tommy_station.jpg"
+    "file": "ren_motorcycle_after_tommy_station.jpg"
   },
   "harrison_good_ending_kitchen_morning": {
     "title": "Harrison Good Ending Kitchen Morning",
@@ -12952,12 +12971,12 @@ const ASSET_META = {
   "tommy_arcade_cheek_kiss_ren_interruption": {
     "title": "Tommy Arcade Cheek Kiss Ren Interruption",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_arcade_cheek_kiss_ren_interruption.jpg"
+    "file": "tommy_arcade_cheek_kiss_ren_interruption.jpg"
   },
   "harrison_cafe_conversation_latest": {
     "title": "Harrison Cafe Conversation Latest",
     "route": "Harrison Route",
-    "file": "new_uploads__harrison_cafe_conversation_latest.jpg"
+    "file": "harrison_cafe_conversation_latest.jpg"
   },
   "kenji_final_walk_good_friends": {
     "title": "Kenji Final Walk Good Friends",
@@ -12967,22 +12986,22 @@ const ASSET_META = {
   "tommy_hep5_arcade_solo_latest": {
     "title": "Tommy Hep5 Arcade Solo Latest",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_hep5_arcade_solo_latest.jpg"
+    "file": "tommy_hep5_arcade_solo_latest.jpg"
   },
   "ren_cherry_blossom_kiss_new": {
     "title": "Ren Cherry Blossom Kiss New",
     "route": "Ren Route",
-    "file": "new_uploads__ren_cherry_blossom_kiss_new.jpg"
+    "file": "ren_cherry_blossom_kiss_new.jpg"
   },
   "tommy_festival_solo_stalls": {
     "title": "Tommy Festival Solo Stalls",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_festival_solo_stalls.jpg"
+    "file": "tommy_festival_solo_stalls.jpg"
   },
   "tommy_arcade_solo_awkward_confession": {
     "title": "Tommy Arcade Solo Awkward Confession",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_arcade_solo_awkward_confession.jpg"
+    "file": "tommy_arcade_solo_awkward_confession.jpg"
   },
   "ren_sukiyaki_dinner_latest": {
     "title": "Ren Sukiyaki Dinner Latest",
@@ -12997,57 +13016,57 @@ const ASSET_META = {
   "tommy_arcade_solo_hep5_neon": {
     "title": "Tommy Arcade Solo Hep5 Neon",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_arcade_solo_hep5_neon.jpg"
+    "file": "tommy_arcade_solo_hep5_neon.jpg"
   },
   "tommy_family_sukiyaki_pov": {
     "title": "Tommy Family Sukiyaki Pov",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_family_sukiyaki_pov.jpg"
+    "file": "tommy_family_sukiyaki_pov.jpg"
   },
   "tommy_planetarium_handhold_close_latest": {
     "title": "Tommy Planetarium Handhold Close Latest",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_planetarium_handhold_close_latest.jpg"
+    "file": "tommy_planetarium_handhold_close_latest.jpg"
   },
   "harrison_girlfriend_ask_latest": {
     "title": "Harrison Girlfriend Ask Latest",
     "route": "Harrison Route",
-    "file": "new_uploads__harrison_girlfriend_ask_latest.jpg"
+    "file": "harrison_girlfriend_ask_latest.jpg"
   },
   "tommy_family_dinner_pov_latest": {
     "title": "Tommy Family Dinner Pov Latest",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_family_dinner_pov_latest.jpg"
+    "file": "tommy_family_dinner_pov_latest.jpg"
   },
   "tommy_arcade_kiss_cheek_latest": {
     "title": "Tommy Arcade Kiss Cheek Latest",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_arcade_kiss_cheek_latest.jpg"
+    "file": "tommy_arcade_kiss_cheek_latest.jpg"
   },
   "tommy_planetarium_couple_latest": {
     "title": "Tommy Planetarium Couple Latest",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_planetarium_couple_latest.jpg"
+    "file": "tommy_planetarium_couple_latest.jpg"
   },
   "kenji_final_kiss_cherry": {
     "title": "Kenji Final Kiss Cherry",
     "route": "Kenji Secret Route",
-    "file": "new_uploads__kenji_final_kiss_cherry.jpg"
+    "file": "kenji_final_kiss_cherry.jpg"
   },
   "tommy_festival_yukata_solo_dark": {
     "title": "Tommy Festival Yukata Solo Dark",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_festival_yukata_solo_dark.jpg"
+    "file": "tommy_festival_yukata_solo_dark.jpg"
   },
   "tommy_hep5_game_fun": {
     "title": "Tommy Hep5 Game Fun",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_hep5_game_fun.jpg"
+    "file": "tommy_hep5_game_fun.jpg"
   },
   "kenji_tommy_shadow_cherry": {
     "title": "Kenji Tommy Shadow Cherry",
     "route": "Kenji Secret Route",
-    "file": "new_uploads__kenji_tommy_shadow_cherry.jpg"
+    "file": "kenji_tommy_shadow_cherry.jpg"
   },
   "ren_apartment_exterior_night": {
     "title": "Ren Apartment Exterior Night",
@@ -13057,27 +13076,27 @@ const ASSET_META = {
   "tommy_festival_handhold_close_latest": {
     "title": "Tommy Festival Handhold Close Latest",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_festival_handhold_close_latest.jpg"
+    "file": "tommy_festival_handhold_close_latest.jpg"
   },
   "tommy_festival_secret_kiss": {
     "title": "Tommy Festival Secret Kiss",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_festival_secret_kiss.jpg"
+    "file": "tommy_festival_secret_kiss.jpg"
   },
   "kenji_last_scene_talking_cherry": {
     "title": "Kenji Last Scene Talking Cherry",
     "route": "Kenji Secret Route",
-    "file": "new_uploads__kenji_last_scene_talking_cherry.jpg"
+    "file": "kenji_last_scene_talking_cherry.jpg"
   },
   "harrison_museum_date_latest": {
     "title": "Harrison Museum Date Latest",
     "route": "Harrison Route",
-    "file": "new_uploads__harrison_museum_date_latest.jpg"
+    "file": "harrison_museum_date_latest.jpg"
   },
   "kenji_cherry_riverside_walk_couple": {
     "title": "Kenji Cherry Riverside Walk Couple",
     "route": "Kenji Secret Route",
-    "file": "new_uploads__kenji_cherry_riverside_walk_couple.jpg"
+    "file": "kenji_cherry_riverside_walk_couple.jpg"
   },
   "airi_train_phone_rain_night": {
     "title": "Airi Train Phone Rain Night",
@@ -13087,12 +13106,12 @@ const ASSET_META = {
   "tommy_ise_jingu_path_sunset_latest": {
     "title": "Tommy Ise Jingu Path Sunset Latest",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_ise_jingu_path_sunset_latest.jpg"
+    "file": "tommy_ise_jingu_path_sunset_latest.jpg"
   },
   "ren_ferris_wheel_closeup_latest": {
     "title": "Ren Ferris Wheel Closeup Latest",
     "route": "Ren Route",
-    "file": "new_uploads__ren_ferris_wheel_closeup_latest.jpg"
+    "file": "ren_ferris_wheel_closeup_latest.jpg"
   },
   "airi_train_phone_day": {
     "title": "Airi Train Phone Day",
@@ -13102,27 +13121,27 @@ const ASSET_META = {
   "harrison_good_ending_couch_kiss": {
     "title": "Harrison Good Ending Couch Kiss",
     "route": "Harrison Route",
-    "file": "new_uploads__harrison_good_ending_couch_kiss.jpg"
+    "file": "harrison_good_ending_couch_kiss.jpg"
   },
   "harrison_job_offer_airi_laptop": {
     "title": "Harrison Job Offer Airi Laptop",
     "route": "Harrison Route",
-    "file": "new_uploads__harrison_job_offer_airi_laptop.jpg"
+    "file": "harrison_job_offer_airi_laptop.jpg"
   },
   "marcus_first_date_mall_gift": {
     "title": "Marcus First Date Mall Gift",
     "route": "Marcus Route",
-    "file": "new_uploads__marcus_first_date_mall_gift.jpg"
+    "file": "marcus_first_date_mall_gift.jpg"
   },
   "tommy_family_sukiyaki_wide_latest": {
     "title": "Tommy Family Sukiyaki Wide Latest",
     "route": "Tommy / Cross-route",
-    "file": "new_uploads__tommy_family_sukiyaki_wide_latest.jpg"
+    "file": "tommy_family_sukiyaki_wide_latest.jpg"
   },
   "ren_cherry_blossom_date_new": {
     "title": "Ren Cherry Blossom Date New",
     "route": "Ren Route",
-    "file": "new_uploads__ren_cherry_blossom_date_new.jpg"
+    "file": "ren_cherry_blossom_date_new.jpg"
   }
 };
 const SCENE_ASSETS = {
@@ -13476,7 +13495,7 @@ const SCENE_ASSETS = {
     "romantic_evening_by_the_riverside"
   ],
   "tommy_boat_tease": [
-    "golden_hour_stroll_by_the_river"
+    "romantic_evening_by_the_riverside"
   ],
   "tommy_boat_soft": [
     "serene_sunset_riverside_reflection"
@@ -13517,7 +13536,7 @@ const SCENE_ASSETS = {
     "tommy_ise_jingu_path_sunset_latest"
   ],
   "tommy_snoopy_cafe": [
-    "romantic_sunset_by_the_beach"
+    "kenji_cafe_warmth"
   ],
   "tommy_family_text": [
     "airi_phone_reflection"
@@ -13919,6 +13938,452 @@ const ROUTE_START_ART = {
   "tommy": "route_start_tommy",
   "kenji": "route_start_kenji"
 };
+
+// === SPRITE SYSTEM CONFIG ===
+const BG_IMAGES = {
+  hospital_corridor: 'assets/bg/hospital_corridor.png',
+  airi_room: 'assets/bg/airi_room.png',
+  osaka_street: 'assets/bg/osaka_street.png',
+  cherry_park: 'assets/bg/cherry_park.png',
+  train_station: 'assets/bg/train_station.png',
+  festival_grounds: 'assets/bg/festival_grounds.png',
+  ren_apartment: 'assets/bg/ren_apartment.png',
+  train_interior: 'assets/bg/train_interior.png',
+  music_room: 'assets/bg/music_room.png',
+  osaka_castle: 'assets/bg/osaka_castle.png',
+  riverside: 'assets/bg/riverside.png',
+  arcade: 'assets/bg/arcade.png',
+  karaoke_room: 'assets/bg/karaoke_room.png',
+  car_interior: 'assets/bg/car_interior.png',
+  seaside: 'assets/bg/seaside.png',
+  cafe: 'assets/bg/cafe.png',
+  museum: 'assets/bg/museum.png',
+  city_night: 'assets/bg/city_night.png',
+  white_party: 'assets/bg/white_party.png',
+  mall: 'assets/bg/mall.png',
+  restaurant: 'assets/bg/restaurant.png',
+  apartment_night: 'assets/bg/apartment_night.png',
+  aquarium: 'assets/bg/aquarium.png',
+  university: 'assets/bg/university.png',
+  riverside_night: 'assets/bg/riverside_night.png',
+};
+const SPRITE_IMAGES = {
+  ren: {
+    neutral: 'assets/sprites/ren/ren_neutral.png',
+    smile: 'assets/sprites/ren/ren_smile.png',
+    soft: 'assets/sprites/ren/ren_soft.png',
+    surprised: 'assets/sprites/ren/ren_surprised.png',
+    serious: 'assets/sprites/ren/ren_serious.png',
+    sad: 'assets/sprites/ren/ren_sad.png',
+  },
+  tommy: {
+    neutral: 'assets/sprites/tommy/tommy_neutral.png',
+    tense: 'assets/sprites/tommy/tommy_tense.png',
+    sad: 'assets/sprites/tommy/tommy_sad.png',
+    soft: 'assets/sprites/tommy/tommy_soft.png',
+    serious: 'assets/sprites/tommy/tommy_serious.png',
+    smile: 'assets/sprites/tommy/tommy_smile.png',
+    playful: 'assets/sprites/tommy/tommy_playful.png',
+    flustered: 'assets/sprites/tommy/tommy_flustered.png',
+  },
+  harrison: {
+    neutral: 'assets/sprites/harrison/harrison_neutral.png',
+    smile: 'assets/sprites/harrison/harrison_smile.png',
+    soft: 'assets/sprites/harrison/harrison_soft.png',
+    serious: 'assets/sprites/harrison/harrison_serious.png',
+  },
+  marcus: {
+    neutral: 'assets/sprites/marcus/marcus_neutral.png',
+    smile: 'assets/sprites/marcus/marcus_smile.png',
+    serious: 'assets/sprites/marcus/marcus_serious.png',
+    tense: 'assets/sprites/marcus/marcus_tense.png',
+  },
+  hiroshi: {
+    neutral: 'assets/sprites/hiroshi/hiroshi_neutral.png',
+    smile: 'assets/sprites/hiroshi/hiroshi_smile.png',
+    serious: 'assets/sprites/hiroshi/hiroshi_serious.png',
+    sad: 'assets/sprites/hiroshi/hiroshi_sad.png',
+  },
+  kenji: {
+    neutral: 'assets/sprites/kenji/kenji_neutral.png',
+    smile: 'assets/sprites/kenji/kenji_smile.png',
+    soft: 'assets/sprites/kenji/kenji_soft.png',
+    serious: 'assets/sprites/kenji/kenji_serious.png',
+  },
+};
+// Map scene names to background + sprite configuration
+// Scenes not listed here use the existing CG system
+const SCENE_PRESENTATION = {
+  'ren_intro': { bg: 'hospital_corridor', sprites: [{id:'ren',expr:'neutral',pos:'center'}] },
+  'ren_text': { bg: 'airi_room', sprites: [] },
+  'ren_text_maybe': { bg: 'airi_room', sprites: [] },
+  'ren_text_confident': { bg: 'airi_room', sprites: [] },
+  'ren_text_busy': { bg: 'airi_room', sprites: [] },
+  'ren_text_room_smile': { bg: 'airi_room', sprites: [] },
+  'ren_text_room_tease': { bg: 'airi_room', sprites: [] },
+  'ren_text_room_deny': { bg: 'airi_room', sprites: [] },
+  'ren_date': { bg: 'osaka_street', sprites: [{id:'ren',expr:'smile',pos:'center'}] },
+  'ren_hand_here': { bg: 'cherry_park', sprites: [{id:'ren',expr:'soft',pos:'center'}] },
+  'ren_hand_joke': { bg: 'cherry_park', sprites: [{id:'ren',expr:'smile',pos:'center'}] },
+  'ren_hand_phone': { bg: 'cherry_park', sprites: [{id:'ren',expr:'neutral',pos:'center'}] },
+  // First date scenes - Osaka street with Ren
+  'ren_first_date_tease': { bg: 'osaka_street', sprites: [{id:'ren',expr:'smile',pos:'center'}] },
+  'ren_first_date_direct': { bg: 'osaka_street', sprites: [{id:'ren',expr:'neutral',pos:'center'}] },
+  'ren_first_date_accept': { bg: 'osaka_street', sprites: [{id:'ren',expr:'smile',pos:'center'}] },
+  // Cherry blossom walking/talking scenes (not the kiss - that keeps its CG)
+  'ren_cherry_walk': { bg: 'cherry_park', sprites: [{id:'ren',expr:'neutral',pos:'center'}] },
+  'ren_cherry_talk_tease': { bg: 'cherry_park', sprites: [{id:'ren',expr:'smile',pos:'center'}] },
+  'ren_cherry_talk_unreal': { bg: 'cherry_park', sprites: [{id:'ren',expr:'soft',pos:'center'}] },
+  // Festival scenes (not girlfriend reveal - that keeps its CG)
+  'ren_festival_invite': { bg: 'festival_grounds', sprites: [{id:'ren',expr:'neutral',pos:'center'}] },
+  'ren_festival_joke': { bg: 'festival_grounds', sprites: [{id:'ren',expr:'smile',pos:'center'}] },
+  'ren_festival_sure': { bg: 'festival_grounds', sprites: [{id:'ren',expr:'neutral',pos:'center'}] },
+  'ren_festival_react_soft': { bg: 'festival_grounds', sprites: [{id:'ren',expr:'soft',pos:'center'}] },
+  'ren_festival_react_tease': { bg: 'festival_grounds', sprites: [{id:'ren',expr:'smile',pos:'center'}] },
+  'ren_festival_react_hand': { bg: 'festival_grounds', sprites: [{id:'ren',expr:'soft',pos:'center'}] },
+  // Tommy interruption scenes at Osaka station - Tommy sprites
+  'ren_kyoto': { bg: 'train_station', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
+  'ren_kyoto_apologize': { bg: 'train_station', sprites: [{id:'tommy',expr:'tense',pos:'center'}] },
+  'ren_kyoto_call_him_out': { bg: 'train_station', sprites: [{id:'tommy',expr:'tense',pos:'center'}] },
+  'ren_kyoto_choose_ren': { bg: 'train_station', sprites: [{id:'tommy',expr:'sad',pos:'center'}] },
+  'ren_kyoto_stay': { bg: 'train_station', sprites: [{id:'tommy',expr:'soft',pos:'center'}] },
+  // Ren's apartment scenes
+  'ren_returns': { bg: 'ren_apartment', sprites: [{id:'ren',expr:'neutral',pos:'center'}] },
+  'ren_truth': { bg: 'ren_apartment', sprites: [{id:'ren',expr:'serious',pos:'center'}] },
+  // Texting/planning scenes - Airi's room, no sprites
+  'ren_bday': { bg: 'airi_room', sprites: [] },
+  'ren_bday_choose_ren': { bg: 'airi_room', sprites: [] },
+  'ren_bday_choose_tommy': { bg: 'airi_room', sprites: [] },
+  'ren_bday_try_both': { bg: 'airi_room', sprites: [] },
+  'ren_text_room_tessa': { bg: 'airi_room', sprites: [] },
+  // Train transition scenes - train interior, no sprites
+  'ren_train_silence_transition': { bg: 'train_interior', sprites: [] },
+  'ren_train_text_transition': { bg: 'train_interior', sprites: [] },
+  // === TOMMY ROUTE ===
+  // Intro - music room
+  'tommy_intro': { bg: 'music_room', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
+  // Reconnect/texting scenes - Airi's room, no sprites
+  'tommy_reconnect_careful': { bg: 'airi_room', sprites: [] },
+  'tommy_reconnect_normal': { bg: 'airi_room', sprites: [] },
+  'tommy_reconnect_self': { bg: 'airi_room', sprites: [] },
+  // Osaka Castle date scenes
+  'tommy_osaka_castle': { bg: 'osaka_castle', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
+  'tommy_castle_enjoy': { bg: 'osaka_castle', sprites: [{id:'tommy',expr:'smile',pos:'center'}] },
+  'tommy_castle_why': { bg: 'osaka_castle', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
+  'tommy_castle_friend': { bg: 'osaka_castle', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
+  // Riverside boat ride scenes
+  'tommy_castle_boat': { bg: 'riverside', sprites: [{id:'tommy',expr:'smile',pos:'center'}] },
+  'tommy_boat_life': { bg: 'riverside', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
+  'tommy_boat_tease': { bg: 'riverside', sprites: [{id:'tommy',expr:'playful',pos:'center'}] },
+  'tommy_boat_soft': { bg: 'riverside', sprites: [{id:'tommy',expr:'soft',pos:'center'}] },
+  // HEP5 arcade scene
+  'tommy_hep_arcade': { bg: 'arcade', sprites: [{id:'tommy',expr:'playful',pos:'center'}] },
+  // Karaoke scenes (tommy_karaoke keeps CG for line-specific art)
+  'tommy_karaoke_romantic': { bg: 'karaoke_room', sprites: [{id:'tommy',expr:'flustered',pos:'center'}] },
+  'tommy_karaoke_silly': { bg: 'karaoke_room', sprites: [{id:'tommy',expr:'smile',pos:'center'}] },
+  'tommy_karaoke_safe': { bg: 'karaoke_room', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
+  // Road trip to Mie - car interior
+  'tommy_mie_drive': { bg: 'car_interior', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
+  // Meoto Iwa / seaside scenes
+  'tommy_married_rocks': { bg: 'seaside', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
+  'tommy_meoto_laugh': { bg: 'seaside', sprites: [{id:'tommy',expr:'flustered',pos:'center'}] },
+  'tommy_meoto_wait': { bg: 'seaside', sprites: [{id:'tommy',expr:'tense',pos:'center'}] },
+  'tommy_meoto_correct': { bg: 'seaside', sprites: [{id:'tommy',expr:'sad',pos:'center'}] },
+  // Snoopy cafe
+  'tommy_snoopy_cafe': { bg: 'cafe', sprites: [{id:'tommy',expr:'soft',pos:'center'}] },
+  // Texting/planning scenes
+  'tommy_family_text': { bg: 'airi_room', sprites: [] },
+  // Spiral - Airi reflecting at home
+  'tommy_spiral': { bg: 'airi_room', sprites: [] },
+  // === HARRISON ROUTE ===
+  // Park date scenes
+  'harrison_intro': { bg: 'cherry_park', sprites: [{id:'harrison',expr:'neutral',pos:'center'}] },
+  'harrison_park_easy': { bg: 'cherry_park', sprites: [{id:'harrison',expr:'smile',pos:'center'}] },
+  'harrison_park_tease': { bg: 'cherry_park', sprites: [{id:'harrison',expr:'smile',pos:'center'}] },
+  'harrison_park_guarded': { bg: 'cherry_park', sprites: [{id:'harrison',expr:'neutral',pos:'center'}] },
+  // Museum date scenes
+  'harrison_museum': { bg: 'museum', sprites: [{id:'harrison',expr:'neutral',pos:'center'}] },
+  'harrison_museum_open': { bg: 'museum', sprites: [{id:'harrison',expr:'soft',pos:'center'}] },
+  'harrison_museum_joke': { bg: 'museum', sprites: [{id:'harrison',expr:'smile',pos:'center'}] },
+  'harrison_museum_compare': { bg: 'museum', sprites: [{id:'harrison',expr:'serious',pos:'center'}] },
+  // Red dress / girlfriend scenes
+  'harrison_red_dress': { bg: 'city_night', sprites: [{id:'harrison',expr:'soft',pos:'center'}] },
+  'harrison_gf_yes': { bg: 'city_night', sprites: [{id:'harrison',expr:'smile',pos:'center'}] },
+  'harrison_gf_scared': { bg: 'city_night', sprites: [{id:'harrison',expr:'soft',pos:'center'}] },
+  'harrison_gf_why': { bg: 'city_night', sprites: [{id:'harrison',expr:'serious',pos:'center'}] },
+  // White party scenes (harrison_white_party keeps CG for line-specific art)
+  'harrison_white_accept': { bg: 'white_party', sprites: [{id:'harrison',expr:'smile',pos:'center'}] },
+  'harrison_white_joke': { bg: 'white_party', sprites: [{id:'harrison',expr:'smile',pos:'center'}] },
+  'harrison_white_ache': { bg: 'white_party', sprites: [{id:'harrison',expr:'serious',pos:'center'}] },
+  // === MARCUS ROUTE ===
+  // Mall scenes
+  'marcus_intro': { bg: 'mall', sprites: [{id:'marcus',expr:'neutral',pos:'center'}] },
+  'marcus_mall_flirt': { bg: 'mall', sprites: [{id:'marcus',expr:'smile',pos:'center'}] },
+  'marcus_mall_test': { bg: 'mall', sprites: [{id:'marcus',expr:'neutral',pos:'center'}] },
+  'marcus_mall_observe': { bg: 'mall', sprites: [{id:'marcus',expr:'neutral',pos:'center'}] },
+  // Gaming / apartment scenes
+  'marcus_videogames': { bg: 'apartment_night', sprites: [{id:'marcus',expr:'smile',pos:'center'}] },
+  'marcus_game_flirt': { bg: 'apartment_night', sprites: [{id:'marcus',expr:'smile',pos:'center'}] },
+  'marcus_game_win': { bg: 'apartment_night', sprites: [{id:'marcus',expr:'smile',pos:'center'}] },
+  'marcus_game_define': { bg: 'apartment_night', sprites: [{id:'marcus',expr:'serious',pos:'center'}] },
+  // Dinner date scenes
+  'marcus_dinner_date': { bg: 'restaurant', sprites: [{id:'marcus',expr:'smile',pos:'center'}] },
+  'marcus_dinner_wanted': { bg: 'restaurant', sprites: [{id:'marcus',expr:'smile',pos:'center'}] },
+  'marcus_dinner_practical': { bg: 'restaurant', sprites: [{id:'marcus',expr:'serious',pos:'center'}] },
+  'marcus_dinner_notice': { bg: 'restaurant', sprites: [{id:'marcus',expr:'serious',pos:'center'}] },
+  'marcus_tension': { bg: 'restaurant', sprites: [{id:'marcus',expr:'tense',pos:'center'}] },
+  // Soft launch / after dinner
+  'marcus_soft_launch': { bg: 'apartment_night', sprites: [{id:'marcus',expr:'smile',pos:'center'}] },
+  'marcus_after_dinner_walk': { bg: 'city_night', sprites: [{id:'marcus',expr:'neutral',pos:'center'}] },
+  'marcus_conditions': { bg: 'apartment_night', sprites: [{id:'marcus',expr:'serious',pos:'center'}] },
+  // === HIROSHI ROUTE ===
+  // Street / first date scenes
+  'hiroshi_intro': { bg: 'osaka_street', sprites: [{id:'hiroshi',expr:'neutral',pos:'center'}] },
+  'hiroshi_first': { bg: 'osaka_street', sprites: [{id:'hiroshi',expr:'smile',pos:'center'}] },
+  'hiroshi_first_enjoy': { bg: 'osaka_street', sprites: [{id:'hiroshi',expr:'smile',pos:'center'}] },
+  'hiroshi_first_cautious': { bg: 'osaka_street', sprites: [{id:'hiroshi',expr:'neutral',pos:'center'}] },
+  'hiroshi_first_bored': { bg: 'osaka_street', sprites: [{id:'hiroshi',expr:'neutral',pos:'center'}] },
+  // Speed / montage scenes
+  'hiroshi_speed': { bg: 'aquarium', sprites: [{id:'hiroshi',expr:'smile',pos:'center'}] },
+  'hiroshi_speed_fun': { bg: 'osaka_street', sprites: [{id:'hiroshi',expr:'smile',pos:'center'}] },
+  'hiroshi_speed_define': { bg: 'osaka_street', sprites: [{id:'hiroshi',expr:'serious',pos:'center'}] },
+  'hiroshi_speed_ignore': { bg: 'osaka_street', sprites: [{id:'hiroshi',expr:'neutral',pos:'center'}] },
+  // === KENJI ROUTE ===
+  // University memory
+  'kenji_memory': { bg: 'university', sprites: [{id:'kenji',expr:'neutral',pos:'center'}] },
+  // Train station reunion
+  'kenji_return': { bg: 'train_station', sprites: [{id:'kenji',expr:'neutral',pos:'center'}] },
+  // Cafe dinner scenes
+  'kenji_quiet': { bg: 'cafe', sprites: [{id:'kenji',expr:'neutral',pos:'center'}] },
+  'kenji_quiet_present': { bg: 'cafe', sprites: [{id:'kenji',expr:'soft',pos:'center'}] },
+  'kenji_quiet_unfamiliar': { bg: 'cafe', sprites: [{id:'kenji',expr:'neutral',pos:'center'}] },
+  // Riverside walk / confession scenes (kenji_confess keeps CG)
+  'kenji_river': { bg: 'riverside_night', sprites: [{id:'kenji',expr:'soft',pos:'center'}] },
+  'kenji_choice_i_do': { bg: 'riverside_night', sprites: [{id:'kenji',expr:'soft',pos:'center'}] },
+  'kenji_choice_dont_know': { bg: 'riverside_night', sprites: [{id:'kenji',expr:'serious',pos:'center'}] },
+  'kenji_choice_not_fair': { bg: 'riverside_night', sprites: [{id:'kenji',expr:'serious',pos:'center'}] },
+};
+// Per-line sprite expression changes within a scene
+const SCENE_LINE_SPRITES = {
+  'ren_intro': {
+    '3': [{id:'ren',expr:'soft',pos:'center'}],
+    '5': [{id:'ren',expr:'smile',pos:'center'}],
+  },
+  'ren_date': {
+    '3': [{id:'ren',expr:'soft',pos:'center'}],
+    '5': [{id:'ren',expr:'surprised',pos:'center'}],
+    '7': [{id:'ren',expr:'smile',pos:'center'}],
+  },
+  'ren_hand_here': {
+    '3': [{id:'ren',expr:'soft',pos:'center'}],
+    '5': [{id:'ren',expr:'smile',pos:'center'}],
+  },
+  'ren_hand_joke': {
+    '3': [{id:'ren',expr:'smile',pos:'center'}],
+    '5': [{id:'ren',expr:'serious',pos:'center'}],
+  },
+  // Tommy interruption - expression escalates from neutral to tense
+  'ren_kyoto': {
+    '2': [{id:'tommy',expr:'neutral',pos:'center'}],
+    '5': [{id:'tommy',expr:'tense',pos:'center'}],
+    '8': [{id:'tommy',expr:'serious',pos:'center'}],
+  },
+  'ren_kyoto_apologize': {
+    '2': [{id:'tommy',expr:'tense',pos:'center'}],
+    '5': [{id:'tommy',expr:'sad',pos:'center'}],
+  },
+  'ren_kyoto_call_him_out': {
+    '2': [{id:'tommy',expr:'tense',pos:'center'}],
+    '4': [{id:'tommy',expr:'soft',pos:'center'}],
+  },
+  'ren_kyoto_choose_ren': {
+    '2': [{id:'tommy',expr:'sad',pos:'center'}],
+    '4': [{id:'tommy',expr:'soft',pos:'center'}],
+  },
+  // Ren's apartment - Ren goes from neutral to serious when he hears about Tommy
+  'ren_returns': {
+    '2': [{id:'ren',expr:'neutral',pos:'center'}],
+    '5': [{id:'ren',expr:'serious',pos:'center'}],
+    '8': [{id:'ren',expr:'soft',pos:'center'}],
+  },
+  'ren_truth': {
+    '3': [{id:'ren',expr:'serious',pos:'center'}],
+    '6': [{id:'ren',expr:'sad',pos:'center'}],
+    '9': [{id:'ren',expr:'soft',pos:'center'}],
+  },
+  // Cherry blossom walk - Ren softens
+  'ren_cherry_walk': {
+    '2': [{id:'ren',expr:'neutral',pos:'center'}],
+    '5': [{id:'ren',expr:'soft',pos:'center'}],
+  },
+  // Festival invite - Ren becomes warm
+  'ren_festival_invite': {
+    '3': [{id:'ren',expr:'neutral',pos:'center'}],
+    '6': [{id:'ren',expr:'smile',pos:'center'}],
+  },
+  // === TOMMY ROUTE per-line changes ===
+  // Osaka Castle - Tommy starts neutral, then smiles when enjoying the day
+  'tommy_osaka_castle': {
+    '3': [{id:'tommy',expr:'neutral',pos:'center'}],
+    '6': [{id:'tommy',expr:'smile',pos:'center'}],
+  },
+  // Boat tease - playful then soft
+  'tommy_boat_tease': {
+    '3': [{id:'tommy',expr:'playful',pos:'center'}],
+    '5': [{id:'tommy',expr:'soft',pos:'center'}],
+  },
+  // HEP5 arcade - playful then flustered
+  'tommy_hep_arcade': {
+    '3': [{id:'tommy',expr:'playful',pos:'center'}],
+    '6': [{id:'tommy',expr:'flustered',pos:'center'}],
+  },
+  // Married Rocks - neutral then tense when called a couple
+  'tommy_married_rocks': {
+    '3': [{id:'tommy',expr:'neutral',pos:'center'}],
+    '5': [{id:'tommy',expr:'tense',pos:'center'}],
+  },
+  // Snoopy cafe - soft then smile
+  'tommy_snoopy_cafe': {
+    '3': [{id:'tommy',expr:'soft',pos:'center'}],
+    '5': [{id:'tommy',expr:'smile',pos:'center'}],
+  },
+  // Road trip - neutral then soft
+  'tommy_mie_drive': {
+    '3': [{id:'tommy',expr:'neutral',pos:'center'}],
+    '6': [{id:'tommy',expr:'soft',pos:'center'}],
+  },
+  // === HARRISON ROUTE per-line changes ===
+  // Park date - nervous then warm
+  'harrison_park_easy': {
+    '3': [{id:'harrison',expr:'neutral',pos:'center'}],
+    '5': [{id:'harrison',expr:'smile',pos:'center'}],
+  },
+  // Museum compare - thinking about Tommy
+  'harrison_museum_compare': {
+    '3': [{id:'harrison',expr:'neutral',pos:'center'}],
+    '5': [{id:'harrison',expr:'serious',pos:'center'}],
+  },
+  // Red dress - soft then smile
+  'harrison_red_dress': {
+    '3': [{id:'harrison',expr:'neutral',pos:'center'}],
+    '6': [{id:'harrison',expr:'soft',pos:'center'}],
+  },
+  // === MARCUS ROUTE per-line changes ===
+  // Game flirt - smile then serious
+  'marcus_game_flirt': {
+    '3': [{id:'marcus',expr:'smile',pos:'center'}],
+    '6': [{id:'marcus',expr:'serious',pos:'center'}],
+  },
+  // Dinner notice - smile then serious
+  'marcus_dinner_notice': {
+    '3': [{id:'marcus',expr:'smile',pos:'center'}],
+    '5': [{id:'marcus',expr:'serious',pos:'center'}],
+  },
+  // Tension - serious then tense
+  'marcus_tension': {
+    '3': [{id:'marcus',expr:'serious',pos:'center'}],
+    '5': [{id:'marcus',expr:'tense',pos:'center'}],
+  },
+  // === HIROSHI ROUTE per-line changes ===
+  // First date - smile then serious
+  'hiroshi_first': {
+    '3': [{id:'hiroshi',expr:'smile',pos:'center'}],
+    '6': [{id:'hiroshi',expr:'neutral',pos:'center'}],
+  },
+  // Speed define - smile then serious
+  'hiroshi_speed_define': {
+    '3': [{id:'hiroshi',expr:'smile',pos:'center'}],
+    '5': [{id:'hiroshi',expr:'serious',pos:'center'}],
+  },
+  // === KENJI ROUTE per-line changes ===
+  // Riverside - soft then serious
+  'kenji_river': {
+    '3': [{id:'kenji',expr:'soft',pos:'center'}],
+    '6': [{id:'kenji',expr:'serious',pos:'center'}],
+  },
+  // Choice not fair - serious then soft
+  'kenji_choice_not_fair': {
+    '3': [{id:'kenji',expr:'serious',pos:'center'}],
+    '6': [{id:'kenji',expr:'soft',pos:'center'}],
+  },
+};
+
+// === SPRITE ENGINE FUNCTIONS ===
+function getScenePresentation(sceneName) {
+  return SCENE_PRESENTATION[sceneName] || null;
+}
+function setBgImage(bgKey) {
+  const bgImg = document.getElementById('bgImg');
+  if (!bgImg) return;
+  if (bgKey && BG_IMAGES[bgKey]) {
+    bgImg.src = BG_IMAGES[bgKey];
+    bgImg.style.display = 'block';
+    bgImg.onerror = function(){ this.style.display='none'; };
+  } else {
+    bgImg.removeAttribute('src');
+    bgImg.style.display = 'none';
+  }
+}
+function renderSprites(sprites) {
+  const layer = document.getElementById('spriteLayer');
+  if (!layer) return;
+  layer.innerHTML = '';
+  if (!sprites || sprites.length === 0) { layer.style.display = 'none'; return; }
+  layer.style.display = 'block';
+  sprites.forEach(sp => {
+    const img = document.createElement('img');
+    img.className = 'sprite pos-' + (sp.pos || 'center');
+    const src = SPRITE_IMAGES[sp.id] && SPRITE_IMAGES[sp.id][sp.expr];
+    if (!src) return;
+    img.src = src;
+    img.alt = sp.id + '_' + sp.expr;
+    img.onerror = function(){ this.remove(); };
+    layer.appendChild(img);
+    // Trigger entrance animation
+    requestAnimationFrame(() => { requestAnimationFrame(() => { img.classList.add('show'); }); });
+  });
+}
+function clearStage() {
+  const bgImg = document.getElementById('bgImg');
+  const layer = document.getElementById('spriteLayer');
+  const stageImg = document.getElementById('stageImg');
+  if (bgImg) { bgImg.removeAttribute('src'); bgImg.style.display='none'; }
+  if (layer) { layer.innerHTML=''; layer.style.display='none'; }
+  if (stageImg) { stageImg.removeAttribute('src'); stageImg.style.display='none'; }
+}
+function setScenePresentation(sceneName) {
+  const pres = getScenePresentation(sceneName);
+  if (!pres) {
+    // No sprite presentation - use existing CG system
+    clearStage();
+    return false;
+  }
+  // Sprite mode: hide CG layer, show bg + sprites
+  const stageImg = document.getElementById('stageImg');
+  if (stageImg) { stageImg.removeAttribute('src'); stageImg.style.display='none'; }
+  setBgImage(pres.bg);
+  renderSprites(pres.sprites);
+  return true;
+}
+function updateSpritesForLine() {
+  // Check for per-line sprite changes
+  const lineSprites = SCENE_LINE_SPRITES[scene];
+  if (lineSprites && lineSprites[String(lineIndex)]) {
+    renderSprites(lineSprites[String(lineIndex)]);
+  }
+}
+function dimSpritesForSpeaker(speakerName) {
+  // Dim sprites that aren't the current speaker
+  const layer = document.getElementById('spriteLayer');
+  if (!layer) return;
+  const sprites = layer.querySelectorAll('.sprite');
+  sprites.forEach(sp => {
+    const alt = sp.alt || '';
+    const isSpeaking = alt.startsWith(speakerName.toLowerCase());
+    sp.style.filter = isSpeaking ? 'brightness(1)' : 'brightness(0.6)';
+    sp.style.transition = 'filter 0.3s ease';
+  });
+}
 
 const GALLERY_ORDER = [
   {
@@ -15250,6 +15715,7 @@ function show(id){
   applyLanguageUI();
   if(id==='routes')renderRoutes();
   if(id==='saves')renderSaves();
+  if(id==='menu')GameAudio.playBGM('title','menu');
   document.documentElement.scrollTop=0;
   document.body.scrollTop=0;
   window.scrollTo({top:0,left:0,behavior:'auto'});
@@ -15285,13 +15751,7 @@ function resolveLinePresentation(text){
   return {speaker,text:cleaned,hadExplicitSpeaker};
 }
 function shouldRepeatSpeakerInDialogue(speaker,text,hadExplicitSpeaker){
-  if(isNarrationSpeaker(speaker))return false;
-  const sp=String(speaker||'').trim();const t=String(text||'').trim();
-  if(!sp||!t)return false;
-  if(new RegExp('^'+sp.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\s*[:：]').test(t))return false;
-  if(hadExplicitSpeaker)return true;
-  if(/^[“\"]/.test(t))return true;
-  if(/\b(I|I'm|I’m|We|You|Okay|Yeah|No|Yes|Maybe|What|Why|How|So|Then|Fine|Sorry|Thanks|Thank you|Don’t|Do not)\b/.test(t))return true;
+  // Speaker name is always shown in the header, so never repeat it in the dialogue text.
   return false;
 }
 
@@ -15305,10 +15765,18 @@ function sceneLineAssetKey(){
 function routeStartArtKey(){const D=activeData();return route&&scene&&D[route]&&scene===D[route].start&&ROUTE_START_ART[route]&&CG_ART[ROUTE_START_ART[route]] ? ROUTE_START_ART[route] : '';}
 function setStageArt(key){
   const img=document.getElementById('stageImg');const cg=document.getElementById('cg');if(cg){cg.textContent='';cg.style.display='none';}
-  if(key&&CG_ART[key]){img.src=CG_ART[key];img.style.display='block';img.alt=assetTitle(key);}
+  if(key&&CG_ART[key]){img.src=CG_ART[key];img.style.display='block';img.alt=assetTitle(key);img.onerror=function(){this.style.display='none';};}
   else{img.removeAttribute('src');img.style.display='none';img.alt='';}
 }
 function updateStageForLine(){
+  // Check for per-line sprite expression changes first
+  const hasSprites = getScenePresentation(scene);
+  if(hasSprites){
+    updateSpritesForLine();
+    // If no line-specific sprites, keep the scene default sprites
+    return;
+  }
+  // Fall back to CG system
   const key = sceneLineAssetKey() || routeStartArtKey();
   if(key){setStageArt(key);unlockCG(assetTitle(key));}
 }
@@ -15324,11 +15792,12 @@ function startType(text){
   body=displayText(body.replace(/^[:：]\s*/,'').trim());
   currentFullText=body;typingDone=false;
   const el=document.getElementById('line');el.classList.add('typing');el.textContent='';let i=0;
-  function tick(){if(i>=currentFullText.length){typingDone=true;el.classList.remove('typing');return;}el.textContent+=currentFullText[i++];typingTimer=setTimeout(tick,14);}
+  function tick(){if(i>=currentFullText.length){typingDone=true;el.classList.remove('typing');return;}el.textContent+=currentFullText[i++];GameAudio.playSFX('blip');typingTimer=setTimeout(tick,14);}
   tick();
 }
 function completeTyping(){clearTimeout(typingTimer);document.getElementById('line').textContent=currentFullText;document.getElementById('line').classList.remove('typing');typingDone=true;}
 function showChoices(){
+  GameAudio.playSFX('choice');
   const s=activeData()[route].scenes[scene];const box=document.getElementById('choices');box.innerHTML='';
   (s[3]||[]).forEach(c=>{const b=document.createElement('button');b.className='choice';b.textContent=displayText(c[0]);b.onclick=()=>go(c[1],c[2]||{});box.appendChild(b);});
   document.getElementById('advanceRow').style.display='none';
@@ -15336,8 +15805,22 @@ function showChoices(){
 }
 function advanceText(){if(!route||!scene)return;if(!typingDone){completeTyping();return;}lineIndex++;if(lineIndex<lineParts.length)startType(lineParts[lineIndex]);else showChoices();}
 
+function fadeOutStage(callback){
+  const bg=document.getElementById('bg');
+  if(!bg){callback();return;}
+  bg.style.transition='opacity .3s ease';
+  bg.style.opacity='0';
+  setTimeout(function(){callback();},300);
+}
+function fadeInStage(){
+  const bg=document.getElementById('bg');
+  if(!bg)return;
+  bg.style.opacity='1';
+}
 function render(){
   const D=activeData();const s=D[route].scenes[scene];if(!s){alert('Missing scene: '+scene);return;}
+  GameAudio.playSFX('transition');
+  const mood=GameAudio.getSceneMood(scene,route);GameAudio.playBGM(mood,scene);
   unlockCG(s[0]);
   const keys=SCENE_ASSETS[scene]||[];keys.forEach(k=>unlockCG(assetTitle(k)));
   const cover=routeStartArtKey();if(cover)unlockCG(assetTitle(cover));
@@ -15346,8 +15829,14 @@ function render(){
   document.getElementById('bg').className='bg';
   document.getElementById('choices').innerHTML='';document.getElementById('advanceRow').style.display='flex';
   lineParts=splitVNText(s[2]);lineIndex=0;
-  setStageArt(cover || (SCENE_ASSETS[scene]||[])[0] || '');
-  startType(lineParts[0]);
+  fadeOutStage(function(){
+    // Try sprite presentation first; fall back to CG system
+    if(!setScenePresentation(scene)){
+      setStageArt(cover || (SCENE_ASSETS[scene]||[])[0] || '');
+    }
+    startType(lineParts[0]);
+    fadeInStage();
+  });
 }
 function startRoute(r){
   const D=activeData();if(!D[r]){alert('Missing route: '+r);return;}
@@ -15413,6 +15902,8 @@ function unlockTrueEnding(){
   unlockEnding(t,b,[]);
 }
 function routeEnd(code){
+  GameAudio.playSFX('ending');
+  GameAudio.playBGM('sad',scene);
   const en=ENDING_COPY[code]||['Ending: '+code,'This ending is unlocked.'];
   const source=currentLang()==='ja'?(ENDING_COPY_JA[code]||en):en;
   end(source[0],source[1],en[0]);
@@ -15450,7 +15941,286 @@ function startSplashTimer(){
     },700);
   },3000);
 }
-document.addEventListener('DOMContentLoaded',()=>{applyLanguageUI();renderRoutes();startSplashTimer();forceFullPageVisuals();});
+// === AUDIO SYSTEM ===
+const GameAudio={
+  ctx:null,masterGain:null,bgmGain:null,sfxGain:null,
+  currentBGM:null,bgmVolume:0.35,sfxVolume:0.5,bgmMuted:false,sfxMuted:false,
+  blipCounter:0,proceduralNodes:null,initialized:false,
+  // Track pools: each mood maps to an array of tracks; deterministic selection by scene hash
+  BGM_POOLS:{
+    title:[
+      {src:'assets/audio/bgm/a_brand_new_wisdom.ogg',name:'A Brand New Wisdom',artist:'hernandack',license:'CC-BY (OpenGameArt)',url:'https://opengameart.org/content/short-loops-background-music-pack'},
+      {src:'assets/audio/bgm/peaceful_intro.ogg',name:'Peaceful Intro',artist:'Eric Matyas',license:'CC-BY (soundimage.org)',url:'https://opengameart.org/content/peaceful-intro-looping'},
+      {src:'assets/audio/bgm/heavenly_loop.ogg',name:'Heavenly Loop',artist:'isaiah658',license:'Free (OpenGameArt)',url:'https://opengameart.org/content/heavenly-loop'},
+    ],
+    romantic:[
+      {src:'assets/audio/bgm/swinging_sweet.ogg',name:'Swinging Sweet',artist:'hernandack',license:'CC-BY (OpenGameArt)',url:'https://opengameart.org/content/short-loops-background-music-pack'},
+      {src:'assets/audio/bgm/emotional_piano.wav',name:'Emotional Piano',artist:'extenz',license:'CC-BY (OpenGameArt)',url:'https://opengameart.org/content/emotional-piano-loop'},
+      {src:'assets/audio/bgm/peaceful_intro.ogg',name:'Peaceful Intro',artist:'Eric Matyas',license:'CC-BY (soundimage.org)',url:'https://opengameart.org/content/peaceful-intro-looping'},
+      {src:'assets/audio/bgm/jrpg_piano.mp3',name:'JRPG Piano',artist:'CC (OpenGameArt)',license:'CC (OpenGameArt)',url:'https://opengameart.org/content/jrpg-piano'},
+    ],
+    cheerful:[
+      {src:'assets/audio/bgm/just_saying_tho.ogg',name:'Just Saying Tho',artist:'hernandack',license:'CC-BY (OpenGameArt)',url:'https://opengameart.org/content/short-loops-background-music-pack'},
+      {src:'assets/audio/bgm/happy_clappy.wav',name:'Happy Clappy',artist:'CC (OpenGameArt)',license:'Free (OpenGameArt)',url:'https://opengameart.org/content/happy-clappy-loop'},
+      {src:'assets/audio/bgm/chill_loopable.mp3',name:'Chill Loopable',artist:'Alex McCulloch',license:'Public Domain (OpenGameArt)',url:'https://opengameart.org/content/chill-loopable'},
+      {src:'assets/audio/bgm/jrpg_piano.mp3',name:'JRPG Piano',artist:'CC (OpenGameArt)',license:'CC (OpenGameArt)',url:'https://opengameart.org/content/jrpg-piano'},
+    ],
+    sad:[
+      {src:'assets/audio/bgm/emotional_piano.wav',name:'Emotional Piano',artist:'extenz',license:'CC-BY (OpenGameArt)',url:'https://opengameart.org/content/emotional-piano-loop'},
+      {src:'assets/audio/bgm/wintery_loop.wav',name:'Wintery',artist:'Emma MA',license:'Public Domain (OpenGameArt)',url:'https://opengameart.org/content/wintery-loop'},
+      {src:'assets/audio/bgm/peaceful_intro.ogg',name:'Peaceful Intro',artist:'Eric Matyas',license:'CC-BY (soundimage.org)',url:'https://opengameart.org/content/peaceful-intro-looping'},
+    ],
+    calm:[
+      {src:'assets/audio/bgm/calm_track_loop.ogg',name:'Calm Track',artist:'Public Domain',license:'Public Domain (OpenGameArt)',url:'https://opengameart.org/content/calm-track'},
+      {src:'assets/audio/bgm/chill_lofi_loop.ogg',name:'Chill Lofi',artist:'qubodup',license:'CC0 (OpenGameArt)',url:'https://opengameart.org/content/chill-lofi-inspired-loop-edit'},
+      {src:'assets/audio/bgm/heavenly_loop.ogg',name:'Heavenly Loop',artist:'isaiah658',license:'Free (OpenGameArt)',url:'https://opengameart.org/content/heavenly-loop'},
+      {src:'assets/audio/bgm/a_brand_new_wisdom.ogg',name:'A Brand New Wisdom',artist:'hernandack',license:'CC-BY (OpenGameArt)',url:'https://opengameart.org/content/short-loops-background-music-pack'},
+    ],
+    tense:[
+      {type:'procedural',mood:'tense',name:'Tension (Procedural)',artist:'Generated',license:'N/A',url:''},
+    ],
+    mysterious:[
+      {type:'procedural',mood:'mysterious',name:'Mystery (Procedural)',artist:'Generated',license:'N/A',url:''},
+      {src:'assets/audio/bgm/chill_lofi_loop.ogg',name:'Chill Lofi',artist:'qubodup',license:'CC0 (OpenGameArt)',url:'https://opengameart.org/content/chill-lofi-inspired-loop-edit'},
+    ],
+  },
+  // Flatten all tracks for Music Room display
+  get ALL_TRACKS(){
+    const seen=new Set();const all=[];
+    for(const[mood,pool]of Object.entries(this.BGM_POOLS)){
+      pool.forEach(t=>{
+        const key=t.src||t.name;
+        if(!seen.has(key)){seen.add(key);all.push({...t,mood});}
+      });
+    }
+    return all;
+  },
+  // Deterministic track selection: hash scene name to pick from pool
+  pickTrack(mood,sceneName){
+    const pool=this.BGM_POOLS[mood];if(!pool||pool.length===0)return null;
+    if(pool.length===1)return pool[0];
+    let hash=0;const str=(sceneName||mood)+'';
+    for(let i=0;i<str.length;i++)hash=((hash<<5)-hash+str.charCodeAt(i))|0;
+    return pool[Math.abs(hash)%pool.length];
+  },
+  init(){
+    if(this.initialized)return;
+    this.initialized=true;
+    try{
+      this.ctx=new(window.AudioContext||window.webkitAudioContext)();
+      this.masterGain=this.ctx.createGain();
+      this.bgmGain=this.ctx.createGain();
+      this.sfxGain=this.ctx.createGain();
+      this.bgmGain.connect(this.masterGain);
+      this.sfxGain.connect(this.masterGain);
+      this.masterGain.connect(this.ctx.destination);
+      this.bgmGain.gain.value=this.bgmVolume;
+      this.sfxGain.gain.value=this.sfxVolume;
+      const saved=localStorage.getItem('tlg_audio');
+      if(saved){const s=JSON.parse(saved);this.bgmVolume=s.bgmVol??0.35;this.sfxVolume=s.sfxVol??0.5;this.bgmMuted=s.bgmMuted??false;this.sfxMuted=s.sfxMuted??false;this.bgmGain.gain.value=this.bgmMuted?0:this.bgmVolume;this.sfxGain.gain.value=this.sfxMuted?0:this.sfxVolume;}
+    }catch(e){console.warn('Audio init failed:',e);this.ctx=null;}
+  },
+  resume(){if(this.ctx&&this.ctx.state==='suspended')this.ctx.resume();},
+  save(){try{localStorage.setItem('tlg_audio',JSON.stringify({bgmVol:this.bgmVolume,sfxVol:this.sfxVolume,bgmMuted:this.bgmMuted,sfxMuted:this.sfxMuted}));}catch(e){}},
+  playBGM(mood,sceneName){
+    if(!this.ctx)this.init();
+    if(!this.ctx)return;
+    this.resume();
+    const track=this.pickTrack(mood,sceneName);
+    if(!track)return;
+    const trackKey=track.src||track.name;
+    if(this.currentBGM&&this.currentBGM.mood===mood&&this.currentBGM.trackKey===trackKey)return;
+    if(this.currentBGM){
+      const oldGain=this.currentBGM.gainNode;const oldSource=this.currentBGM.source;const oldProc=this.currentBGM.proceduralNodes;
+      if(oldGain)oldGain.gain.setTargetAtTime(0,this.ctx.currentTime,0.4);
+      setTimeout(()=>{if(oldSource){try{oldSource.stop();}catch(e){}}if(oldProc)this.stopProcedural(oldProc);},800);
+    }
+    const gainNode=this.ctx.createGain();gainNode.gain.value=0;gainNode.connect(this.bgmGain);
+    gainNode.gain.setTargetAtTime(1,this.ctx.currentTime,0.5);
+    this.currentBGM={mood,trackKey,gainNode,source:null,proceduralNodes:null,track};
+    if(track.type==='procedural'){
+      const proc=this.startProcedural(track.mood,gainNode);this.currentBGM.proceduralNodes=proc;
+    }else{
+      fetch(track.src).then(r=>r.arrayBuffer()).then(buf=>this.ctx.decodeAudioData(buf)).then(decoded=>{
+        const source=this.ctx.createBufferSource();source.buffer=decoded;source.loop=true;source.connect(gainNode);source.start();
+        if(this.currentBGM&&this.currentBGM.trackKey===trackKey){this.currentBGM.source=source;}
+        else{try{source.stop();}catch(e){}}
+      }).catch(e=>console.warn('BGM load failed:',track.src,e));
+    }
+  },
+  stopBGM(){
+    if(!this.currentBGM)return;
+    const oldGain=this.currentBGM.gainNode;const oldSource=this.currentBGM.source;const oldProc=this.currentBGM.proceduralNodes;
+    if(oldGain)oldGain.gain.setTargetAtTime(0,this.ctx.currentTime,0.4);
+    setTimeout(()=>{if(oldSource){try{oldSource.stop();}catch(e){}}if(oldProc)this.stopProcedural(oldProc);},800);
+    this.currentBGM=null;
+  },
+  startProcedural(mood,outputGain){
+    const nodes={intervals:[],sources:[],gains:[]};
+    const delay=this.ctx.createDelay(1.0);delay.delayTime.value=0.3;
+    const feedback=this.ctx.createGain();feedback.gain.value=0.25;delay.connect(feedback);feedback.connect(delay);delay.connect(outputGain);
+    nodes.delay=delay;nodes.feedback=feedback;
+    let scale,tempo,waveType,bassNote;
+    if(mood==='tense'){scale=[220,233,277,311,370];tempo=0.6;waveType='sawtooth';bassNote=55;}
+    else{scale=[196,220,247,294,330];tempo=0.9;waveType='sine';bassNote=49;}
+    const bassOsc=this.ctx.createOscillator();bassOsc.type=waveType;bassOsc.frequency.value=bassNote;
+    const bassGain=this.ctx.createGain();bassGain.gain.value=0.1;bassGain.gain.setTargetAtTime(0.1,this.ctx.currentTime,0.5);
+    bassOsc.connect(bassGain);bassGain.connect(outputGain);bassGain.connect(delay);bassOsc.start();
+    nodes.sources.push(bassOsc);nodes.gains.push(bassGain);
+    const playNote=()=>{
+      if(!this.currentBGM||this.currentBGM.mood!==mood)return;
+      const freq=scale[Math.floor(Math.random()*scale.length)];
+      const osc=this.ctx.createOscillator();osc.type=waveType;osc.frequency.value=freq;
+      const noteGain=this.ctx.createGain();const now=this.ctx.currentTime;
+      noteGain.gain.setValueAtTime(0,now);noteGain.gain.linearRampToValueAtTime(0.06,now+0.05);noteGain.gain.exponentialRampToValueAtTime(0.001,now+1.2);
+      osc.connect(noteGain);noteGain.connect(outputGain);noteGain.connect(delay);
+      osc.start(now);osc.stop(now+1.2);
+    };
+    const melodyInterval=setInterval(playNote,tempo*1000);nodes.intervals.push(melodyInterval);
+    return nodes;
+  },
+  stopProcedural(nodes){
+    if(!nodes)return;
+    nodes.intervals.forEach(i=>clearInterval(i));
+    nodes.sources.forEach(s=>{try{s.stop();}catch(e){}});
+    nodes.gains.forEach(g=>{try{g.disconnect();}catch(e){}});
+    if(nodes.delay){try{nodes.delay.disconnect();}catch(e){}}if(nodes.feedback){try{nodes.feedback.disconnect();}catch(e){}}
+  },
+  playSFX(name){
+    if(!this.ctx)this.init();
+    if(!this.ctx)return;
+    this.resume();
+    if(this.sfxMuted)return;
+    const now=this.ctx.currentTime;
+    if(name==='blip'){
+      this.blipCounter++;if(this.blipCounter%3!==0)return;
+      const osc=this.ctx.createOscillator();osc.type='sine';osc.frequency.value=600+Math.random()*80;
+      const gain=this.ctx.createGain();gain.gain.setValueAtTime(0,now);gain.gain.linearRampToValueAtTime(0.03,now+0.005);gain.gain.exponentialRampToValueAtTime(0.001,now+0.04);
+      osc.connect(gain);gain.connect(this.sfxGain);osc.start(now);osc.stop(now+0.05);
+    }else if(name==='click'){
+      const buffer=this.ctx.createBuffer(1,220,44100);const data=buffer.getChannelData(0);
+      for(let i=0;i<220;i++)data[i]=(Math.random()*2-1)*Math.exp(-i/30);
+      const source=this.ctx.createBufferSource();source.buffer=buffer;
+      const filter=this.ctx.createBiquadFilter();filter.type='bandpass';filter.frequency.value=1800;filter.Q.value=1.5;
+      const gain=this.ctx.createGain();gain.gain.value=0.12;
+      source.connect(filter);filter.connect(gain);gain.connect(this.sfxGain);source.start(now);
+    }else if(name==='choice'){
+      [523,659].forEach((freq,i)=>{
+        const osc=this.ctx.createOscillator();osc.type='sine';osc.frequency.value=freq;
+        const gain=this.ctx.createGain();const t=now+i*0.08;
+        gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(0.08,t+0.02);gain.gain.exponentialRampToValueAtTime(0.001,t+0.35);
+        osc.connect(gain);gain.connect(this.sfxGain);osc.start(t);osc.stop(t+0.35);
+      });
+    }else if(name==='transition'){
+      const buffer=this.ctx.createBuffer(1,4410,44100);const data=buffer.getChannelData(0);
+      for(let i=0;i<4410;i++)data[i]=(Math.random()*2-1)*Math.exp(-i/1500);
+      const source=this.ctx.createBufferSource();source.buffer=buffer;
+      const filter=this.ctx.createBiquadFilter();filter.type='lowpass';
+      filter.frequency.setValueAtTime(200,now);filter.frequency.linearRampToValueAtTime(600,now+0.15);filter.frequency.linearRampToValueAtTime(100,now+0.3);
+      const gain=this.ctx.createGain();gain.gain.value=0.06;
+      source.connect(filter);filter.connect(gain);gain.connect(this.sfxGain);source.start(now);
+    }else if(name==='ending'){
+      [262,330,392,523].forEach((freq,i)=>{
+        const osc=this.ctx.createOscillator();osc.type='triangle';osc.frequency.value=freq;
+        const gain=this.ctx.createGain();const t=now+i*0.05;
+        gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(0.05,t+0.1);gain.gain.exponentialRampToValueAtTime(0.001,t+2.5);
+        osc.connect(gain);gain.connect(this.sfxGain);osc.start(t);osc.stop(t+2.5);
+      });
+    }
+  },
+  getSceneMood(sceneName,routeName){
+    if(!sceneName)return'title';
+    const s=sceneName.toLowerCase();
+    if(s.includes('end')||s.includes('farewell')||s.includes('goodbye')||s.includes('sad')||s.includes('cry')||s.includes('break')||s.includes('heart')||s.includes('parting'))return'sad';
+    if(s.includes('fight')||s.includes('confront')||s.includes('argue')||s.includes('tension')||s.includes('storm')||s.includes('dark')||s.includes('danger')||s.includes('threat'))return'tense';
+    if(s.includes('mystery')||s.includes('secret')||s.includes('kenji')||s.includes('reveal')||s.includes('discover')||s.includes('hidden'))return'mysterious';
+    if(s.includes('date')||s.includes('romantic')||s.includes('kiss')||s.includes('love')||s.includes('confess')||s.includes('intimate')||s.includes('closer')||s.includes('embrace'))return'romantic';
+    if(s.includes('cafe')||s.includes('fun')||s.includes('laugh')||s.includes('happy')||s.includes('festival')||s.includes('karaoke')||s.includes('friend')||s.includes('play'))return'cheerful';
+    if(s.includes('calm')||s.includes('quiet')||s.includes('peace')||s.includes('night')||s.includes('evening')||s.includes('morning')||s.includes('walk')||s.includes('park')||s.includes('think')||s.includes('reflect'))return'calm';
+    if(routeName==='ren')return'romantic';
+    if(routeName==='tommy')return'mysterious';
+    if(routeName==='marcus')return'tense';
+    if(routeName==='harrison')return'romantic';
+    if(routeName==='hiroshi')return'cheerful';
+    if(routeName==='kenji')return'mysterious';
+    return'cheerful';
+  },
+  setBgmVolume(v){this.bgmVolume=v;if(this.bgmGain)this.bgmGain.gain.value=this.bgmMuted?0:v;this.save();},
+  setSfxVolume(v){this.sfxVolume=v;if(this.sfxGain)this.sfxGain.gain.value=this.sfxMuted?0:v;this.save();},
+  toggleBgmMute(){this.bgmMuted=!this.bgmMuted;if(this.bgmGain)this.bgmGain.gain.value=this.bgmMuted?0:this.bgmVolume;this.save();return this.bgmMuted;},
+  toggleSfxMute(){this.sfxMuted=!this.sfxMuted;if(this.sfxGain)this.sfxGain.gain.value=this.sfxMuted?0:this.sfxVolume;this.save();return this.sfxMuted;},
+  showMusicRoom(){
+    const tracks=this.ALL_TRACKS;
+    let html='<div style="max-width:650px;margin:0 auto;">';
+    html+='<h2 style="text-align:center;margin-bottom:0.5rem;">♪ Music Room ♪</h2>';
+    html+='<p style="text-align:center;color:var(--soft);margin-bottom:1.5rem;font-size:0.85rem;">Click a track to preview. Music auto-selects per scene mood during gameplay.</p>';
+    const moodLabels={title:'Menu/Title',romantic:'Romantic',cheerful:'Cheerful',sad:'Emotional/Sad',calm:'Calm',tense:'Tense',mysterious:'Mysterious'};
+    tracks.forEach((track,i)=>{
+      const isPlaying=this.currentBGM&&this.currentBGM.trackKey===(track.src||track.name);
+      const moodLabel=moodLabels[track.mood]||track.mood;
+      html+='<div style="display:flex;align-items:center;justify-content:space-between;padding:0.7rem 1rem;margin:0.4rem 0;background:var(--surface,rgba(255,255,255,0.05));border-radius:8px;">';
+      html+='<div style="flex:1;min-width:0;">';
+      html+='<div style="font-weight:600;font-size:0.95rem;">'+track.name+'</div>';
+      html+='<div style="font-size:0.78rem;color:var(--soft);margin-top:2px;">'+track.artist+' · '+track.license+' · '+moodLabel+'</div>';
+      if(track.url)html+='<a href="'+track.url+'" target="_blank" rel="noopener" style="font-size:0.72rem;color:var(--accent);">Source</a>';
+      html+='</div>';
+      html+='<button onclick="GameAudio.previewTrack('+i+')">'+(isPlaying?'■ Stop':'▶ Play')+'</button>';
+      html+='</div>';
+    });
+    html+='</div>';
+    const mr=document.getElementById('musicRoomContent');
+    if(mr){mr.innerHTML=html;show('musicRoom');}
+    else{show('settings');}
+  },
+  previewTrack(idx){
+    const track=this.ALL_TRACKS[idx];
+    if(!track)return;
+    const trackKey=track.src||track.name;
+    if(this.currentBGM&&this.currentBGM.trackKey===trackKey){this.stopBGM();return;}
+    this.playBGM(track.mood,'__preview_'+track.name);
+  }
+};
+
+document.addEventListener('DOMContentLoaded',()=>{applyLanguageUI();renderRoutes();startSplashTimer();forceFullPageVisuals();
+  // Keyboard controls: Space/Enter advances text or selects first choice, Arrow keys navigate choices, Esc goes to menu
+  document.addEventListener('keydown',function(e){
+    // Don't trigger when typing in an input field
+    if(document.activeElement&&['INPUT','TEXTAREA'].includes(document.activeElement.tagName))return;
+    const gameActive=document.getElementById('game').classList.contains('active');
+    if(!gameActive)return;
+    const choicesBox=document.getElementById('choices');
+    const choiceButtons=choicesBox?choicesBox.querySelectorAll('button.choice'):[];
+    if(e.key===' '||e.key==='Enter'){
+      e.preventDefault();
+      if(choiceButtons.length>0){choiceButtons[0].click();}
+      else{advanceText();}
+    }else if(e.key==='ArrowUp'&&choiceButtons.length>1){
+      e.preventDefault();
+      let focused=document.querySelector('#choices button:focus');
+      if(!focused){choiceButtons[choiceButtons.length-1].focus();}
+      else if(focused===choiceButtons[0]){choiceButtons[choiceButtons.length-1].focus();}
+      else{for(let i=1;i<choiceButtons.length;i++){if(choiceButtons[i]===focused){choiceButtons[i-1].focus();break;}}}
+    }else if(e.key==='ArrowDown'&&choiceButtons.length>1){
+      e.preventDefault();
+      let focused=document.querySelector('#choices button:focus');
+      if(!focused){choiceButtons[0].focus();}
+      else if(focused===choiceButtons[choiceButtons.length-1]){choiceButtons[0].focus();}
+      else{for(let i=0;i<choiceButtons.length-1;i++){if(choiceButtons[i]===focused){choiceButtons[i+1].focus();break;}}}
+    }else if(e.key==='Escape'){
+      if(route&&scene){show('menu');}
+    }
+  });
+  // Initialize audio on first user interaction (browser autoplay policy)
+  document.addEventListener('click',function(){GameAudio.init();GameAudio.resume();},{once:true});
+  document.addEventListener('keydown',function(){GameAudio.init();GameAudio.resume();},{once:true});
+  // Play click SFX on all button clicks
+  document.addEventListener('click',function(e){if(e.target&&e.target.tagName==='BUTTON'){GameAudio.playSFX('click');}},true);
+  // Wire up volume sliders
+  var bgmSlider=document.getElementById('bgmVolSlider');
+  var sfxSlider=document.getElementById('sfxVolSlider');
+  if(bgmSlider)bgmSlider.addEventListener('input',function(){GameAudio.init();GameAudio.setBgmVolume(parseFloat(this.value));});
+  if(sfxSlider)sfxSlider.addEventListener('input',function(){GameAudio.init();GameAudio.setSfxVolume(parseFloat(this.value));});
+});
 </script>
 </body>
 </html>
