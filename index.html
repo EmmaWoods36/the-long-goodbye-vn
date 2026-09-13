@@ -14026,18 +14026,26 @@ const SPRITE_IMAGES = {
     serious: 'assets/sprites/kenji/kenji_serious.png',
     casual_neutral: 'assets/sprites/kenji/kenji_casual_neutral.png',
   },
+  friends: {
+    tessa_neutral: 'assets/sprites/friends/tessa_neutral.png',
+    tessa_smile: 'assets/sprites/friends/tessa_smile.png',
+    camille_neutral: 'assets/sprites/friends/camille_neutral.png',
+    camille_smile: 'assets/sprites/friends/camille_smile.png',
+    jade_neutral: 'assets/sprites/friends/jade_neutral.png',
+    jade_smile: 'assets/sprites/friends/jade_smile.png',
+  },
 };
 // Map scene names to background + sprite configuration
 // Scenes not listed here use the existing CG system
 const SCENE_PRESENTATION = {
   'ren_intro': { bg: 'hospital_corridor', sprites: [{id:'ren',expr:'neutral',pos:'center'}] },
-  'ren_text': { bg: 'airi_room', sprites: [] },
-  'ren_text_maybe': { bg: 'airi_room', sprites: [] },
-  'ren_text_confident': { bg: 'airi_room', sprites: [] },
-  'ren_text_busy': { bg: 'airi_room', sprites: [] },
-  'ren_text_room_smile': { bg: 'airi_room', sprites: [] },
-  'ren_text_room_tease': { bg: 'airi_room', sprites: [] },
-  'ren_text_room_deny': { bg: 'airi_room', sprites: [] },
+  'ren_text': { bg: 'airi_room', sprites: [{id:'ren',expr:'neutral',outfit:'casual',pos:'center'}] },
+  'ren_text_maybe': { bg: 'airi_room', sprites: [{id:'ren',expr:'neutral',outfit:'casual',pos:'center'}] },
+  'ren_text_confident': { bg: 'airi_room', sprites: [{id:'ren',expr:'smile',outfit:'casual',pos:'center'}] },
+  'ren_text_busy': { bg: 'airi_room', sprites: [{id:'ren',expr:'neutral',outfit:'casual',pos:'center'}] },
+  'ren_text_room_smile': { bg: 'airi_room', sprites: [{id:'ren',expr:'smile',outfit:'casual',pos:'center'}] },
+  'ren_text_room_tease': { bg: 'airi_room', sprites: [{id:'ren',expr:'smile',outfit:'casual',pos:'center'}] },
+  'ren_text_room_deny': { bg: 'airi_room', sprites: [{id:'ren',expr:'neutral',outfit:'casual',pos:'center'}] },
   'ren_date': { bg: 'osaka_street', sprites: [{id:'ren',expr:'smile',outfit:'casual',pos:'center'}] },
   'ren_hand_here': { bg: 'cherry_park', sprites: [{id:'ren',expr:'soft',outfit:'casual',pos:'center'}] },
   'ren_hand_joke': { bg: 'cherry_park', sprites: [{id:'ren',expr:'smile',outfit:'casual',pos:'center'}] },
@@ -14071,7 +14079,7 @@ const SCENE_PRESENTATION = {
   'ren_bday_choose_ren': { bg: 'airi_room', sprites: [] },
   'ren_bday_choose_tommy': { bg: 'airi_room', sprites: [] },
   'ren_bday_try_both': { bg: 'airi_room', sprites: [] },
-  'ren_text_room_tessa': { bg: 'airi_room', sprites: [] },
+  'ren_text_room_tessa': { bg: 'airi_room', sprites: [{id:'friends',expr:'tessa_neutral',pos:'center'}] },
   // Train transition scenes - train interior, no sprites
   'ren_train_silence_transition': { bg: 'train_interior', sprites: [] },
   'ren_train_text_transition': { bg: 'train_interior', sprites: [] },
@@ -14079,9 +14087,9 @@ const SCENE_PRESENTATION = {
   // Intro - music room
   'tommy_intro': { bg: 'music_room', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
   // Reconnect/texting scenes - Airi's room, no sprites
-  'tommy_reconnect_careful': { bg: 'airi_room', sprites: [] },
-  'tommy_reconnect_normal': { bg: 'airi_room', sprites: [] },
-  'tommy_reconnect_self': { bg: 'airi_room', sprites: [] },
+  'tommy_reconnect_careful': { bg: 'airi_room', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
+  'tommy_reconnect_normal': { bg: 'airi_room', sprites: [{id:'tommy',expr:'smile',pos:'center'}] },
+  'tommy_reconnect_self': { bg: 'airi_room', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
   // Osaka Castle date scenes
   'tommy_osaka_castle': { bg: 'osaka_castle', sprites: [{id:'tommy',expr:'neutral',outfit:'nice',pos:'center'}] },
   'tommy_castle_enjoy': { bg: 'osaka_castle', sprites: [{id:'tommy',expr:'smile',outfit:'nice',pos:'center'}] },
@@ -14108,7 +14116,7 @@ const SCENE_PRESENTATION = {
   // Snoopy cafe
   'tommy_snoopy_cafe': { bg: 'cafe', sprites: [{id:'tommy',expr:'soft',outfit:'nice',pos:'center'}] },
   // Texting/planning scenes
-  'tommy_family_text': { bg: 'airi_room', sprites: [] },
+  'tommy_family_text': { bg: 'airi_room', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
   // Spiral - Airi reflecting at home
   'tommy_spiral': { bg: 'airi_room', sprites: [] },
   // === HARRISON ROUTE ===
@@ -14178,6 +14186,18 @@ const SCENE_PRESENTATION = {
   'kenji_choice_i_do': { bg: 'riverside_night', sprites: [{id:'kenji',expr:'soft',pos:'center'}] },
   'kenji_choice_dont_know': { bg: 'riverside_night', sprites: [{id:'kenji',expr:'serious',pos:'center'}] },
   'kenji_choice_not_fair': { bg: 'riverside_night', sprites: [{id:'kenji',expr:'serious',pos:'center'}] },
+  // === FRIEND CALL/TEXT SCENES ===
+  // Tessa phone calls (Ren route)
+  'ren_tessa_call': { bg: 'airi_room', sprites: [{id:'friends',expr:'tessa_smile',pos:'center'}] },
+  'ren_tessa_call_birthday': { bg: 'airi_room', sprites: [{id:'friends',expr:'tessa_neutral',pos:'center'}] },
+  // Camille phone call (Harrison route)
+  'harrison_camille_call': { bg: 'airi_room', sprites: [{id:'friends',expr:'camille_neutral',pos:'center'}] },
+  // Kenji friend council calls
+  'kenji_friends': { bg: 'airi_room', sprites: [{id:'friends',expr:'tessa_smile',pos:'center'}] },
+  'kenji_friends_tessa': { bg: 'airi_room', sprites: [{id:'friends',expr:'tessa_smile',pos:'center'}] },
+  'kenji_friends_tessa2': { bg: 'airi_room', sprites: [{id:'friends',expr:'tessa_neutral',pos:'center'}] },
+  'kenji_friends_jade': { bg: 'airi_room', sprites: [{id:'friends',expr:'jade_neutral',pos:'center'}] },
+  'kenji_friends_airi': { bg: 'airi_room', sprites: [] },
 };
 // Per-line sprite expression changes within a scene
 const SCENE_LINE_SPRITES = {
