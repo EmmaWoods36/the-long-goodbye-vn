@@ -13975,6 +13975,12 @@ const SPRITE_IMAGES = {
     surprised: 'assets/sprites/ren/ren_surprised.png',
     serious: 'assets/sprites/ren/ren_serious.png',
     sad: 'assets/sprites/ren/ren_sad.png',
+    casual_neutral: 'assets/sprites/ren/ren_casual_neutral.png',
+    casual_smile: 'assets/sprites/ren/ren_casual_smile.png',
+    casual_soft: 'assets/sprites/ren/ren_casual_soft.png',
+    casual_serious: 'assets/sprites/ren/ren_casual_serious.png',
+    home_neutral: 'assets/sprites/ren/ren_home_neutral.png',
+    home_serious: 'assets/sprites/ren/ren_home_serious.png',
   },
   tommy: {
     neutral: 'assets/sprites/tommy/tommy_neutral.png',
@@ -13985,18 +13991,27 @@ const SPRITE_IMAGES = {
     smile: 'assets/sprites/tommy/tommy_smile.png',
     playful: 'assets/sprites/tommy/tommy_playful.png',
     flustered: 'assets/sprites/tommy/tommy_flustered.png',
+    nice_neutral: 'assets/sprites/tommy/tommy_nice_neutral.png',
+    nice_smile: 'assets/sprites/tommy/tommy_nice_smile.png',
+    nice_soft: 'assets/sprites/tommy/tommy_nice_soft.png',
+    nice_playful: 'assets/sprites/tommy/tommy_nice_playful.png',
   },
   harrison: {
     neutral: 'assets/sprites/harrison/harrison_neutral.png',
     smile: 'assets/sprites/harrison/harrison_smile.png',
     soft: 'assets/sprites/harrison/harrison_soft.png',
     serious: 'assets/sprites/harrison/harrison_serious.png',
+    party_smile: 'assets/sprites/harrison/harrison_party_smile.png',
+    party_serious: 'assets/sprites/harrison/harrison_party_serious.png',
   },
   marcus: {
     neutral: 'assets/sprites/marcus/marcus_neutral.png',
     smile: 'assets/sprites/marcus/marcus_smile.png',
     serious: 'assets/sprites/marcus/marcus_serious.png',
     tense: 'assets/sprites/marcus/marcus_tense.png',
+    dinner_smile: 'assets/sprites/marcus/marcus_dinner_smile.png',
+    dinner_serious: 'assets/sprites/marcus/marcus_dinner_serious.png',
+    dinner_tense: 'assets/sprites/marcus/marcus_dinner_tense.png',
   },
   hiroshi: {
     neutral: 'assets/sprites/hiroshi/hiroshi_neutral.png',
@@ -14009,6 +14024,7 @@ const SPRITE_IMAGES = {
     smile: 'assets/sprites/kenji/kenji_smile.png',
     soft: 'assets/sprites/kenji/kenji_soft.png',
     serious: 'assets/sprites/kenji/kenji_serious.png',
+    casual_neutral: 'assets/sprites/kenji/kenji_casual_neutral.png',
   },
 };
 // Map scene names to background + sprite configuration
@@ -14022,25 +14038,25 @@ const SCENE_PRESENTATION = {
   'ren_text_room_smile': { bg: 'airi_room', sprites: [] },
   'ren_text_room_tease': { bg: 'airi_room', sprites: [] },
   'ren_text_room_deny': { bg: 'airi_room', sprites: [] },
-  'ren_date': { bg: 'osaka_street', sprites: [{id:'ren',expr:'smile',pos:'center'}] },
-  'ren_hand_here': { bg: 'cherry_park', sprites: [{id:'ren',expr:'soft',pos:'center'}] },
-  'ren_hand_joke': { bg: 'cherry_park', sprites: [{id:'ren',expr:'smile',pos:'center'}] },
-  'ren_hand_phone': { bg: 'cherry_park', sprites: [{id:'ren',expr:'neutral',pos:'center'}] },
+  'ren_date': { bg: 'osaka_street', sprites: [{id:'ren',expr:'smile',outfit:'casual',pos:'center'}] },
+  'ren_hand_here': { bg: 'cherry_park', sprites: [{id:'ren',expr:'soft',outfit:'casual',pos:'center'}] },
+  'ren_hand_joke': { bg: 'cherry_park', sprites: [{id:'ren',expr:'smile',outfit:'casual',pos:'center'}] },
+  'ren_hand_phone': { bg: 'cherry_park', sprites: [{id:'ren',expr:'neutral',outfit:'casual',pos:'center'}] },
   // First date scenes - Osaka street with Ren
-  'ren_first_date_tease': { bg: 'osaka_street', sprites: [{id:'ren',expr:'smile',pos:'center'}] },
-  'ren_first_date_direct': { bg: 'osaka_street', sprites: [{id:'ren',expr:'neutral',pos:'center'}] },
-  'ren_first_date_accept': { bg: 'osaka_street', sprites: [{id:'ren',expr:'smile',pos:'center'}] },
+  'ren_first_date_tease': { bg: 'osaka_street', sprites: [{id:'ren',expr:'smile',outfit:'casual',pos:'center'}] },
+  'ren_first_date_direct': { bg: 'osaka_street', sprites: [{id:'ren',expr:'neutral',outfit:'casual',pos:'center'}] },
+  'ren_first_date_accept': { bg: 'osaka_street', sprites: [{id:'ren',expr:'smile',outfit:'casual',pos:'center'}] },
   // Cherry blossom walking/talking scenes (not the kiss - that keeps its CG)
-  'ren_cherry_walk': { bg: 'cherry_park', sprites: [{id:'ren',expr:'neutral',pos:'center'}] },
-  'ren_cherry_talk_tease': { bg: 'cherry_park', sprites: [{id:'ren',expr:'smile',pos:'center'}] },
-  'ren_cherry_talk_unreal': { bg: 'cherry_park', sprites: [{id:'ren',expr:'soft',pos:'center'}] },
+  'ren_cherry_walk': { bg: 'cherry_park', sprites: [{id:'ren',expr:'neutral',outfit:'casual',pos:'center'}] },
+  'ren_cherry_talk_tease': { bg: 'cherry_park', sprites: [{id:'ren',expr:'smile',outfit:'casual',pos:'center'}] },
+  'ren_cherry_talk_unreal': { bg: 'cherry_park', sprites: [{id:'ren',expr:'soft',outfit:'casual',pos:'center'}] },
   // Festival scenes (not girlfriend reveal - that keeps its CG)
-  'ren_festival_invite': { bg: 'festival_grounds', sprites: [{id:'ren',expr:'neutral',pos:'center'}] },
-  'ren_festival_joke': { bg: 'festival_grounds', sprites: [{id:'ren',expr:'smile',pos:'center'}] },
-  'ren_festival_sure': { bg: 'festival_grounds', sprites: [{id:'ren',expr:'neutral',pos:'center'}] },
-  'ren_festival_react_soft': { bg: 'festival_grounds', sprites: [{id:'ren',expr:'soft',pos:'center'}] },
-  'ren_festival_react_tease': { bg: 'festival_grounds', sprites: [{id:'ren',expr:'smile',pos:'center'}] },
-  'ren_festival_react_hand': { bg: 'festival_grounds', sprites: [{id:'ren',expr:'soft',pos:'center'}] },
+  'ren_festival_invite': { bg: 'festival_grounds', sprites: [{id:'ren',expr:'neutral',outfit:'casual',pos:'center'}] },
+  'ren_festival_joke': { bg: 'festival_grounds', sprites: [{id:'ren',expr:'smile',outfit:'casual',pos:'center'}] },
+  'ren_festival_sure': { bg: 'festival_grounds', sprites: [{id:'ren',expr:'neutral',outfit:'casual',pos:'center'}] },
+  'ren_festival_react_soft': { bg: 'festival_grounds', sprites: [{id:'ren',expr:'soft',outfit:'casual',pos:'center'}] },
+  'ren_festival_react_tease': { bg: 'festival_grounds', sprites: [{id:'ren',expr:'smile',outfit:'casual',pos:'center'}] },
+  'ren_festival_react_hand': { bg: 'festival_grounds', sprites: [{id:'ren',expr:'soft',outfit:'casual',pos:'center'}] },
   // Tommy interruption scenes at Osaka station - Tommy sprites
   'ren_kyoto': { bg: 'train_station', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
   'ren_kyoto_apologize': { bg: 'train_station', sprites: [{id:'tommy',expr:'tense',pos:'center'}] },
@@ -14048,8 +14064,8 @@ const SCENE_PRESENTATION = {
   'ren_kyoto_choose_ren': { bg: 'train_station', sprites: [{id:'tommy',expr:'sad',pos:'center'}] },
   'ren_kyoto_stay': { bg: 'train_station', sprites: [{id:'tommy',expr:'soft',pos:'center'}] },
   // Ren's apartment scenes
-  'ren_returns': { bg: 'ren_apartment', sprites: [{id:'ren',expr:'neutral',pos:'center'}] },
-  'ren_truth': { bg: 'ren_apartment', sprites: [{id:'ren',expr:'serious',pos:'center'}] },
+  'ren_returns': { bg: 'ren_apartment', sprites: [{id:'ren',expr:'neutral',outfit:'home',pos:'center'}] },
+  'ren_truth': { bg: 'ren_apartment', sprites: [{id:'ren',expr:'serious',outfit:'home',pos:'center'}] },
   // Texting/planning scenes - Airi's room, no sprites
   'ren_bday': { bg: 'airi_room', sprites: [] },
   'ren_bday_choose_ren': { bg: 'airi_room', sprites: [] },
@@ -14067,15 +14083,15 @@ const SCENE_PRESENTATION = {
   'tommy_reconnect_normal': { bg: 'airi_room', sprites: [] },
   'tommy_reconnect_self': { bg: 'airi_room', sprites: [] },
   // Osaka Castle date scenes
-  'tommy_osaka_castle': { bg: 'osaka_castle', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
-  'tommy_castle_enjoy': { bg: 'osaka_castle', sprites: [{id:'tommy',expr:'smile',pos:'center'}] },
-  'tommy_castle_why': { bg: 'osaka_castle', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
-  'tommy_castle_friend': { bg: 'osaka_castle', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
+  'tommy_osaka_castle': { bg: 'osaka_castle', sprites: [{id:'tommy',expr:'neutral',outfit:'nice',pos:'center'}] },
+  'tommy_castle_enjoy': { bg: 'osaka_castle', sprites: [{id:'tommy',expr:'smile',outfit:'nice',pos:'center'}] },
+  'tommy_castle_why': { bg: 'osaka_castle', sprites: [{id:'tommy',expr:'neutral',outfit:'nice',pos:'center'}] },
+  'tommy_castle_friend': { bg: 'osaka_castle', sprites: [{id:'tommy',expr:'neutral',outfit:'nice',pos:'center'}] },
   // Riverside boat ride scenes
-  'tommy_castle_boat': { bg: 'riverside', sprites: [{id:'tommy',expr:'smile',pos:'center'}] },
-  'tommy_boat_life': { bg: 'riverside', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
-  'tommy_boat_tease': { bg: 'riverside', sprites: [{id:'tommy',expr:'playful',pos:'center'}] },
-  'tommy_boat_soft': { bg: 'riverside', sprites: [{id:'tommy',expr:'soft',pos:'center'}] },
+  'tommy_castle_boat': { bg: 'riverside', sprites: [{id:'tommy',expr:'smile',outfit:'nice',pos:'center'}] },
+  'tommy_boat_life': { bg: 'riverside', sprites: [{id:'tommy',expr:'neutral',outfit:'nice',pos:'center'}] },
+  'tommy_boat_tease': { bg: 'riverside', sprites: [{id:'tommy',expr:'playful',outfit:'nice',pos:'center'}] },
+  'tommy_boat_soft': { bg: 'riverside', sprites: [{id:'tommy',expr:'soft',outfit:'nice',pos:'center'}] },
   // HEP5 arcade scene
   'tommy_hep_arcade': { bg: 'arcade', sprites: [{id:'tommy',expr:'playful',pos:'center'}] },
   // Karaoke scenes (tommy_karaoke keeps CG for line-specific art)
@@ -14085,12 +14101,12 @@ const SCENE_PRESENTATION = {
   // Road trip to Mie - car interior
   'tommy_mie_drive': { bg: 'car_interior', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
   // Meoto Iwa / seaside scenes
-  'tommy_married_rocks': { bg: 'seaside', sprites: [{id:'tommy',expr:'neutral',pos:'center'}] },
-  'tommy_meoto_laugh': { bg: 'seaside', sprites: [{id:'tommy',expr:'flustered',pos:'center'}] },
-  'tommy_meoto_wait': { bg: 'seaside', sprites: [{id:'tommy',expr:'tense',pos:'center'}] },
-  'tommy_meoto_correct': { bg: 'seaside', sprites: [{id:'tommy',expr:'sad',pos:'center'}] },
+  'tommy_married_rocks': { bg: 'seaside', sprites: [{id:'tommy',expr:'neutral',outfit:'nice',pos:'center'}] },
+  'tommy_meoto_laugh': { bg: 'seaside', sprites: [{id:'tommy',expr:'flustered',outfit:'nice',pos:'center'}] },
+  'tommy_meoto_wait': { bg: 'seaside', sprites: [{id:'tommy',expr:'tense',outfit:'nice',pos:'center'}] },
+  'tommy_meoto_correct': { bg: 'seaside', sprites: [{id:'tommy',expr:'sad',outfit:'nice',pos:'center'}] },
   // Snoopy cafe
-  'tommy_snoopy_cafe': { bg: 'cafe', sprites: [{id:'tommy',expr:'soft',pos:'center'}] },
+  'tommy_snoopy_cafe': { bg: 'cafe', sprites: [{id:'tommy',expr:'soft',outfit:'nice',pos:'center'}] },
   // Texting/planning scenes
   'tommy_family_text': { bg: 'airi_room', sprites: [] },
   // Spiral - Airi reflecting at home
@@ -14112,9 +14128,9 @@ const SCENE_PRESENTATION = {
   'harrison_gf_scared': { bg: 'city_night', sprites: [{id:'harrison',expr:'soft',pos:'center'}] },
   'harrison_gf_why': { bg: 'city_night', sprites: [{id:'harrison',expr:'serious',pos:'center'}] },
   // White party scenes (harrison_white_party keeps CG for line-specific art)
-  'harrison_white_accept': { bg: 'white_party', sprites: [{id:'harrison',expr:'smile',pos:'center'}] },
-  'harrison_white_joke': { bg: 'white_party', sprites: [{id:'harrison',expr:'smile',pos:'center'}] },
-  'harrison_white_ache': { bg: 'white_party', sprites: [{id:'harrison',expr:'serious',pos:'center'}] },
+  'harrison_white_accept': { bg: 'white_party', sprites: [{id:'harrison',expr:'smile',outfit:'party',pos:'center'}] },
+  'harrison_white_joke': { bg: 'white_party', sprites: [{id:'harrison',expr:'smile',outfit:'party',pos:'center'}] },
+  'harrison_white_ache': { bg: 'white_party', sprites: [{id:'harrison',expr:'serious',outfit:'party',pos:'center'}] },
   // === MARCUS ROUTE ===
   // Mall scenes
   'marcus_intro': { bg: 'mall', sprites: [{id:'marcus',expr:'neutral',pos:'center'}] },
@@ -14127,11 +14143,11 @@ const SCENE_PRESENTATION = {
   'marcus_game_win': { bg: 'apartment_night', sprites: [{id:'marcus',expr:'smile',pos:'center'}] },
   'marcus_game_define': { bg: 'apartment_night', sprites: [{id:'marcus',expr:'serious',pos:'center'}] },
   // Dinner date scenes
-  'marcus_dinner_date': { bg: 'restaurant', sprites: [{id:'marcus',expr:'smile',pos:'center'}] },
-  'marcus_dinner_wanted': { bg: 'restaurant', sprites: [{id:'marcus',expr:'smile',pos:'center'}] },
-  'marcus_dinner_practical': { bg: 'restaurant', sprites: [{id:'marcus',expr:'serious',pos:'center'}] },
-  'marcus_dinner_notice': { bg: 'restaurant', sprites: [{id:'marcus',expr:'serious',pos:'center'}] },
-  'marcus_tension': { bg: 'restaurant', sprites: [{id:'marcus',expr:'tense',pos:'center'}] },
+  'marcus_dinner_date': { bg: 'restaurant', sprites: [{id:'marcus',expr:'smile',outfit:'dinner',pos:'center'}] },
+  'marcus_dinner_wanted': { bg: 'restaurant', sprites: [{id:'marcus',expr:'smile',outfit:'dinner',pos:'center'}] },
+  'marcus_dinner_practical': { bg: 'restaurant', sprites: [{id:'marcus',expr:'serious',outfit:'dinner',pos:'center'}] },
+  'marcus_dinner_notice': { bg: 'restaurant', sprites: [{id:'marcus',expr:'serious',outfit:'dinner',pos:'center'}] },
+  'marcus_tension': { bg: 'restaurant', sprites: [{id:'marcus',expr:'tense',outfit:'dinner',pos:'center'}] },
   // Soft launch / after dinner
   'marcus_soft_launch': { bg: 'apartment_night', sprites: [{id:'marcus',expr:'smile',pos:'center'}] },
   'marcus_after_dinner_walk': { bg: 'city_night', sprites: [{id:'marcus',expr:'neutral',pos:'center'}] },
@@ -14150,7 +14166,7 @@ const SCENE_PRESENTATION = {
   'hiroshi_speed_ignore': { bg: 'osaka_street', sprites: [{id:'hiroshi',expr:'neutral',pos:'center'}] },
   // === KENJI ROUTE ===
   // University memory
-  'kenji_memory': { bg: 'university', sprites: [{id:'kenji',expr:'neutral',pos:'center'}] },
+  'kenji_memory': { bg: 'university', sprites: [{id:'kenji',expr:'neutral',outfit:'casual',pos:'center'}] },
   // Train station reunion
   'kenji_return': { bg: 'train_station', sprites: [{id:'kenji',expr:'neutral',pos:'center'}] },
   // Cafe dinner scenes
@@ -14170,17 +14186,17 @@ const SCENE_LINE_SPRITES = {
     '5': [{id:'ren',expr:'smile',pos:'center'}],
   },
   'ren_date': {
-    '3': [{id:'ren',expr:'soft',pos:'center'}],
-    '5': [{id:'ren',expr:'surprised',pos:'center'}],
-    '7': [{id:'ren',expr:'smile',pos:'center'}],
+    '3': [{id:'ren',expr:'soft',outfit:'casual',pos:'center'}],
+    '5': [{id:'ren',expr:'surprised',outfit:'casual',pos:'center'}],
+    '7': [{id:'ren',expr:'smile',outfit:'casual',pos:'center'}],
   },
   'ren_hand_here': {
-    '3': [{id:'ren',expr:'soft',pos:'center'}],
-    '5': [{id:'ren',expr:'smile',pos:'center'}],
+    '3': [{id:'ren',expr:'soft',outfit:'casual',pos:'center'}],
+    '5': [{id:'ren',expr:'smile',outfit:'casual',pos:'center'}],
   },
   'ren_hand_joke': {
-    '3': [{id:'ren',expr:'smile',pos:'center'}],
-    '5': [{id:'ren',expr:'serious',pos:'center'}],
+    '3': [{id:'ren',expr:'smile',outfit:'casual',pos:'center'}],
+    '5': [{id:'ren',expr:'serious',outfit:'casual',pos:'center'}],
   },
   // Tommy interruption - expression escalates from neutral to tense
   'ren_kyoto': {
@@ -14202,35 +14218,35 @@ const SCENE_LINE_SPRITES = {
   },
   // Ren's apartment - Ren goes from neutral to serious when he hears about Tommy
   'ren_returns': {
-    '2': [{id:'ren',expr:'neutral',pos:'center'}],
-    '5': [{id:'ren',expr:'serious',pos:'center'}],
-    '8': [{id:'ren',expr:'soft',pos:'center'}],
+    '2': [{id:'ren',expr:'neutral',outfit:'home',pos:'center'}],
+    '5': [{id:'ren',expr:'serious',outfit:'home',pos:'center'}],
+    '8': [{id:'ren',expr:'soft',outfit:'home',pos:'center'}],
   },
   'ren_truth': {
-    '3': [{id:'ren',expr:'serious',pos:'center'}],
-    '6': [{id:'ren',expr:'sad',pos:'center'}],
-    '9': [{id:'ren',expr:'soft',pos:'center'}],
+    '3': [{id:'ren',expr:'serious',outfit:'home',pos:'center'}],
+    '6': [{id:'ren',expr:'sad',outfit:'home',pos:'center'}],
+    '9': [{id:'ren',expr:'soft',outfit:'home',pos:'center'}],
   },
   // Cherry blossom walk - Ren softens
   'ren_cherry_walk': {
-    '2': [{id:'ren',expr:'neutral',pos:'center'}],
-    '5': [{id:'ren',expr:'soft',pos:'center'}],
+    '2': [{id:'ren',expr:'neutral',outfit:'casual',pos:'center'}],
+    '5': [{id:'ren',expr:'soft',outfit:'casual',pos:'center'}],
   },
   // Festival invite - Ren becomes warm
   'ren_festival_invite': {
-    '3': [{id:'ren',expr:'neutral',pos:'center'}],
-    '6': [{id:'ren',expr:'smile',pos:'center'}],
+    '3': [{id:'ren',expr:'neutral',outfit:'casual',pos:'center'}],
+    '6': [{id:'ren',expr:'smile',outfit:'casual',pos:'center'}],
   },
   // === TOMMY ROUTE per-line changes ===
   // Osaka Castle - Tommy starts neutral, then smiles when enjoying the day
   'tommy_osaka_castle': {
-    '3': [{id:'tommy',expr:'neutral',pos:'center'}],
-    '6': [{id:'tommy',expr:'smile',pos:'center'}],
+    '3': [{id:'tommy',expr:'neutral',outfit:'nice',pos:'center'}],
+    '6': [{id:'tommy',expr:'smile',outfit:'nice',pos:'center'}],
   },
   // Boat tease - playful then soft
   'tommy_boat_tease': {
-    '3': [{id:'tommy',expr:'playful',pos:'center'}],
-    '5': [{id:'tommy',expr:'soft',pos:'center'}],
+    '3': [{id:'tommy',expr:'playful',outfit:'nice',pos:'center'}],
+    '5': [{id:'tommy',expr:'soft',outfit:'nice',pos:'center'}],
   },
   // HEP5 arcade - playful then flustered
   'tommy_hep_arcade': {
@@ -14239,13 +14255,13 @@ const SCENE_LINE_SPRITES = {
   },
   // Married Rocks - neutral then tense when called a couple
   'tommy_married_rocks': {
-    '3': [{id:'tommy',expr:'neutral',pos:'center'}],
-    '5': [{id:'tommy',expr:'tense',pos:'center'}],
+    '3': [{id:'tommy',expr:'neutral',outfit:'nice',pos:'center'}],
+    '5': [{id:'tommy',expr:'tense',outfit:'nice',pos:'center'}],
   },
   // Snoopy cafe - soft then smile
   'tommy_snoopy_cafe': {
-    '3': [{id:'tommy',expr:'soft',pos:'center'}],
-    '5': [{id:'tommy',expr:'smile',pos:'center'}],
+    '3': [{id:'tommy',expr:'soft',outfit:'nice',pos:'center'}],
+    '5': [{id:'tommy',expr:'smile',outfit:'nice',pos:'center'}],
   },
   // Road trip - neutral then soft
   'tommy_mie_drive': {
@@ -14276,13 +14292,13 @@ const SCENE_LINE_SPRITES = {
   },
   // Dinner notice - smile then serious
   'marcus_dinner_notice': {
-    '3': [{id:'marcus',expr:'smile',pos:'center'}],
-    '5': [{id:'marcus',expr:'serious',pos:'center'}],
+    '3': [{id:'marcus',expr:'smile',outfit:'dinner',pos:'center'}],
+    '5': [{id:'marcus',expr:'serious',outfit:'dinner',pos:'center'}],
   },
   // Tension - serious then tense
   'marcus_tension': {
-    '3': [{id:'marcus',expr:'serious',pos:'center'}],
-    '5': [{id:'marcus',expr:'tense',pos:'center'}],
+    '3': [{id:'marcus',expr:'serious',outfit:'dinner',pos:'center'}],
+    '5': [{id:'marcus',expr:'tense',outfit:'dinner',pos:'center'}],
   },
   // === HIROSHI ROUTE per-line changes ===
   // First date - smile then serious
@@ -14333,7 +14349,8 @@ function renderSprites(sprites) {
   sprites.forEach(sp => {
     const img = document.createElement('img');
     img.className = 'sprite pos-' + (sp.pos || 'center');
-    const src = SPRITE_IMAGES[sp.id] && SPRITE_IMAGES[sp.id][sp.expr];
+    const exprKey = sp.outfit ? sp.outfit + '_' + sp.expr : sp.expr;
+    const src = SPRITE_IMAGES[sp.id] && SPRITE_IMAGES[sp.id][exprKey];
     if (!src) return;
     img.src = src;
     img.alt = sp.id + '_' + sp.expr;
