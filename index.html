@@ -16025,6 +16025,13 @@ const GameAudio={
     ],
     tense:[
       {type:'procedural',mood:'tense',name:'Tension (Procedural)',artist:'Generated',license:'N/A',url:''},
+      {src:'assets/audio/bgm/the_time_has_come.ogg',name:'The Time Has Come',artist:'BonsaiTrees',license:'CC0 (OpenGameArt)',url:'https://opengameart.org/content/the-time-has-come'},
+      {src:'assets/audio/bgm/sad_orchestral.ogg',name:'Sad Orchestral Theme',artist:'obscure music',license:'CC0 (OpenGameArt)',url:'https://opengameart.org/content/sad-orchestral-theme'},
+      {src:'assets/audio/bgm/emotional_piano.ogg',name:'Emotional Piano',artist:'extenz',license:'CC0 (OpenGameArt)',url:'https://opengameart.org/content/emotional-piano-loop'},
+      {src:'assets/audio/bgm/melancholy_piano.ogg',name:'Melancholy Piano',artist:'CC0',license:'CC0 (OpenGameArt)',url:'https://opengameart.org/content/melancholy-piano-bgm'},
+      {src:'assets/audio/bgm/dark_ambience.ogg',name:'Dark Ambience',artist:'Iwan Gabovitch',license:'CC0 (OpenGameArt)',url:'https://opengameart.org/content/dark-ambience-loop'},
+      {src:'assets/audio/bgm/lull_melancholy.ogg',name:'Lull (Melancholy)',artist:'Dylan Senderling',license:'Free (OpenGameArt)',url:'https://opengameart.org/content/lull-melancholy-loop'},
+      {src:'assets/audio/bgm/emotional_piano_solo.ogg',name:'Emotional Piano Solo',artist:'CC0',license:'CC0 (OpenGameArt)',url:'https://opengameart.org/content/emotional-piano-0'},
     ],
     mysterious:[
       {type:'procedural',mood:'mysterious',name:'Mystery (Procedural)',artist:'Generated',license:'N/A',url:''},
@@ -16179,7 +16186,7 @@ const GameAudio={
     if(!sceneName)return'title';
     const s=sceneName.toLowerCase();
     if(s.includes('end')||s.includes('farewell')||s.includes('goodbye')||s.includes('sad')||s.includes('cry')||s.includes('break')||s.includes('heart')||s.includes('parting'))return'sad';
-    if(s.includes('fight')||s.includes('confront')||s.includes('argue')||s.includes('tension')||s.includes('storm')||s.includes('dark')||s.includes('danger')||s.includes('threat'))return'tense';
+    if(s.includes('fight')||s.includes('confront')||s.includes('argue')||s.includes('tension')||s.includes('storm')||s.includes('dark')||s.includes('danger')||s.includes('threat')||s.includes('kyoto')||s.includes('tommy_dodge')||s.includes('tommy_bridal')||s.includes('train_silence')||s.includes('waiting_rainy')||s.includes('motorcycle_after')||s.includes('after_train')||s.includes('spiral')||s.includes('interrupt'))return'tense';
     if(s.includes('mystery')||s.includes('secret')||s.includes('kenji')||s.includes('reveal')||s.includes('discover')||s.includes('hidden'))return'mysterious';
     if(s.includes('date')||s.includes('romantic')||s.includes('kiss')||s.includes('love')||s.includes('confess')||s.includes('intimate')||s.includes('closer')||s.includes('embrace'))return'romantic';
     if(s.includes('cafe')||s.includes('fun')||s.includes('laugh')||s.includes('happy')||s.includes('festival')||s.includes('karaoke')||s.includes('friend')||s.includes('play'))return'cheerful';
