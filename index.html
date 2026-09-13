@@ -16037,7 +16037,7 @@ const GameAudio={
     }
     const gainNode=this.ctx.createGain();gainNode.gain.value=0;gainNode.connect(this.bgmGain);
     gainNode.gain.setTargetAtTime(1,this.ctx.currentTime,0.5);
-    this.currentBGM={mood,trackKey,gainNode,source:null,proceduralNodes:null,track};
+    this.currentBGM={mood,trackKey,sceneName,gainNode,source:null,proceduralNodes:null,track};
     if(track.type==='procedural'){
       const proc=this.startProcedural(track.mood,gainNode);this.currentBGM.proceduralNodes=proc;
     }else{
@@ -16211,8 +16211,31 @@ document.addEventListener('DOMContentLoaded',()=>{applyLanguageUI();renderRoutes
     }
   });
   // Initialize audio on first user interaction (browser autoplay policy)
-  document.addEventListener('click',function(){GameAudio.init();GameAudio.resume();},{once:true});
-  document.addEventListener('keydown',function(){GameAudio.init();GameAudio.resume();},{once:true});
+  // Re-trigger BGM since it was queued while AudioContext was suspended
+  document.addEventListener('click',function(){
+    GameAudio.init();GameAudio.resume();
+    if(GameAudio.currentBGM&&!GameAudio.currentBGM._retriggered){
+      GameAudio.currentBGM._retriggered=true;
+      var m=GameAudio.currentBGM.mood;var s=GameAudio.currentBGM.sceneName||'';
+      var old=GameAudio.currentBGM;
+      GameAudio.currentBGM=null;
+      if(old.gainNode)old.gainNode.gain.setTargetAtTime(0,GameAudio.ctx.currentTime,0.1);
+      setTimeout(function(){if(old.source){try{old.source.stop();}catch(e){}}if(old.proceduralNodes)GameAudio.stopProcedural(old.proceduralNodes);},200);
+      setTimeout(function(){GameAudio.playBGM(m,s);},300);
+    }
+  },{once:true});
+  document.addEventListener('keydown',function(){
+    GameAudio.init();GameAudio.resume();
+    if(GameAudio.currentBGM&&!GameAudio.currentBGM._retriggered){
+      GameAudio.currentBGM._retriggered=true;
+      var m=GameAudio.currentBGM.mood;var s=GameAudio.currentBGM.sceneName||'';
+      var old=GameAudio.currentBGM;
+      GameAudio.currentBGM=null;
+      if(old.gainNode)old.gainNode.gain.setTargetAtTime(0,GameAudio.ctx.currentTime,0.1);
+      setTimeout(function(){if(old.source){try{old.source.stop();}catch(e){}}if(old.proceduralNodes)GameAudio.stopProcedural(old.proceduralNodes);},200);
+      setTimeout(function(){GameAudio.playBGM(m,s);},300);
+    }
+  },{once:true});
   // Play click SFX on all button clicks
   document.addEventListener('click',function(e){if(e.target&&e.target.tagName==='BUTTON'){GameAudio.playSFX('click');}},true);
   // Wire up volume sliders
